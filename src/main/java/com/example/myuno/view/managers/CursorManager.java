@@ -1,6 +1,7 @@
 package com.example.myuno.view.managers;
 
 import javafx.scene.ImageCursor;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 import java.util.Objects;
@@ -14,6 +15,10 @@ public class CursorManager {
         cursorDefault = loadCursor("default.png", 0, 0);
         cursorHover = loadCursor("hover.png", 28, 28);
         cursorPressed = loadCursor("pressed.png", 28, 28);
+    }
+
+    public static void applyGlobalCursor(Scene scene) {
+        scene.setCursor(cursorDefault);
     }
 
     private static ImageCursor loadCursor(String filename, int hotspotX, int hotspotY) {

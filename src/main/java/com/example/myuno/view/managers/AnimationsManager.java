@@ -12,46 +12,7 @@ import javafx.util.Duration;
 import java.util.Objects;
 
 public class AnimationsManager {
-    private static final ImageCursor cursorDefault;
-    private static final ImageCursor cursorHover;
-    private static final ImageCursor cursorPressed;
-
-    static{
-        cursorDefault = new ImageCursor(new Image(Objects.requireNonNull(AnimationsManager.class.getResourceAsStream("/com/example/myuno/images/cursor/default.png"))));
-        cursorHover = new ImageCursor(new Image(Objects.requireNonNull(AnimationsManager.class.getResourceAsStream("/com/example/myuno/images/cursor/hover.png"))), 28, 28);
-        cursorPressed = new ImageCursor(new Image(Objects.requireNonNull(AnimationsManager.class.getResourceAsStream("/com/example/myuno/images/cursor/pressed.png"))),28, 28);
-    }
-
-    public static void applyGlobalCursor(Scene scene) {
-        scene.setCursor(cursorDefault);
-    }
-
-    public static void applyToAllButtons(Parent root) {
-        root.lookupAll(".button").forEach(node -> {
-            if (node instanceof Button button) {
-                applyAllEvents(button);
-            }
-        });
-    }
-
-    public static void applyAllEvents(Node node) {
-        node.setOnMouseEntered(e -> translateAndScale(node, 0, 0, 1.1, 1.1, cursorHover));
-        node.setOnMouseExited(e -> translateAndScale(node, 0, 0, 1.0, 1.0, cursorDefault));
-        node.setOnMousePressed(e -> node.setCursor(cursorPressed));
-        node.setOnMouseReleased(e -> node.setCursor(cursorHover));
-    }
-
-    public static void applyCursorEvents(Node node){
-        node.setOnMouseEntered(e ->  node.setCursor(cursorHover));
-        node.setOnMouseExited(e -> node.setCursor(cursorDefault));
-        node.setOnMousePressed(e -> node.setCursor(cursorPressed));
-        node.setOnMouseReleased(e -> node.setCursor(cursorHover));
-
-    }
-
-    public static void translateAndScale(Node node, double posX, double posY, double scaleX, double scaleY, ImageCursor cursor) {
-        node.setCursor(cursor);
-
+    public static void translateAndScale(Node node, double posX, double posY, double scaleX, double scaleY) {
         TranslateTransition move = new TranslateTransition(Duration.millis(200), node);
         move.setToX(posX);
         move.setToY(posY);
@@ -60,9 +21,7 @@ public class AnimationsManager {
         scale.setToX(scaleX);
         scale.setToY(scaleY);
 
-        ParallelTransition animation = new ParallelTransition(move, scale);
-        animation.play();
-
+        new ParallelTransition(move, scale).play();
     }
 
     public static void blindingEffect(Node node, double startSecond) {
@@ -72,14 +31,12 @@ public class AnimationsManager {
         twinkle.setCycleCount(FadeTransition.INDEFINITE);
         twinkle.setAutoReverse(true);
         twinkle.setDelay(Duration.seconds(startSecond));
-
         twinkle.play();
     }
 
     public static void fadeInEffect(Node node) {
         node.setScaleX(10);
         node.setScaleY(10);
-
         ScaleTransition scale = new ScaleTransition(Duration.millis(800), node);
         scale.setToX(1);
         scale.setToY(1);

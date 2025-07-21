@@ -10,4 +10,5 @@
     -fx-text-fill: white;
     -fx-font-family: "Arial Black";
     -fx-font-size: 30;
+    -fx-effect: dropshadow(gaussian, black, 3, 0.5, 1, 1);
 }

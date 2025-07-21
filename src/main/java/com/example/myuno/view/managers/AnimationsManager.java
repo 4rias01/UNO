@@ -1,9 +1,6 @@
 package com.example.myuno.view.managers;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -77,5 +74,16 @@ public class AnimationsManager {
         twinkle.setDelay(Duration.seconds(startSecond));
 
         twinkle.play();
+    }
+
+    public static void fadeInEffect(Node node) {
+        node.setScaleX(10);
+        node.setScaleY(10);
+
+        ScaleTransition scale = new ScaleTransition(Duration.millis(800), node);
+        scale.setToX(1);
+        scale.setToY(1);
+        scale.setInterpolator(Interpolator.EASE_OUT);
+        scale.play();
     }
 }

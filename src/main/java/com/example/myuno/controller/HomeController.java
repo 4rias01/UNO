@@ -7,9 +7,12 @@ import javafx.scene.image.ImageView;
 public class HomeController {
     @FXML
     ImageView textBox;
+    @FXML
+    ImageView title;
 
     @FXML
     public void initialize() {
         AnimationsManager.blindingEffect(textBox, 0.1);
+        AnimationsManager.fadeInEffect(title);
     }
 }

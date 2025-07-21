@@ -30,6 +30,7 @@ public class SceneManager {
         AnimationsManager.applyToAllButtons(root);
 
         stage.setScene(mainScene);
+        stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
     }
 

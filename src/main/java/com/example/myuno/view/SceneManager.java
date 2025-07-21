@@ -1,6 +1,8 @@
 package com.example.myuno.view;
 
 import com.example.myuno.view.managers.AnimationsManager;
+import com.example.myuno.view.managers.CursorManager;
+import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,8 +28,8 @@ public class SceneManager {
         Parent root = loader.load();
 
         mainScene = new Scene(root);
-        AnimationsManager.applyGlobalCursor(mainScene);
-        AnimationsManager.applyToAllButtons(root);
+        CursorManager.applyGlobalCursor(mainScene);
+        Manager.applyToAllButtons(root);
 
         stage.setScene(mainScene);
         stage.setFullScreenExitHint("");
@@ -49,8 +51,8 @@ public class SceneManager {
                 "/com/example/myuno/scenes/"+ sceneName + "View/" + sceneName + ".fxml"));
         Parent newRoot = loader.load();
 
-        AnimationsManager.applyGlobalCursor(mainScene);
-        AnimationsManager.applyToAllButtons(newRoot);
+        CursorManager.applyGlobalCursor(mainScene);
+        Manager.applyToAllButtons(newRoot);
 
         mainScene.setRoot(newRoot);
     }

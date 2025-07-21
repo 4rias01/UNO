@@ -8,12 +8,12 @@ public class Manager {
     public static void applyToAllButtons(Parent root) {
         root.lookupAll(".button").forEach(node -> {
             if (node instanceof Button button) {
-                //applyAllEvents(button);
+                applyAllEvents(button);
             }
         });
     }
 
-    /*
+
     public static void applyAllEvents(Node node) {
         node.setOnMouseEntered(e -> {
             AnimationsManager.translateAndScale(node, 0, 0, 1.1, 1.1);
@@ -27,6 +27,6 @@ public class Manager {
 
         node.setOnMousePressed(e -> node.setCursor(CursorManager.getCursorPressed()));
         node.setOnMouseReleased(e -> node.setCursor(CursorManager.getCursorHover()));
-    }*/
+    }
 }
 

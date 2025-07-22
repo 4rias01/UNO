@@ -1,15 +1,8 @@
 package com.example.myuno.view.managers;
 
 import javafx.animation.*;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.util.Duration;
-
-import java.util.Objects;
 
 public class AnimationsManager {
     public static void translateAndScale(Node node, double posX, double posY, double scaleX, double scaleY) {

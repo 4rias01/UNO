@@ -5,3 +5,16 @@
     -fx-pref-width: 1366;
     -fx-pref-height: 690;
 }
+
+.Image{
+    -fx-min-width: 60;
+    -fx-min-height: 60;
+    -fx-background-color: transparent;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 22;
+    -fx-effect: dropshadow(gaussian, black, 3, 0.5, 1, 1);
+}

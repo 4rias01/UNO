@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane styleClass="AnchorPane"
             stylesheets="@SetupSceneStyle.css"
-            styleClass="AnchorPane"
-            prefHeight="400.0" prefWidth="600.0">
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myuno.controller.SetupController">
+
+    <HBox layoutX="30" layoutY="670"
+          alignment="CENTER"
+          spacing="15" fx:id="hBoxExit">
+
+        <ImageView fx:id="backImage" styleClass="Image">
+            <Image url="@../../images/assets/backImage.png"/>
+        </ImageView>
+
+        <Label  text="Salir del juego">
+        </Label>
+    </HBox>
 
 </AnchorPane>

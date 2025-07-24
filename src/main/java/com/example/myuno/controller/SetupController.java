@@ -12,8 +12,8 @@ public class SetupController {
 
     @FXML
     HBox hBoxExit;
-    @FXML
-    ImageView backImage;
+    @FXML Button localButton;
+    @FXML Button onlineButton;
 
     @FXML
     private void initialize() {
@@ -22,5 +22,7 @@ public class SetupController {
 
     private void applyCustomEffect(HBox hBox) {
         Manager.applyAllEvents(hBox);
+        Manager.applyAllEvents(localButton);
+        Manager.applyAllEvents(onlineButton);
     }
 }

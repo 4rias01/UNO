@@ -15,19 +15,19 @@
 
 
     <ImageView fitHeight="120.0" fitWidth="120.0">
-        <Image url="@../../images/assets/logo.png" />
+        <Image url="@../../images/assets/HomeScene/logo.png" />
     </ImageView>
 
     <StackPane layoutY="30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <ImageView fx:id="title">
-            <Image url="@../../images/assets/title.png" />
+            <Image url="@../../images/assets/HomeScene/title.png" />
         </ImageView>
     </StackPane>
 
 
     <StackPane layoutY="610" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <ImageView fx:id="textBox">
-            <Image url="@../../images/assets/textBox.png"/>
+            <Image url="@../../images/assets/HomeScene/textBox.png"/>
         </ImageView>
         <Label text="Pulsa cualquier tecla para comenzar" />
     </StackPane>

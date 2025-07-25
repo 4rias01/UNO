@@ -2,6 +2,7 @@ package com.example.myuno.controller;
 
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.AnimationsManager;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -16,6 +17,7 @@ public class HomeController {
     ImageView title;
     @FXML AnchorPane anchorPane;
 
+
     @FXML
     public void initialize() {
         addListenerToScene(anchorPane);
@@ -26,21 +28,33 @@ public class HomeController {
     private void addListenerToScene(AnchorPane anchorPane) {
         anchorPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
-                newScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-                    try {
-                        SceneManager.switchTo("SetupScene");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                // Creamos el filtro de tecla como objeto para poder removerlo luego
+                EventHandler<KeyEvent> keyHandler = new EventHandler<>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        newScene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
+                        newScene.setOnMouseClicked(null); // también quitamos el mouse
+                        switchToSetupScene();
                     }
-                });
+                };
+
+                newScene.addEventFilter(KeyEvent.KEY_PRESSED, keyHandler);
+
                 newScene.setOnMouseClicked(event -> {
-                    try {
-                        SceneManager.switchTo("SetupScene");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    newScene.removeEventFilter(KeyEvent.KEY_PRESSED, keyHandler);
+                    newScene.setOnMouseClicked(null);
+                    switchToSetupScene();
                 });
             }
         });
     }
+
+    private void switchToSetupScene() {
+        try {
+            SceneManager.switchTo("SetupScene");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

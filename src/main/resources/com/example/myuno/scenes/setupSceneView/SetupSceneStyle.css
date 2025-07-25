@@ -40,3 +40,38 @@
     -fx-font-size: 22;
     -fx-effect: dropshadow(gaussian, black, 3, 0.5, 1, 1);
 }
+
+
+.dialog-box {
+    -fx-background-color: linear-gradient(#f00, #f55);
+    -fx-padding: 30;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, black, 15, 0.3, 0, 0);
+    -fx-max-width: 130;
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}
+
+.dialog-title {
+    -fx-font-size: 22px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.dialog-description {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+}
+
+.dialog-button{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-background-radius: 10;
+    -fx-padding: 8 20;
+}
+
+.dialog-button:hover{
+    -fx-background-color: yellow;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.5, 0, 0);
+}

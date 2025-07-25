@@ -43,4 +43,20 @@
         </HBox>
     </StackPane>
 
+    <VBox alignment="CENTER" spacing="15"
+          AnchorPane.topAnchor="300" AnchorPane.bottomAnchor="300"
+          AnchorPane.leftAnchor="500" AnchorPane.rightAnchor="500"
+          styleClass="dialog-box"
+          fx:id="exitDialog">
+
+        <Label fx:id="title" styleClass="dialog-title"/>
+        <Label fx:id="message"
+               wrapText="true" styleClass="dialog-description"/>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Button fx:id="yesButton" text="Sí" styleClass="dialog-button" onAction="#setOnActionYesButton"/>
+            <Button fx:id="noButton" text="No" styleClass="dialog-button" onAction="#setOnActionNoButton"/>
+        </HBox>
+    </VBox>
+
 </AnchorPane>

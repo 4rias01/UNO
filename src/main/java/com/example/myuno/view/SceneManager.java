@@ -1,7 +1,6 @@
 package com.example.myuno.view;
 
 import com.example.myuno.view.managers.CursorManager;
-import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,6 +10,7 @@ import java.io.IOException;
 
 public class SceneManager {
     private static Scene mainScene;
+    private static Stage mainStage;
 
     /**
      * Sets up and displays the main stage of the application
@@ -38,6 +38,7 @@ public class SceneManager {
         stage.setScene(mainScene);
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
+        mainStage = stage;
     }
 
     /**
@@ -64,5 +65,9 @@ public class SceneManager {
 
         CursorManager.applyGlobalCursor(mainScene);
         mainScene.setRoot(newRoot);
+    }
+
+    public static void closeStage() {
+        mainStage.close();
     }
 }

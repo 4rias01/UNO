@@ -16,7 +16,7 @@ public class  Main extends Application {
         SceneManager.switchTo("HomeScene");
 
         mainStage.setTitle("MyUno");
-        mainStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("" +
+        mainStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(
                 "/com/example/myuno/images/assets/favicon.png"))));
         mainStage.show();
     }

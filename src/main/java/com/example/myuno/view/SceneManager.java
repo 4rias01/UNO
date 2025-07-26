@@ -1,8 +1,6 @@
 package com.example.myuno.view;
 
-import com.example.myuno.view.managers.AnimationsManager;
 import com.example.myuno.view.managers.CursorManager;
-import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,6 +10,7 @@ import java.io.IOException;
 
 public class SceneManager {
     private static Scene mainScene;
+    private static Stage mainStage;
 
     /**
      * Sets up and displays the main stage of the application
@@ -20,20 +19,26 @@ public class SceneManager {
      * applies global cursor and button animations, and sets the scene to full screen.
      *
      * @param stage the primary {@link Stage} where the scene will be set
-     * @throws IOException if the FXML file cannot be loaded
      */
-    public static void setStage(Stage stage) throws IOException {
+    public static void setStage(Stage stage) {
+        Parent root;
         FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(
                 "/com/example/myuno/scenes/HomeSceneView/HomeScene.fxml"));
-        Parent root = loader.load();
+
+        try{
+            root = loader.load();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         mainScene = new Scene(root);
         CursorManager.applyGlobalCursor(mainScene);
-        Manager.applyToAllButtons(root);
 
         stage.setScene(mainScene);
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
+        mainStage = stage;
     }
 
     /**
@@ -47,13 +52,22 @@ public class SceneManager {
      * @throws IOException if the FXML file cannot be found or loaded
      */
     public static void switchTo(String sceneName) throws IOException {
+        Parent newRoot;
         FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(
                 "/com/example/myuno/scenes/"+ sceneName + "View/" + sceneName + ".fxml"));
-        Parent newRoot = loader.load();
+
+        try{
+            newRoot = loader.load();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         CursorManager.applyGlobalCursor(mainScene);
-        Manager.applyToAllButtons(newRoot);
-
         mainScene.setRoot(newRoot);
+    }
+
+    public static void closeStage() {
+        mainStage.close();
     }
 }

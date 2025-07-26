@@ -1,0 +1,24 @@
+package com.example.myuno.model.card;
+
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+
+import java.util.Objects;
+
+public interface Card {
+    public enum Color{
+        RED,
+        GREEN,
+        BLUE,
+        YELLOW,
+        BLACK
+    }
+
+    public ImagePattern getFrontImage();
+    public Color getColor();
+
+    ImagePattern BACK_IMAGE = new ImagePattern(
+            new Image(Objects.requireNonNull(Card.class.getResource(
+                    "/com/example/myuno/images/cards/back.png")).toExternalForm())
+    );
+}

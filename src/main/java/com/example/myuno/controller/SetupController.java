@@ -1,6 +1,8 @@
 package com.example.myuno.controller;
 
 import com.example.myuno.view.SceneManager;
+import com.example.myuno.view.managers.AnimationsManager;
+import com.example.myuno.view.managers.CursorManager;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,16 +10,19 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
 public class SetupController {
 
     @FXML HBox hBoxExit;
-    @FXML VBox exitDialog;
     @FXML Button localButton;
+    @FXML Label localLabel;
     @FXML Button onlineButton;
+    @FXML Label onlineLabel;
+
+    @FXML VBox exitDialog;
     @FXML Button yesButton;
     @FXML Button noButton;
-    @FXML Label title;
-    @FXML Label message;
 
     @FXML
     private void initialize() {
@@ -28,29 +33,21 @@ public class SetupController {
     }
 
     private void applyAnimations() {
-        Manager.applyAllEvents(hBoxExit);
-        Manager.applyAllEvents(localButton);
-        Manager.applyAllEvents(onlineButton);
-        Manager.applyAllEvents(yesButton);
-        Manager.applyAllEvents(noButton);
+        Manager.applyGenericEvents(hBoxExit);
+        Manager.applyGenericEvents(yesButton);
+        Manager.applyGenericEvents(noButton);
+
+        setOnClickButton(localButton, localLabel);
+        setOnClickButton(onlineButton, onlineLabel);
     }
 
     private void setOnClickBack() {
         hBoxExit.setOnMouseClicked(event -> {
-            exitDialog.setVisible(true);
-            exitDialog.setDisable(false);
-            localButton.setDisable(true);
-            onlineButton.setDisable(true);
-            hBoxExit.setDisable(true);
-
-            setExitDialog();
+            setVisibleDialog(true);
         });
     }
 
-    private void setExitDialog() {
-        title.setText("Estas seguro?");
-        message.setText("Presiona [SI] para salir de la aplicacion");
-    }
+
 
     @FXML
     private void setOnActionYesButton() {
@@ -59,10 +56,33 @@ public class SetupController {
 
     @FXML
     private void setOnActionNoButton() {
-        exitDialog.setVisible(false);
-        exitDialog.setDisable(true);
-        localButton.setDisable(false);
-        onlineButton.setDisable(false);
-        hBoxExit.setDisable(false);
+        setVisibleDialog(false);
+    }
+
+    @FXML
+    private void handleLocalButton() throws IOException {
+        SceneManager.switchTo("GameScene");
+    }
+
+    private void setVisibleDialog(Boolean visible) {
+        exitDialog.setVisible(visible);
+        exitDialog.setDisable(!visible);
+        localButton.setDisable(visible);
+        onlineButton.setDisable(visible);
+        hBoxExit.setDisable(visible);
+    }
+
+    private void setOnClickButton(Button button, Label label) {
+        button.setOnMouseEntered(e -> {
+            button.setCursor(CursorManager.getCursorHover());
+            AnimationsManager.translateAndScale(button, 0, -20, 1.05, 1.05);
+            label.setOpacity(1.0);
+        });
+
+        button.setOnMouseExited(e -> {
+            button.setCursor(CursorManager.getCursorDefault());
+            AnimationsManager.translateAndScale(button, 0, 0, 1, 1);
+            label.setOpacity(0);
+        });
     }
 }

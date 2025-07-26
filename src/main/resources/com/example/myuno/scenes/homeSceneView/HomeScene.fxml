@@ -8,15 +8,12 @@
             prefWidth="100.0"
             styleClass="anchorPane"
             stylesheets="@HomeSceneStyle.css"
-            fx:id="anchorPane"
+            fx:id="homeAnchorPane"
             fx:controller= "com.example.myuno.controller.HomeController"
             xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1">
 
 
-    <ImageView fitHeight="120.0" fitWidth="120.0">
-        <Image url="@../../images/assets/HomeScene/logo.png" />
-    </ImageView>
 
     <StackPane layoutY="30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <ImageView fx:id="title">
@@ -33,9 +30,7 @@
     </StackPane>
 
     <!--
-    <ImageView layoutX="177.0" layoutY="47.0">
-        <Image url="@../../images/assets/uvName.png" />
-    </ImageView>
+
     -->
 
 </AnchorPane>

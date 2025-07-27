@@ -3,36 +3,39 @@ package com.example.myuno.model.card.types;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.Special;
 import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 
 import java.util.Objects;
 
-public class AddFourCard implements Card, Special {
+public class DrawFourCard implements Card, Special {
     private final Color color;
     private final SpecialType specialType;
-    private final ImagePattern frontImage;
+    private final Image frontImage;
 
-    public AddFourCard() {
+    public DrawFourCard() {
         this.color = Card.Color.BLACK;
-        this.specialType = SpecialType.ADDFOUR;
+        this.specialType = SpecialType.DRAWFOUR;
         this.frontImage = setFrontImage(color);
     }
 
-    public ImagePattern setFrontImage(Color color){
-        return new ImagePattern(
-                new Image(Objects.requireNonNull(Card.class.getResource(
+    public Image setFrontImage(Color color){
+        return new Image(Objects.requireNonNull(Card.class.getResource(
                         "/com/example/myuno/images/cards/special/drawFour/"
-                                +color.name()+"png")).toExternalForm()));
+                                +color.toString()+".png")).toExternalForm());
     }
 
     @Override
-    public ImagePattern getFrontImage() {
+    public Image getFrontImage() {
         return frontImage;
     }
 
     @Override
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public Boolean canBePlayedOver(Card card) {
+        return true;
     }
 
     @Override

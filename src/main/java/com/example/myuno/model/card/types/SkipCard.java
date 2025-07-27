@@ -18,7 +18,7 @@ public class SkipCard implements Card, Special {
         this.frontImage = setFrontImage(color);
     }
 
-    public ImagePattern setFrontImage(Color color){
+    private ImagePattern setFrontImage(Color color){
         return new ImagePattern(
                 new Image(Objects.requireNonNull(Card.class.getResource(
                         "/com/example/myuno/images/cards/special/skip/"

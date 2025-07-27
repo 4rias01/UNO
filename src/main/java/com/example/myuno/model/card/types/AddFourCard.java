@@ -12,8 +12,8 @@ public class AddFourCard implements Card, Special {
     private final SpecialType specialType;
     private final ImagePattern frontImage;
 
-    public AddFourCard(Color color) {
-        this.color = color;
+    public AddFourCard() {
+        this.color = Card.Color.BLACK;
         this.specialType = SpecialType.ADDFOUR;
         this.frontImage = setFrontImage(color);
     }

@@ -12,8 +12,8 @@ public class WildCard implements Card, Special {
     private final SpecialType specialType;
     private final ImagePattern frontImage;
 
-    public WildCard(Color color){
-        this.color = color;
+    public WildCard(){
+        this.color = Card.Color.BLACK;
         this.specialType = SpecialType.WILD;
         this.frontImage = setFrontImage(color);
     }
@@ -27,16 +27,16 @@ public class WildCard implements Card, Special {
 
     @Override
     public ImagePattern getFrontImage() {
-        return null;
+        return frontImage;
     }
 
     @Override
     public Color getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public SpecialType getType() {
-        return null;
+        return specialType;
     }
 }

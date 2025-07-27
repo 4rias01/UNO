@@ -14,8 +14,9 @@ public interface Card {
         BLACK
     }
 
-    public ImagePattern getFrontImage();
+    public Image getFrontImage();
     public Color getColor();
+    public Boolean canBePlayedOver(Card card);
 
     ImagePattern BACK_IMAGE = new ImagePattern(
             new Image(Objects.requireNonNull(Card.class.getResource(

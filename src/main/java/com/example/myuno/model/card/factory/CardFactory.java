@@ -25,9 +25,9 @@ public class CardFactory {
         else{
             card = switch (number) {
                 case 10 -> new SkipCard(randomColor());
-                case 11 -> new AddTwoCard(randomColor());
+                case 11 -> new DrawTwoCard(randomColor());
                 case 12 -> new WildCard();
-                case 13 -> new AddFourCard();
+                case 13 -> new DrawFourCard();
                 default -> throw new IllegalStateException("Unexpected value: " + number);
             };
         }

@@ -1,6 +1,7 @@
 module com.example.myuno {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.naming;
 
 
     opens com.example.myuno to javafx.fxml;

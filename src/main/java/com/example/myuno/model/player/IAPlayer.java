@@ -1,17 +1,32 @@
 package com.example.myuno.model.player;
 
+import com.example.myuno.model.GameContext;
 import com.example.myuno.model.card.Card;
+import com.example.myuno.model.card.factory.CardFactory;
 
-public class IAPlayer implements Player {
+import java.util.ArrayList;
+
+public class IAPlayer extends AbstractPlayer {
+
+    public IAPlayer() {
+        super();
+    }
 
     @Override
-    public Boolean playCard(Card card, Card nextCard) {
+    public Card playCard(GameContext context) {
+        return null;
+    }
+
+
+
+    @Override
+    public Card getCard() {
         return null;
     }
 
     @Override
-    public void addCard(Card card) {
-
+    public ArrayList<Card> getDeck() {
+        return deck;
     }
 
 }

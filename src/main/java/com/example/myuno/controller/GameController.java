@@ -2,6 +2,7 @@ package com.example.myuno.controller;
 
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.card.Card;
+import com.example.myuno.model.card.Special;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
@@ -79,6 +80,10 @@ public class GameController {
         if (card.canBePlayedOver(cardOnDesk)) {
             playerOne.getDeck().remove(card);
             game.setCardOnDesk(card);
+            if(card instanceof Special specialCard){
+                game.applyCardEffects(specialCard);
+                renderPlayerTwoDeck();
+            }
             renderPlayerOneDeck();
             renderCardOnDesk();
         } else {

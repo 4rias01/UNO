@@ -35,8 +35,6 @@ public class GameMaster {
         GameContext.Turn turn = context.getTurn();
     }
 
-
-
     private Card generateFirstCard() {
         Card card = cardFactory.createRandomCard();
         while (card instanceof Special) {
@@ -60,5 +58,19 @@ public class GameMaster {
         cartOnDesk = card;
         context.setLastCard(card);
         context.setCurrentColor(card.getColor());
+
+    }
+
+    public void applyCardEffects(Special card){
+        Player nextPlayer = context.getTurn() == GameContext.Turn.PLAYER1 ? playerTwo : playerOne;
+        if(card instanceof Special specialCard){
+            switch(specialCard.getType()) {
+                case DRAWFOUR: nextPlayer.addRandomCards(4);
+                break;
+                case DRAWTWO: nextPlayer.addRandomCards(2); break;
+                case WILD: break;
+                default: break;
+            }
+        }
     }
 }

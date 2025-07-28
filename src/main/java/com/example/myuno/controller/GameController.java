@@ -1,5 +1,6 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.model.GameContext;
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
@@ -32,6 +33,8 @@ public class GameController {
         renderCardOnDesk();
         renderPlayerOneDeck();
         renderPlayerTwoDeck();
+
+        game.startMachineThread(deckOfPlayerTwo, cardOnDeskView);
     }
 
     private void renderPlayerOneDeck() {
@@ -75,14 +78,15 @@ public class GameController {
     }
 
     private void handleCardPlayed(Card card) {
+        if (game.getContext().getTurn() != GameContext.Turn.PLAYER1) return;
 
-        if (card.canBePlayedOver(cardOnDesk)) {
-            playerOne.getDeck().remove(card);
-            game.setCardOnDesk(card);
+        boolean played = game.playTurn(card);
+
+        if (played) {
             renderPlayerOneDeck();
             renderCardOnDesk();
         } else {
-            System.out.println("No puedes jugar esta carta.");
+            System.out.println("¡Carta inválida!");
         }
     }
 

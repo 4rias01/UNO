@@ -14,10 +14,16 @@ public class IAPlayer extends AbstractPlayer {
 
     @Override
     public Card playCard(GameContext context) {
+        Card topCard = context.getLastCard();
+        for (Card card : deck) {
+            if (card.canBePlayedOver(topCard)) {
+                deck.remove(card);
+                return card;
+            }
+        }
+        this.addRandomCards(1);
         return null;
     }
-
-
 
     @Override
     public Card getCard() {

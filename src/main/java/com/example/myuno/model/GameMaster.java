@@ -5,9 +5,12 @@ import com.example.myuno.model.card.Special;
 import com.example.myuno.model.card.factory.CardFactory;
 import com.example.myuno.model.card.types.NumberCard;
 import com.example.myuno.model.card.types.WildCard;
+import com.example.myuno.model.machine.ThreadPlayMachine;
 import com.example.myuno.model.player.factory.HumanPlayerFactory;
 import com.example.myuno.model.player.factory.IAPlayerFactory;
 import com.example.myuno.model.player.Player;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
@@ -15,6 +18,7 @@ public class GameMaster {
     private final Player playerOne;
     private final Player playerTwo;
     private Player currentPlayer;
+    private ThreadPlayMachine threadPlayMachine;
 
     private Card cartOnDesk;
     private final CardFactory cardFactory = new CardFactory();
@@ -31,8 +35,27 @@ public class GameMaster {
         currentPlayer = playerOne;
     }
 
-    public void playTurn(Card card) {
-        GameContext.Turn turn = context.getTurn();
+    public void startMachineThread(HBox deckOfPlayerTwo, ImageView cardOnDeskView) {
+        threadPlayMachine = new ThreadPlayMachine(this, playerTwo, cardOnDeskView, deckOfPlayerTwo);
+        threadPlayMachine.start();
+        threadPlayMachine.isDaemon();
+    }
+
+    public boolean playTurn(Card card) {
+        Player current = context.getTurn() == GameContext.Turn.PLAYER1 ? playerOne : playerTwo;
+
+        if (!card.canBePlayedOver(context.getLastCard())) {
+            return false; // Carta no válida
+        }
+
+        if (!current.getDeck().contains(card)) {
+            return false; // No tiene esa carta
+        }
+
+        current.getDeck().remove(card);
+        setCardOnDesk(card);
+        context.nextTurn();
+        return true;
     }
 
 
@@ -60,5 +83,9 @@ public class GameMaster {
         cartOnDesk = card;
         context.setLastCard(card);
         context.setCurrentColor(card.getColor());
+    }
+
+    public GameContext getContext() {
+        return context;
     }
 }

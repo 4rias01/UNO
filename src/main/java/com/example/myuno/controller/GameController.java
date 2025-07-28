@@ -3,14 +3,17 @@ package com.example.myuno.controller;
 import com.example.myuno.model.GameContext;
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.card.Card;
+import com.example.myuno.model.card.Special;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.view.managers.Manager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class GameController {
+
+public class GameController  {
     Player playerOne;
     Player playerTwo;
     Card cardOnDesk;
@@ -84,6 +87,7 @@ public class GameController {
 
         if (played) {
             renderPlayerOneDeck();
+            renderPlayerTwoDeck();
             renderCardOnDesk();
         } else {
             System.out.println("¡Carta inválida!");
@@ -95,4 +99,5 @@ public class GameController {
         playerOne.addRandomCards(1);
         renderPlayerOneDeck();
     }
+
 }

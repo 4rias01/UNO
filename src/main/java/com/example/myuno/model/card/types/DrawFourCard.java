@@ -7,9 +7,9 @@ import javafx.scene.image.Image;
 import java.util.Objects;
 
 public class DrawFourCard implements Card, Special {
-    private final Color color;
+    private  Color color;
     private final SpecialType specialType;
-    private final Image frontImage;
+    private Image frontImage;
 
     public DrawFourCard() {
         this.color = Card.Color.BLACK;
@@ -41,5 +41,10 @@ public class DrawFourCard implements Card, Special {
     @Override
     public SpecialType getType() {
         return specialType;
+    }
+
+    public void changeColor(Color Newcolor){
+        this.color = Newcolor;
+        this.frontImage = setFrontImage(Newcolor);
     }
 }

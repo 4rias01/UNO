@@ -32,7 +32,6 @@ public class ThreadPlayMachine extends Thread {
                 }
                 Platform.runLater(() -> {
                     putCardOnTheTable();
-                    game.getContext().nextTurn();
                 });
             }
 
@@ -58,8 +57,7 @@ public class ThreadPlayMachine extends Thread {
 
             if (cardToPlay != null) {
                 System.out.println("IA juega: " + cardToPlay);
-                machinePlayer.getDeck().remove(cardToPlay);
-                game.setCardOnDesk(cardToPlay);
+                game.playTurn(cardToPlay);
                 tableImageView.setImage(cardToPlay.getFrontImage());
             } else {
                 System.out.println("IA no puede jugar. Roba una carta.");

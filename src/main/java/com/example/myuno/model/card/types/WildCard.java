@@ -8,9 +8,9 @@ import javafx.scene.paint.ImagePattern;
 import java.util.Objects;
 
 public class WildCard implements Card, Special {
-    private final Color color;
+    private  Color color;
     private final SpecialType specialType;
-    private final Image frontImage;
+    private  Image frontImage;
 
     public WildCard(){
         this.color = Card.Color.BLACK;
@@ -42,5 +42,11 @@ public class WildCard implements Card, Special {
     @Override
     public SpecialType getType() {
         return specialType;
+    }
+
+    public void changeColor(Color Newcolor){
+        this.color = Newcolor;
+        this.frontImage =  setFrontImage(Newcolor);
+
     }
 }

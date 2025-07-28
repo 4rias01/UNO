@@ -14,18 +14,13 @@ public class HumanPlayer extends AbstractPlayer {
 
     @Override
     public Card playCard(GameContext context) {
-        while (selectedCard == null) {
-            try {
-                Thread.sleep(100); // Esperar input del jugador
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+        if (selectedCard != null) {
+            Card chosen = selectedCard;
+            selectedCard = null;
+            deck.remove(chosen);
+            return chosen;
         }
-
-        Card chosen = selectedCard;
-        selectedCard = null;
-        deck.remove(chosen);
-        return chosen;
+        return null;
     }
 
     @Override

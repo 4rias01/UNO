@@ -38,7 +38,7 @@ public class NumberCard implements Number, Card {
     public Boolean canBePlayedOver(Card card) {
         if (card.getColor().equals(color)) {
             return true;
-        } else if (card instanceof NumberCard) {
+        } else if (card instanceof Number) {
             return ((NumberCard) card).getNumber() == number;
         }
         return false;

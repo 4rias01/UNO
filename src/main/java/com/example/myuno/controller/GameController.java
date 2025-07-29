@@ -1,22 +1,22 @@
 package com.example.myuno.controller;
 
-import com.example.myuno.model.GameContext;
+import com.example.myuno.model.GameContext.Turn;
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.card.Card;
-import com.example.myuno.model.card.Special;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.view.managers.Manager;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+public class GameController {
+    public static GameController instance;
 
-public class GameController  {
     Player playerOne;
     Player playerTwo;
     Card cardOnDesk;
+
     @FXML
     ImageView cardOnDeskView;
     @FXML
@@ -25,79 +25,84 @@ public class GameController  {
     HBox deckOfPlayerTwo;
     @FXML
     Button robberButton;
+
     private final GameMaster game = new GameMaster(true);
 
     @FXML
     public void initialize() {
-        playerOne = game.getPlayerOne();
-        playerTwo = game.getPlayerTwo();
-        Manager.applyGenericEvents(robberButton);
+        instance = this;
 
-        renderCardOnDesk();
-        renderPlayerOneDeck();
-        renderPlayerTwoDeck();
+        this.playerOne = this.game.getPlayerOne();
+        this.playerTwo = this.game.getPlayerTwo();
 
-        game.startMachineThread(deckOfPlayerTwo, cardOnDeskView);
+        Manager.applyGenericEvents(this.robberButton);
+
+        this.renderCardOnDesk();
+        this.renderPlayerOneDeck();
+        this.renderPlayerTwoDeck();
+
+        this.game.startMachineThread(this.deckOfPlayerTwo, this.cardOnDeskView);
     }
 
-    private void renderPlayerOneDeck() {
-        deckOfPlayerOne.getChildren().clear();
-        for (Card card : playerOne.getDeck()) {
-            Button cardButton = createCardButton(card);
-            deckOfPlayerOne.getChildren().add(cardButton);
+    public void renderPlayerOneDeck() {
+        this.deckOfPlayerOne.getChildren().clear();
+
+        for (Card card : this.playerOne.getDeck()) {
+            Button cardButton = this.createCardButton(card);
+            this.deckOfPlayerOne.getChildren().add(cardButton);
         }
     }
 
-    private void renderPlayerTwoDeck() {
-        deckOfPlayerTwo.getChildren().clear();
-        for (Card card : playerTwo.getDeck()) {
+    public void renderPlayerTwoDeck() {
+        this.deckOfPlayerTwo.getChildren().clear();
+
+        for (Card card : this.playerTwo.getDeck()) {
             ImageView image = new ImageView(Card.BACK_IMAGE.getImage());
             image.setPreserveRatio(true);
-            image.setFitHeight(180);
-            deckOfPlayerTwo.getChildren().add(image);
+            image.setFitHeight(180.0);
+            this.deckOfPlayerTwo.getChildren().add(image);
         }
     }
 
     private void renderCardOnDesk() {
-        cardOnDesk = game.getCardOnDesk();
-        cardOnDeskView.setImage(cardOnDesk.getFrontImage());
-        cardOnDeskView.setPreserveRatio(true);
-        cardOnDeskView.setFitHeight(180);
+        this.cardOnDesk = this.game.getCardOnDesk();
+        this.cardOnDeskView.setImage(this.cardOnDesk.getFrontImage());
+        this.cardOnDeskView.setPreserveRatio(true);
+        this.cardOnDeskView.setFitHeight(180.0);
     }
 
     private Button createCardButton(Card card) {
         Button button = new Button();
         button.getStyleClass().add("card-button");
-        button.setPrefSize(60, 90);
+        button.setPrefSize(60.0, 90.0);
+
         ImageView imageView = new ImageView(card.getFrontImage());
         imageView.setPreserveRatio(true);
-        imageView.setFitHeight(180);
-
+        imageView.setFitHeight(180.0);
         button.setGraphic(imageView);
-        Manager.applyCustomEvent(button, -10, -40, 1.1);
-        button.setOnAction(e -> handleCardPlayed(card));
 
+        Manager.applyCustomEvent(button, -10, -40, 1.1);
+
+        button.setOnAction((e) -> this.handleCardPlayed(card));
         return button;
     }
 
     private void handleCardPlayed(Card card) {
-        if (game.getContext().getTurn() != GameContext.Turn.PLAYER1) return;
-
-        boolean played = game.playTurn(card);
-
-        if (played) {
-            renderPlayerOneDeck();
-            renderPlayerTwoDeck();
-            renderCardOnDesk();
-        } else {
-            System.out.println("¡Carta inválida!");
+        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+            boolean played = this.game.playTurn(card);
+            if (played) {
+                this.renderPlayerOneDeck();
+                this.renderPlayerTwoDeck();
+                this.renderCardOnDesk();
+            } else {
+                System.out.println("¡Carta inválida!");
+            }
         }
     }
 
     @FXML
-    private void handleRobberButton(){
-        playerOne.addRandomCards(1);
-        renderPlayerOneDeck();
+    private void handleRobberButton() {
+        this.playerOne.addRandomCards(1);
+        this.renderPlayerOneDeck();
     }
-
 }

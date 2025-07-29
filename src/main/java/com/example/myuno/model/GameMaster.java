@@ -101,8 +101,11 @@ public class GameMaster {
                             ? SceneManager.showColorSelectionWindow()
                             : chooseRandomColor();
                     ((DrawFourCard) card).changeColor(chosenColor);
+                    context.nextTurn();
+
                 break;
                 case DRAWTWO: nextPlayer.addRandomCards(2);
+                    context.nextTurn();
                     break;
                 case WILD:
                     Card.Color chosenColor2 = (context.getTurn() == GameContext.Turn.PLAYER1)
@@ -111,6 +114,7 @@ public class GameMaster {
                     ((WildCard)card).changeColor(chosenColor2);
                     break;
                 case SKIP: context.nextTurn();
+                    break;
                 default: break;
             }
         }
@@ -127,5 +131,8 @@ public class GameMaster {
         return colors[index];
     }
 
+    public void passTurn() {
+        context.nextTurn();
+    }
 
 }

@@ -94,6 +94,8 @@ public class GameController {
                 this.renderPlayerOneDeck();
                 this.renderPlayerTwoDeck();
                 this.renderCardOnDesk();
+                this.robberButton.setDisable(false);
+
             } else {
                 System.out.println("¡Carta inválida!");
             }
@@ -102,7 +104,13 @@ public class GameController {
 
     @FXML
     private void handleRobberButton() {
-        this.playerOne.addRandomCards(1);
-        this.renderPlayerOneDeck();
+        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+            this.playerOne.addRandomCards(1);
+            this.renderPlayerOneDeck();
+            this.robberButton.setDisable(true);
+            this.game.passTurn();
+            this.robberButton.setDisable(false);
+        }
     }
+
 }

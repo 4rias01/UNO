@@ -60,10 +60,14 @@ public class ThreadPlayMachine extends Thread {
                 game.playTurn(cardToPlay);
                 tableImageView.setImage(cardToPlay.getFrontImage());
             } else {
-                System.out.println("IA no puede jugar. Roba una carta.");
+                System.out.println("IA no puede jugar. Esperando para robar una carta...");
+
                 machinePlayer.addRandomCards(1);
+                game.passTurn();
+                System.out.println("IA robó una carta y pasó el turno.");
             }
             renderMachineDeck();
+
     }
 
     private void renderMachineDeck() {

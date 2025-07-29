@@ -128,8 +128,8 @@ public class SceneManager {
         scene.setFill(Color.TRANSPARENT);
 
         colorStage.setScene(scene);
-        colorStage.setWidth(2150);
-        colorStage.setHeight(1125);
+        colorStage.setWidth(900);
+        colorStage.setHeight(450);
         colorStage.setAlwaysOnTop(true);
         colorStage.centerOnScreen();
         colorStage.showAndWait();

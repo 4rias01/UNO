@@ -12,7 +12,7 @@ public class DrawFourCard implements Card, Special {
     private Image frontImage;
 
     public DrawFourCard() {
-        this.color = Card.Color.BLACK;
+        this.color = Color.BLACK;
         this.specialType = SpecialType.DRAWFOUR;
         this.frontImage = setFrontImage(color);
     }

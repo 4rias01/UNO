@@ -1,14 +1,16 @@
 package com.example.myuno.model;
 
+import com.example.myuno.controller.GameController;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.Special;
 import com.example.myuno.model.card.factory.CardFactory;
 import com.example.myuno.model.card.types.DrawFourCard;
 import com.example.myuno.model.card.types.WildCard;
 import com.example.myuno.model.machine.ThreadPlayMachine;
+import com.example.myuno.model.player.Player;
 import com.example.myuno.model.player.factory.HumanPlayerFactory;
 import com.example.myuno.model.player.factory.IAPlayerFactory;
-import com.example.myuno.model.player.Player;
+import com.example.myuno.view.SceneManager;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -44,17 +46,19 @@ public class GameMaster {
         Player current = context.getTurn() == GameContext.Turn.PLAYER1 ? playerOne : playerTwo;
 
         if (!card.canBePlayedOver(context.getLastCard())) {
-            return false; // Carta no válida
+            return false;
         }
 
         if (!current.getDeck().contains(card)) {
-            return false; // No tiene esa carta
+            return false;
         }
 
         current.getDeck().remove(card);
         setCardOnDesk(card);
         if(card instanceof Special specialCard){
             applyCardEffects(specialCard);
+            GameController.instance.renderPlayerOneDeck();
+            GameController.instance.renderPlayerTwoDeck();
         }
         context.nextTurn();
         return true;
@@ -91,17 +95,26 @@ public class GameMaster {
         System.out.println("entro a applyCardEffects");
         if(card instanceof Special specialCard){
             switch(specialCard.getType()) {
-                case DRAWFOUR: nextPlayer.addRandomCards(4);
-                    Card.Color chosenColor = chooseRandomColor();
-                    ((DrawFourCard)card).changeColor(chosenColor);
+                case DRAWFOUR:
+                    nextPlayer.addRandomCards(4);
+                    Card.Color chosenColor = (context.getTurn() == GameContext.Turn.PLAYER1)
+                            ? SceneManager.showColorSelectionWindow()
+                            : chooseRandomColor();
+                    ((DrawFourCard) card).changeColor(chosenColor);
+                    context.nextTurn();
+
                 break;
                 case DRAWTWO: nextPlayer.addRandomCards(2);
+                    context.nextTurn();
                     break;
                 case WILD:
-                    Card.Color chosenColor2 = chooseRandomColor();
+                    Card.Color chosenColor2 = (context.getTurn() == GameContext.Turn.PLAYER1)
+                            ? SceneManager.showColorSelectionWindow()
+                            : chooseRandomColor();
                     ((WildCard)card).changeColor(chosenColor2);
                     break;
                 case SKIP: context.nextTurn();
+                    break;
                 default: break;
             }
         }
@@ -118,5 +131,8 @@ public class GameMaster {
         return colors[index];
     }
 
+    public void passTurn() {
+        context.nextTurn();
+    }
 
 }

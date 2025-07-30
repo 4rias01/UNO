@@ -25,6 +25,8 @@ public class GameController {
     HBox deckOfPlayerTwo;
     @FXML
     Button robberButton;
+    @FXML
+    Button unoButton;
 
     private final GameMaster game = new GameMaster(true);
 
@@ -36,12 +38,12 @@ public class GameController {
         this.playerTwo = this.game.getPlayerTwo();
 
         Manager.applyGenericEvents(this.robberButton);
+        Manager.applyGenericEvents(this.unoButton);
+        this.setDisableRenderButton(true);
 
         this.renderCardOnDesk();
         this.renderPlayerOneDeck();
         this.renderPlayerTwoDeck();
-
-        this.game.startMachineThread(this.deckOfPlayerTwo, this.cardOnDeskView);
     }
 
     public void renderPlayerOneDeck() {
@@ -51,6 +53,7 @@ public class GameController {
             Button cardButton = this.createCardButton(card);
             this.deckOfPlayerOne.getChildren().add(cardButton);
         }
+        this.renderUnoButton(this.playerOne);
     }
 
     public void renderPlayerTwoDeck() {
@@ -62,13 +65,23 @@ public class GameController {
             image.setFitHeight(180.0);
             this.deckOfPlayerTwo.getChildren().add(image);
         }
+        this.renderUnoButton(this.playerTwo);
     }
 
-    private void renderCardOnDesk() {
+    public void renderCardOnDesk() {
         this.cardOnDesk = this.game.getCardOnDesk();
         this.cardOnDeskView.setImage(this.cardOnDesk.getFrontImage());
         this.cardOnDeskView.setPreserveRatio(true);
         this.cardOnDeskView.setFitHeight(180.0);
+    }
+
+    public void renderUnoButton(Player player) {
+        setDisableRenderButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
+    }
+
+    private void setDisableRenderButton(boolean disable) {
+        this.unoButton.setVisible(!disable);
+        this.unoButton.setDisable(disable);
     }
 
     private Button createCardButton(Card card) {
@@ -111,6 +124,11 @@ public class GameController {
             this.game.passTurn();
             this.robberButton.setDisable(false);
         }
+    }
+
+    @FXML
+    private void handleUnoButton() {
+        this.setDisableRenderButton(true);
     }
 
 }

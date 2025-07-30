@@ -15,9 +15,22 @@
     -fx-effect: dropshadow(gaussian, gray, 3, 0.3, 2, 2);
 }
 
+.card-button:hover{
+    -fx-effect: dropshadow(gaussian, #9a9a9a, 10, 0.9, 0, 0);
+}
+
 .robber-button{
     -fx-background-color: transparent;
     -fx-background-image: url("../../images/assets/GameScene/robberDeck.png");
     -fx-pref-height: 231;
     -fx-pref-width: 300;
 }
+
+.uno-button{
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/GameScene/unoButton.png");
+    -fx-pref-height: 250;
+    -fx-pref-width: 250;
+}
+
+

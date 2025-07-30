@@ -20,10 +20,14 @@
                 styleClass="robber-button" onAction="#handleRobberButton"/>
     </StackPane>
 
-    <StackPane layoutX="220"
+    <StackPane layoutX="80"
                AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
-        <Button fx:id="unoButton"
-                styleClass="uno-button" onAction="#handleUnoButton"/>
+        <HBox alignment="CENTER" spacing="90">
+            <Button fx:id="backButton"
+                    styleClass="back-button" onAction="#handleBackButton"/>
+            <Button fx:id="unoButton"
+                    styleClass="uno-button" onAction="#handleUnoButton"/>
+        </HBox>
     </StackPane>
 
     <StackPane AnchorPane.topAnchor="550" AnchorPane.bottomAnchor="0"

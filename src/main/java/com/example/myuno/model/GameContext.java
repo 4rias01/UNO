@@ -23,6 +23,7 @@ public class GameContext {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         setCurrentPlayer(turn);
+        setNextPlayer(turn);
     }
 
     public Card getLastCard() {

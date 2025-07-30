@@ -33,4 +33,11 @@
     -fx-pref-width: 250;
 }
 
+.back-button{
+    -fx-pref-width: 60;
+    -fx-pref-height: 60;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/GameScene/backImage.png");
+}
+
 

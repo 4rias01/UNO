@@ -11,7 +11,8 @@ public abstract class AbstractPlayer implements Player {
     protected CardFactory factory = new CardFactory();
 
     public AbstractPlayer() {
-        deck = factory.getRandomDeck(5);
+        deck = new ArrayList<>();
+        //deck = factory.getRandomDeck(5);
     }
 
     public abstract Card playCard(GameContext context);

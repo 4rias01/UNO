@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
+
 public class GameController {
     public static GameController instance;
 
@@ -28,35 +30,38 @@ public class GameController {
     Button robberButton;
     @FXML
     Button unoButton;
+    @FXML
+    Button backButton;
 
     private final GameMaster game = new GameMaster(true);
 
     @FXML
     public void initialize() {
         instance = this;
+        this.initFxmlElements();
+        boolean hasPlayableCard = false;
+        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+            for (Card card : this.playerOne.getDeck()) {
+                if (card.canBePlayedOver(cardOnDesk)) {
+                    hasPlayableCard = true;
+                    break;
+                }
+            }
+        }
+        this.robberButton.setDisable(hasPlayableCard);
+    }
+
+    private void initFxmlElements() {
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
         Manager.applyGenericEvents(this.robberButton);
         Manager.applyGenericEvents(this.unoButton);
+        Manager.applyGenericEvents(this.backButton);
         this.setDisableRenderButton(true);
 
         this.renderCardOnDesk();
         this.renderPlayerOneDeck();
         this.renderPlayerTwoDeck();
-
-        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
-            Card topCard = this.game.getCardOnDesk();
-            boolean hasPlayableCard = false;
-
-            for (Card card : this.playerOne.getDeck()) {
-                if (card.canBePlayedOver(topCard)) {
-                    hasPlayableCard = true;
-                    break;
-                }
-            }
-
-            this.robberButton.setDisable(hasPlayableCard);
-        }
     }
 
     public void renderPlayerOneDeck() {
@@ -163,11 +168,17 @@ public class GameController {
     }
 
     public void onPlayer2TurnStart() {
+
         SceneManager.showTurnText("Turno de la Maquina");
     }
 
     @FXML
     private void handleUnoButton() {
         this.setDisableRenderButton(true);
+    }
+
+    @FXML
+    private void handleBackButton() throws IOException {
+        SceneManager.switchTo("SetupScene");
     }
 }

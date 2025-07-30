@@ -3,7 +3,6 @@ package com.example.myuno.model.card.types;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.Number;
 import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 
 import java.util.Objects;
 

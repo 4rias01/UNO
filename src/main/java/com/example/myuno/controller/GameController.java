@@ -4,16 +4,19 @@ import com.example.myuno.model.GameContext.Turn;
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.PlainTextFiles.IPlainTextFileHandler;
 import com.example.myuno.model.PlainTextFiles.PlainTextFileHandler;
+import com.example.myuno.model.Profiles.ProfileManager;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.planeSerializableFiles.ISeriazableFileHandler;
 import com.example.myuno.model.planeSerializableFiles.SerializableFileHandler;
 import com.example.myuno.model.player.Player;
-import com.example.myuno.model.player.UserProfile;
+import com.example.myuno.model.Profiles.UserProfile;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+import java.io.File;
 
 public class GameController {
     public static GameController instance;
@@ -33,13 +36,14 @@ public class GameController {
 
     private GameMaster game = new GameMaster(true);
     private ISeriazableFileHandler fileHandler = new SerializableFileHandler();
-    private IPlainTextFileHandler textFileHandler = new PlainTextFileHandler();
     private UserProfile userProfile;
 
     @FXML
     public void initialize() {
         instance = this;
         loadFiles();
+        this.userProfile = ProfileManager.getCurrentProfile();
+        System.out.println("perfil en juego: "+this.userProfile.toFileString());
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
 
@@ -124,8 +128,8 @@ public class GameController {
 
    public void saveGame(){
         fileHandler.serialize("uno_game.ser",game);
+        ProfileManager.saveCurrentProfile();
    }
-
 
     @FXML
     private void handleRobberButton() {

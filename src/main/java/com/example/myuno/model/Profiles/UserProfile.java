@@ -1,4 +1,4 @@
-package com.example.myuno.model.player;
+package com.example.myuno.model.Profiles;
 
 import java.io.Serializable;
 
@@ -23,7 +23,12 @@ public class UserProfile implements Serializable {
         return gamesWon;
     }
 
-
+    public void IncrementGamesPlayed(){
+        gamesPlayed++;
+    }
+    public void IncrementsGamesWon(){
+        gamesWon++;
+    }
 
     public String toFileString(){
         return name + "," + gamesPlayed + "," + gamesWon;

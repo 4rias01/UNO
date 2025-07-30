@@ -106,6 +106,7 @@
     -fx-pref-height: 110;
     -fx-background-radius: 15;
     -fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 0);
+    -fx-background-image: url("../../images/assets/SetupScene/profileIcon.png");
 }
 
 .user-textField{

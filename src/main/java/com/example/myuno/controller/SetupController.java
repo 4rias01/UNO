@@ -1,10 +1,10 @@
 package com.example.myuno.controller;
 
 import com.example.myuno.model.GameMaster;
-import com.example.myuno.model.PlainTextFiles.IPlainTextFileHandler;
-import com.example.myuno.model.PlainTextFiles.PlainTextFileHandler;
+import com.example.myuno.model.Profiles.ProfileManager;
 import com.example.myuno.model.planeSerializableFiles.ISeriazableFileHandler;
 import com.example.myuno.model.planeSerializableFiles.SerializableFileHandler;
+import com.example.myuno.model.Profiles.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.AnimationsManager;
 import com.example.myuno.view.managers.CursorManager;
@@ -18,7 +18,6 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 
 public class SetupController {
 
@@ -134,15 +133,18 @@ public class SetupController {
 
     @FXML
     private void handlePlayProfileButton(){
-        /*String name = nameTextField.getText().trim();
+        String name = nameTextField.getText().trim();
         if(name.isEmpty()) {
             System.out.println("Nombre vacío");
             return;
         }
-        IPlainTextFileHandler fileHandler = new PlainTextFileHandler();
-        String filename = name + "_profile.csv";
-        String data = fileHandler.readFromFile(filename);*/
-
+        try {
+            UserProfile user = ProfileManager.loadProfile(name);
+            System.out.println("perfil cargado"+ user.toFileString());
+        }catch (Exception e){
+            System.out.println("No se pudo cargar el perfil");
+        }
+        playProfileButton.setText("Listo");
     }
 
     private void setVisibleDialog(Boolean visible) {

@@ -47,7 +47,6 @@ public class ThreadPlayMachine extends Thread {
     private void putCardOnTheTable() {
             Card topCard = game.getCardOnDesk();
             Card cardToPlay = null;
-
             for (Card card : machinePlayer.getDeck()) {
                 if (card.canBePlayedOver(topCard)) {
                     cardToPlay = card;

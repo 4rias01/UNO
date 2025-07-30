@@ -44,7 +44,6 @@ public class GameMaster {
 
     public boolean playTurn(Card card) {
         Player current = context.getTurn() == GameContext.Turn.PLAYER1 ? playerOne : playerTwo;
-
         if (!card.canBePlayedOver(context.getLastCard())) {
             return false;
         }
@@ -133,6 +132,7 @@ public class GameMaster {
 
     public void passTurn() {
         context.nextTurn();
+
     }
 
 }

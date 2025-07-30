@@ -7,8 +7,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -136,6 +139,44 @@ public class SceneManager {
 
         return selectedColor[0] != null ? selectedColor[0] : com.example.myuno.model.card.Card.Color.RED;
     }
+
+    private static StackPane turnOverlay = null;
+
+    public static void showTurnText(String message) {
+        if (turnOverlay != null) {
+            ((Text) turnOverlay.getChildren().get(0)).setText(message);
+            return;
+        }
+
+        Text turnText = new Text(message);
+        turnText.setStyle("""
+        -fx-font-size: 40px;
+        -fx-font-weight: bold;
+        -fx-fill: white;
+        -fx-stroke: black;
+        -fx-stroke-width: 2px;
+    """);
+
+        turnOverlay = new StackPane(turnText);
+        turnOverlay.setPickOnBounds(false);
+        turnOverlay.setAlignment(Pos.TOP_CENTER);   
+        turnOverlay.setPadding(new Insets(10));
+
+
+        turnOverlay.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+        StackPane.setAlignment(turnText, Pos.TOP_CENTER);
+
+        Parent root = mainScene.getRoot();
+        if (root instanceof Pane pane) {
+            pane.getChildren().add(turnOverlay);
+
+
+            turnOverlay.prefWidthProperty().bind(pane.widthProperty());
+            turnOverlay.prefHeightProperty().bind(pane.heightProperty());
+        }
+    }
+
 
 
 }

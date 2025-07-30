@@ -10,13 +10,12 @@ import com.example.myuno.model.planeSerializableFiles.ISeriazableFileHandler;
 import com.example.myuno.model.planeSerializableFiles.SerializableFileHandler;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.model.Profiles.UserProfile;
+import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
-import java.io.File;
 
 public class GameController {
     public static GameController instance;
@@ -33,6 +32,8 @@ public class GameController {
     HBox deckOfPlayerTwo;
     @FXML
     Button robberButton;
+    @FXML
+    Button unoButton;
 
     private GameMaster game = new GameMaster(true);
     private ISeriazableFileHandler fileHandler = new SerializableFileHandler();
@@ -46,14 +47,27 @@ public class GameController {
         System.out.println("perfil en juego: "+this.userProfile.toFileString());
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
-
         Manager.applyGenericEvents(this.robberButton);
+        Manager.applyGenericEvents(this.unoButton);
+        this.setDisableRenderButton(true);
 
         this.renderCardOnDesk();
         this.renderPlayerOneDeck();
         this.renderPlayerTwoDeck();
 
-        this.game.startMachineThread(this.deckOfPlayerTwo, this.cardOnDeskView);
+        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+            Card topCard = this.game.getCardOnDesk();
+            boolean hasPlayableCard = false;
+
+            for (Card card : this.playerOne.getDeck()) {
+                if (card.canBePlayedOver(topCard)) {
+                    hasPlayableCard = true;
+                    break;
+                }
+            }
+
+            this.robberButton.setDisable(hasPlayableCard);
+        }
     }
 
     public void loadFiles(){
@@ -69,11 +83,11 @@ public class GameController {
 
     public void renderPlayerOneDeck() {
         this.deckOfPlayerOne.getChildren().clear();
-
         for (Card card : this.playerOne.getDeck()) {
             Button cardButton = this.createCardButton(card);
             this.deckOfPlayerOne.getChildren().add(cardButton);
         }
+        this.renderUnoButton(this.playerOne);
     }
 
     public void renderPlayerTwoDeck() {
@@ -85,13 +99,23 @@ public class GameController {
             image.setFitHeight(180.0);
             this.deckOfPlayerTwo.getChildren().add(image);
         }
+        this.renderUnoButton(this.playerTwo);
     }
 
-    private void renderCardOnDesk() {
+    public void renderCardOnDesk() {
         this.cardOnDesk = this.game.getCardOnDesk();
         this.cardOnDeskView.setImage(this.cardOnDesk.getFrontImage());
         this.cardOnDeskView.setPreserveRatio(true);
         this.cardOnDeskView.setFitHeight(180.0);
+    }
+
+    public void renderUnoButton(Player player) {
+        setDisableRenderButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
+    }
+
+    private void setDisableRenderButton(boolean disable) {
+        this.unoButton.setVisible(!disable);
+        this.unoButton.setDisable(disable);
     }
 
     private Button createCardButton(Card card) {
@@ -111,13 +135,13 @@ public class GameController {
     }
 
     private void handleCardPlayed(Card card) {
-        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+
+         if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             boolean played = this.game.playTurn(card);
             if (played) {
                 this.renderPlayerOneDeck();
                 this.renderPlayerTwoDeck();
                 this.renderCardOnDesk();
-                this.robberButton.setDisable(false);
                 saveGame();
 
             } else {
@@ -142,4 +166,36 @@ public class GameController {
         }
     }
 
+
+    public void onPlayerTurnStart() {
+        this.renderPlayerOneDeck();
+        this.renderPlayerTwoDeck();
+        this.renderCardOnDesk();
+        System.out.println("¡Es tu turno!");
+        SceneManager.showTurnText("Turno del Jugador");
+        this.robberButton.setDisable(false);
+
+        Card topCard = this.game.getCardOnDesk();
+        boolean hasPlayableCard = false;
+
+        for (Card card : this.playerOne.getDeck()) {
+            if (card.canBePlayedOver(topCard)) {
+                hasPlayableCard = true;
+                break;
+            }
+        }
+
+        this.robberButton.setDisable(hasPlayableCard);
+
+
+    }
+
+    public void onPlayer2TurnStart() {
+        SceneManager.showTurnText("Turno de la Maquina");
+    }
+
+    @FXML
+    private void handleUnoButton() {
+        this.setDisableRenderButton(true);
+    }
 }

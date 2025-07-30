@@ -11,4 +11,5 @@ public interface Player extends Serializable {
     public void addRandomCards(int size);
     public Card getCard();
     public ArrayList<Card> getDeck();
+    public boolean hasOneCard();
 }

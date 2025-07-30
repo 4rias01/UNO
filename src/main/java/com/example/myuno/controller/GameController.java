@@ -4,6 +4,7 @@ import com.example.myuno.model.GameContext.Turn;
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
+import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -33,10 +34,8 @@ public class GameController {
     @FXML
     public void initialize() {
         instance = this;
-
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
-
         Manager.applyGenericEvents(this.robberButton);
         Manager.applyGenericEvents(this.unoButton);
         this.setDisableRenderButton(true);
@@ -44,11 +43,24 @@ public class GameController {
         this.renderCardOnDesk();
         this.renderPlayerOneDeck();
         this.renderPlayerTwoDeck();
+
+        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+            Card topCard = this.game.getCardOnDesk();
+            boolean hasPlayableCard = false;
+
+            for (Card card : this.playerOne.getDeck()) {
+                if (card.canBePlayedOver(topCard)) {
+                    hasPlayableCard = true;
+                    break;
+                }
+            }
+
+            this.robberButton.setDisable(hasPlayableCard);
+        }
     }
 
     public void renderPlayerOneDeck() {
         this.deckOfPlayerOne.getChildren().clear();
-
         for (Card card : this.playerOne.getDeck()) {
             Button cardButton = this.createCardButton(card);
             this.deckOfPlayerOne.getChildren().add(cardButton);
@@ -101,13 +113,13 @@ public class GameController {
     }
 
     private void handleCardPlayed(Card card) {
-        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+
+         if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             boolean played = this.game.playTurn(card);
             if (played) {
                 this.renderPlayerOneDeck();
                 this.renderPlayerTwoDeck();
                 this.renderCardOnDesk();
-                this.robberButton.setDisable(false);
 
             } else {
                 System.out.println("¡Carta inválida!");
@@ -126,9 +138,36 @@ public class GameController {
         }
     }
 
+
+    public void onPlayerTurnStart() {
+        this.renderPlayerOneDeck();
+        this.renderPlayerTwoDeck();
+        this.renderCardOnDesk();
+        System.out.println("¡Es tu turno!");
+        SceneManager.showTurnText("Turno del Jugador");
+        this.robberButton.setDisable(false);
+
+        Card topCard = this.game.getCardOnDesk();
+        boolean hasPlayableCard = false;
+
+        for (Card card : this.playerOne.getDeck()) {
+            if (card.canBePlayedOver(topCard)) {
+                hasPlayableCard = true;
+                break;
+            }
+        }
+
+        this.robberButton.setDisable(hasPlayableCard);
+
+
+    }
+
+    public void onPlayer2TurnStart() {
+        SceneManager.showTurnText("Turno de la Maquina");
+    }
+
     @FXML
     private void handleUnoButton() {
         this.setDisableRenderButton(true);
     }
-
 }

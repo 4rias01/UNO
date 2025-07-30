@@ -1,5 +1,6 @@
 package com.example.myuno.model;
 
+import com.example.myuno.controller.GameController;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
 
@@ -60,8 +61,15 @@ public class GameContext {
         return turn;
     }
 
-    public void nextTurn() {
-        turn = turn == Turn.PLAYER1 ? Turn.PLAYER2 : Turn.PLAYER1;
+
+    public void nextTurn() { //Se cambió la función para agregar los turnos att.Nessa
+        if (turn == Turn.PLAYER1) {
+            turn = Turn.PLAYER2;
+            GameController.instance.onPlayer2TurnStart();
+        } else {
+            turn = Turn.PLAYER1;
+            GameController.instance.onPlayerTurnStart();
+        }
         setCurrentPlayer(turn);
         setNextPlayer(turn);
     }

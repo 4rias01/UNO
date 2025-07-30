@@ -17,48 +17,48 @@ import java.util.Random;
 public class GameMaster {
     private final Player playerOne;
     private final Player playerTwo;
-    private Player currentPlayer;
-    private ThreadPlayMachine threadPlayMachine;
     private Card cartOnDesk;
     private final CardFactory cardFactory = new CardFactory();
-    private GameContext context;
+    private final GameContext context;
 
     public GameMaster(Boolean playWithIA) {
-        playerOne = new HumanPlayerFactory().createPlayer();
-        playerTwo = playWithIA ?
+        this.playerOne = new HumanPlayerFactory().createPlayer();
+        this.playerTwo = playWithIA ?
                 new IAPlayerFactory().createPlayer() :
                 new HumanPlayerFactory().createPlayer();
 
-        cartOnDesk = generateFirstCard();
-        context = new GameContext(cartOnDesk, cartOnDesk.getColor(), GameContext.Turn.PLAYER1);
-        currentPlayer = playerOne;
+        this.cartOnDesk = this.generateFirstCard();
+        this.context = new GameContext(cartOnDesk, GameContext.Turn.PLAYER1, playerOne, playerTwo);
+        startMachineThread();
     }
 
-    public void startMachineThread() {
-        threadPlayMachine = new ThreadPlayMachine(this, playerTwo);
+    private void startMachineThread() {
+        ThreadPlayMachine threadPlayMachine = new ThreadPlayMachine(this, playerTwo);
         threadPlayMachine.start();
         threadPlayMachine.isDaemon();
     }
 
     public boolean playTurn(Card card) {
-        Player current = context.getTurn() == GameContext.Turn.PLAYER1 ? playerOne : playerTwo;
+        Player current = context.getCurrentPlayer();
 
         if (!card.canBePlayedOver(context.getLastCard())) {
+            System.out.println("Es imposile que leas esto");
             return false;
         }
 
         if (!current.getDeck().contains(card)) {
+            System.out.println("Es imposile que leas esto");
             return false;
         }
 
         current.getDeck().remove(card);
-        setCardOnDesk(card);
+        this.setCardOnDesk(card);
         if(card instanceof Special specialCard){
-            applyCardEffects(specialCard);
+            this.applyCardEffects(specialCard);
             GameController.instance.renderPlayerOneDeck();
             GameController.instance.renderPlayerTwoDeck();
         }
-        context.nextTurn();
+        this.context.nextTurn();
         return true;
     }
 
@@ -82,15 +82,12 @@ public class GameMaster {
     }
 
     public void setCardOnDesk(Card card) {
-        cartOnDesk = card;
-        context.setLastCard(card);
-        context.setCurrentColor(card.getColor());
-
+        this.cartOnDesk = card;
+        this.context.setLastCard(card);
     }
 
-    public void applyCardEffects(Special card){
-        Player nextPlayer = context.getTurn() == GameContext.Turn.PLAYER1? playerTwo : playerOne;
-        System.out.println("entro a applyCardEffects");
+    private void applyCardEffects(Special card){
+        Player nextPlayer = this.context.getNextPlayer();
         if(card instanceof Special specialCard){
             switch(specialCard.getType()) {
                 case DRAWFOUR:
@@ -99,19 +96,19 @@ public class GameMaster {
                             ? SceneManager.showColorSelectionWindow()
                             : chooseRandomColor();
                     ((DrawFourCard) card).changeColor(chosenColor);
-                    context.nextTurn();
+                    this.context.nextTurn();
 
                 break;
                 case DRAWTWO: nextPlayer.addRandomCards(2);
-                    context.nextTurn();
+                    this.context.nextTurn();
                     break;
                 case WILD:
-                    Card.Color chosenColor2 = (context.getTurn() == GameContext.Turn.PLAYER1)
+                    Card.Color chosenColor2 = (this.context.getTurn() == GameContext.Turn.PLAYER1)
                             ? SceneManager.showColorSelectionWindow()
                             : chooseRandomColor();
                     ((WildCard)card).changeColor(chosenColor2);
                     break;
-                case SKIP: context.nextTurn();
+                case SKIP: this.context.nextTurn();
                     break;
                 default: break;
             }
@@ -119,10 +116,10 @@ public class GameMaster {
     }
 
     public GameContext getContext() {
-        return context;
+        return this.context;
     }
 
-    public Card.Color chooseRandomColor() {
+    private Card.Color chooseRandomColor() {
         Card.Color[] colors = {Card.Color.RED, Card.Color.YELLOW, Card.Color.GREEN, Card.Color.BLUE};
         Random random = new Random();
         int index = random.nextInt(colors.length);
@@ -130,7 +127,7 @@ public class GameMaster {
     }
 
     public void passTurn() {
-        context.nextTurn();
+        this.context.nextTurn();
     }
 
 }

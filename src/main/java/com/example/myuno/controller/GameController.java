@@ -44,8 +44,6 @@ public class GameController {
         this.renderCardOnDesk();
         this.renderPlayerOneDeck();
         this.renderPlayerTwoDeck();
-
-        this.game.startMachineThread();
     }
 
     public void renderPlayerOneDeck() {
@@ -55,7 +53,7 @@ public class GameController {
             Button cardButton = this.createCardButton(card);
             this.deckOfPlayerOne.getChildren().add(cardButton);
         }
-        this.renderUnoButton();
+        this.renderUnoButton(this.playerOne);
     }
 
     public void renderPlayerTwoDeck() {
@@ -67,7 +65,7 @@ public class GameController {
             image.setFitHeight(180.0);
             this.deckOfPlayerTwo.getChildren().add(image);
         }
-        this.renderUnoButton();
+        this.renderUnoButton(this.playerTwo);
     }
 
     public void renderCardOnDesk() {
@@ -77,13 +75,8 @@ public class GameController {
         this.cardOnDeskView.setFitHeight(180.0);
     }
 
-    public void renderUnoButton() {
-        if (this.playerOne.hasOneCard() || this.playerTwo.hasOneCard()) {
-            this.setDisableRenderButton(false);
-        }
-        else {
-            this.setDisableRenderButton(true);
-        }
+    public void renderUnoButton(Player player) {
+        setDisableRenderButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
     }
 
     private void setDisableRenderButton(boolean disable) {
@@ -135,7 +128,7 @@ public class GameController {
 
     @FXML
     private void handleUnoButton() {
-
+        this.setDisableRenderButton(true);
     }
 
 }

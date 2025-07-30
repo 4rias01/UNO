@@ -51,18 +51,13 @@ public class ThreadPlayMachine extends Thread {
             }
 
             if (cardToPlay != null) {
-                System.out.println("IA juega: " + cardToPlay);
                 game.playTurn(cardToPlay);
                 GameController.instance.renderCardOnDesk();
             } else {
-                System.out.println("IA no puede jugar. Esperando para robar una carta...");
-
                 machinePlayer.addRandomCards(1);
-                GameController.instance.renderUnoButton();
+                GameController.instance.renderUnoButton(machinePlayer);
                 game.passTurn();
-                System.out.println("IA robó una carta y pasó el turno.");
             }
             GameController.instance.renderPlayerTwoDeck();
-
     }
 }

@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +14,7 @@
 
 <AnchorPane styleClass="AnchorPane" stylesheets="@SetupSceneStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myuno.controller.SetupController">
 
-    <ImageView fitHeight="130.0" fitWidth="130.0" layoutX="5" layoutY="5">
+    <ImageView fitHeight="130.0" fitWidth="130.0" layoutX="5.0" layoutY="5">
         <Image url="@../../images/assets/SetupScene/logo.png" />
     </ImageView>
 
@@ -81,6 +82,21 @@
                <Insets top="20.0" />
             </VBox.margin>
          </HBox>
+      </children>
+   </VBox>
+   <VBox alignment="CENTER" layoutX="1205.0" layoutY="10.0" prefHeight="200.0" prefWidth="150.0">
+      <children>
+         <Button fx:id="profile" mnemonicParsing="false" onAction="#handleProfile" styleClass="user-Button" text="Button" />
+         <TextField fx:id="nameTextField" disable="true" styleClass="user-textField" visible="false">
+            <VBox.margin>
+               <Insets top="15.0" />
+            </VBox.margin>
+         </TextField>
+         <Button fx:id="playProfileButton" disable="true" mnemonicParsing="false" onAction="#handlePlayProfileButton" styleClass="dialog-button" text="jugar" visible="false">
+            <VBox.margin>
+               <Insets top="7.0" />
+            </VBox.margin>
+         </Button>
       </children>
    </VBox>
 

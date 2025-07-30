@@ -1,6 +1,8 @@
 package com.example.myuno.controller;
 
 import com.example.myuno.model.GameMaster;
+import com.example.myuno.model.PlainTextFiles.IPlainTextFileHandler;
+import com.example.myuno.model.PlainTextFiles.PlainTextFileHandler;
 import com.example.myuno.model.planeSerializableFiles.ISeriazableFileHandler;
 import com.example.myuno.model.planeSerializableFiles.SerializableFileHandler;
 import com.example.myuno.view.SceneManager;
@@ -10,6 +12,7 @@ import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -30,15 +33,21 @@ public class SetupController {
     @FXML Button noButton;
 
     @FXML VBox continueDialog;
-    @FXML Button continueButton;
+    @FXML Button ContinueButton;
     @FXML Button newGameButton;
+
+    @FXML Button profile;
+    @FXML TextField nameTextField;
+    @FXML Button playProfileButton;
+
+
 
     @FXML
     private void initialize() {
         exitDialog.setVisible(false);
         exitDialog.setDisable(true);
-        /*continueDialog.setVisible(false);
-        continueDialog.setDisable(true);*/
+        continueDialog.setVisible(false);
+        continueDialog.setDisable(true);
 
         applyAnimations();
         setOnClickBack();
@@ -76,12 +85,12 @@ public class SetupController {
         ISeriazableFileHandler file = new SerializableFileHandler();
         Object obj = file.deserialize("uno_game.ser");
         if( obj instanceof GameMaster){
-            System.out.println("se encontro un archivo serializable");
+            System.out.println("se encontro una partida guardad");
             continueDialog.setVisible(true);
-            continueDialog.setVisible(false);
+            continueDialog.setDisable(false);
         }else{
             SceneManager.switchTo("GameScene");
-            System.out.println("No se encontro ningun fileHandler");
+            System.out.println("No se encontro partida guardada");
         }
     }
 
@@ -115,6 +124,27 @@ public class SetupController {
         }
     }
 
+    @FXML
+    private void handleProfile() {
+        nameTextField.setVisible(true);
+        nameTextField.setDisable(false);
+        playProfileButton.setVisible(true);
+        playProfileButton.setDisable(false);
+    }
+
+    @FXML
+    private void handlePlayProfileButton(){
+        /*String name = nameTextField.getText().trim();
+        if(name.isEmpty()) {
+            System.out.println("Nombre vacío");
+            return;
+        }
+        IPlainTextFileHandler fileHandler = new PlainTextFileHandler();
+        String filename = name + "_profile.csv";
+        String data = fileHandler.readFromFile(filename);*/
+
+    }
+
     private void setVisibleDialog(Boolean visible) {
         exitDialog.setVisible(visible);
         exitDialog.setDisable(!visible);
@@ -122,6 +152,7 @@ public class SetupController {
         onlineButton.setDisable(visible);
         hBoxExit.setDisable(visible);
     }
+
 
     private void setOnClickButton(Button button, Label label) {
         button.setOnMouseEntered(e -> {

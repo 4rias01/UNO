@@ -59,6 +59,7 @@ public class ThreadPlayMachine extends Thread {
                 System.out.println("IA juega: " + cardToPlay);
                 game.playTurn(cardToPlay);
                 tableImageView.setImage(cardToPlay.getFrontImage());
+
             } else {
                 System.out.println("IA no puede jugar. Esperando para robar una carta...");
 
@@ -79,4 +80,6 @@ public class ThreadPlayMachine extends Thread {
             deckOfPlayerTwo.getChildren().add(image);
         }
     }
+
+
 }

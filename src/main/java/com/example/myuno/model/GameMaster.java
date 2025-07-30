@@ -21,7 +21,7 @@ public class GameMaster implements Serializable {
     private final Player playerOne;
     private final Player playerTwo;
     private Player currentPlayer;
-    //private transient ThreadPlayMachine threadPlayMachine = null;
+    private transient ThreadPlayMachine threadPlayMachine;
     private Card cartOnDesk;
     private final CardFactory cardFactory = new CardFactory();
     private GameContext context;
@@ -38,9 +38,9 @@ public class GameMaster implements Serializable {
     }
 
     public void startMachineThread(HBox deckOfPlayerTwo, ImageView cardOnDeskView) {
-        ThreadPlayMachine thread = new ThreadPlayMachine(this, playerTwo, cardOnDeskView, deckOfPlayerTwo);
-        thread.start();
-        thread.isDaemon();
+        threadPlayMachine  = new ThreadPlayMachine(this, playerTwo, cardOnDeskView, deckOfPlayerTwo);
+        threadPlayMachine.start();
+        threadPlayMachine.isDaemon();
     }
 
     public boolean playTurn(Card card) {

@@ -82,13 +82,17 @@ public class SetupController {
     @FXML
     private void handleLocalButton() throws IOException {
         ISeriazableFileHandler file = new SerializableFileHandler();
-        Object obj = file.deserialize("uno_game.ser");
-        if( obj instanceof GameMaster){
-            System.out.println("se encontro una partida guardad");
-            continueDialog.setVisible(true);
-            continueDialog.setDisable(false);
-        }else{
-            SceneManager.switchTo("GameScene");
+        try{
+            Object obj = file.deserialize("uno_game.ser");
+            if (obj instanceof GameMaster) {
+                System.out.println("se encontro una partida guardad");
+                continueDialog.setVisible(true);
+                continueDialog.setDisable(false);
+            } else {
+                SceneManager.switchTo("GameScene");
+                System.out.println("No se encontro partida guardada");
+            }
+        }catch(Exception e){
             System.out.println("No se encontro partida guardada");
         }
     }
@@ -96,30 +100,38 @@ public class SetupController {
     @FXML
     private void handleContinueButton(){
         ISeriazableFileHandler file = new SerializableFileHandler();
-        Object obj = file.deserialize("uno_game.ser");
-        if( obj instanceof GameMaster){
-            try{
-                SceneManager.switchTo("GameScene");
-            }catch (IOException e){
-                e.printStackTrace();
+        try {
+            Object obj = file.deserialize("uno_game.ser");
+            if (obj instanceof GameMaster) {
+                try {
+                    SceneManager.switchTo("GameScene");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("No se pudo cargar la partida");
+                continueDialog.setVisible(false);
+                continueDialog.setDisable(true);
             }
-        }else{
+        }catch (Exception e){
             System.out.println("No se pudo cargar la partida");
-            continueDialog.setVisible(false);
-            continueDialog.setDisable(true);
         }
 
     }
     @FXML
     private void handleNewGameButton(){
-        File file = new File("uno_game.ser");
-        if(file.exists()){
-            file.delete();
-        }
-        try{
-            SceneManager.switchTo("GameScene");
-        }catch (IOException e){
-            e.printStackTrace();
+        try {
+            File file = new File("uno_game.ser");
+            if (file.exists()) {
+                file.delete();
+            }
+            try {
+                SceneManager.switchTo("GameScene");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }catch (Exception e){
+            System.out.println("no se encontro una partida");
         }
     }
 

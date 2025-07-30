@@ -50,4 +50,8 @@ public class ProfileManager {
         String fileName = PROFILES_DIR + profile.getName() + "_profiles.csv";
         new PlainTextFileHandler().writeToFile(fileName,profile.toFileString());
     }
+
+    public static void setCurrentProfile(UserProfile user){
+        currentProfile = user;
+    }
 }

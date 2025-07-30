@@ -53,6 +53,7 @@ public class ThreadPlayMachine extends Thread {
                 game.playTurn(cardToPlay);
                 GameController.instance.renderCardOnDesk();
 
+
             } else {
                 machinePlayer.addRandomCards(1);
                 GameController.instance.renderUnoButton(machinePlayer);

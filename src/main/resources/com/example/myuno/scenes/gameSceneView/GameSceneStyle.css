@@ -33,4 +33,12 @@
     -fx-pref-width: 250;
 }
 
+.save-button{
+    -fx-pref-height: 60;
+    -fx-pref-width: 60;
+    -fx-border-radius: 5;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/GameScene/saveIcon.png");
+}
+
 

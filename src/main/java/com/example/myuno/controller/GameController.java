@@ -34,6 +34,8 @@ public class GameController {
     Button robberButton;
     @FXML
     Button unoButton;
+    @FXML
+    Button saveButton;
 
     private GameMaster game = new GameMaster(true);
     private ISeriazableFileHandler fileHandler = new SerializableFileHandler();
@@ -71,12 +73,16 @@ public class GameController {
     }
 
     public void loadFiles(){
-        Object obj = fileHandler.deserialize("uno_game.ser");
-        if(obj instanceof GameMaster){
-            this.game = (GameMaster) obj;
-        }else{
-            this.game = new GameMaster(true);
-            fileHandler.serialize("uno_game.ser",game);
+        try {
+            Object obj = fileHandler.deserialize("uno_game.ser");
+            if (obj instanceof GameMaster) {
+                this.game = (GameMaster) obj;
+            } else {
+                this.game = new GameMaster(true);
+                fileHandler.serialize("uno_game.ser", game);
+            }
+        }catch (Exception e){
+            System.out.println("No hay partid previa guardada");
         }
 
     }
@@ -142,7 +148,6 @@ public class GameController {
                 this.renderPlayerOneDeck();
                 this.renderPlayerTwoDeck();
                 this.renderCardOnDesk();
-                saveGame();
 
             } else {
                 System.out.println("¡Carta inválida!");
@@ -152,7 +157,11 @@ public class GameController {
 
    public void saveGame(){
         fileHandler.serialize("uno_game.ser",game);
+        userProfile.IncrementGamesPlayed();
+        ProfileManager.setCurrentProfile(userProfile);
         ProfileManager.saveCurrentProfile();
+       System.out.println("Se guardo el juego");
+
    }
 
     @FXML
@@ -197,5 +206,10 @@ public class GameController {
     @FXML
     private void handleUnoButton() {
         this.setDisableRenderButton(true);
+    }
+
+    @FXML
+    private void setOnActionSaveButton(){
+        saveGame();
     }
 }

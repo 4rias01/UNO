@@ -14,13 +14,13 @@
         <ImageView fx:id="cardOnDeskView"/>
     </StackPane>
 
-    <StackPane layoutX="30"
+    <StackPane layoutX="990"
                AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
         <Button fx:id="robberButton"
                 styleClass="robber-button" onAction="#handleRobberButton"/>
     </StackPane>
 
-    <StackPane layoutX="1000"
+    <StackPane layoutX="220"
                AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
         <Button fx:id="unoButton"
                 styleClass="uno-button" onAction="#handleUnoButton"/>

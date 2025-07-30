@@ -9,12 +9,13 @@ import java.util.Objects;
 public class WildCard implements Card, Special {
     private  Color color;
     private final SpecialType specialType;
-    private  Image frontImage;
+    private String imagePath;
 
     public WildCard(){
         this.color = Color.BLACK;
         this.specialType = SpecialType.WILD;
-        this.frontImage = setFrontImage(color);
+        this.imagePath = "/com/example/myuno/images/cards/special/wildCard/"
+                +color.toString()+".png";
     }
 
     public Image setFrontImage(Color color){
@@ -25,7 +26,9 @@ public class WildCard implements Card, Special {
 
     @Override
     public Image getFrontImage() {
-        return frontImage;
+        return new Image(Objects.requireNonNull(Card.class.getResource(
+                "/com/example/myuno/images/cards/special/wildCard/"
+                        +color.toString()+".png")).toExternalForm());
     }
 
     @Override
@@ -45,7 +48,8 @@ public class WildCard implements Card, Special {
 
     public void changeColor(Color Newcolor){
         this.color = Newcolor;
-        this.frontImage =  setFrontImage(Newcolor);
+        this.imagePath = "/com/example/myuno/images/cards/special/wildCard/"
+                +Newcolor.toString()+".png";
 
     }
 }

@@ -9,12 +9,13 @@ import java.util.Objects;
 public class SkipCard implements Card, Special {
     private final Color color;
     private final SpecialType specialType;
-    private final Image frontImage;
+    private final String imagePath;
 
     public SkipCard(Color color){
         this.color = color;
         this.specialType = SpecialType.SKIP;
-        this.frontImage = setFrontImage(color);
+        this.imagePath = "/com/example/myuno/images/cards/special/skip/"
+                        +color.toString()+".png";
     }
 
     private Image setFrontImage(Color color){
@@ -25,7 +26,7 @@ public class SkipCard implements Card, Special {
 
     @Override
     public Image getFrontImage() {
-        return frontImage;
+        return new Image(Objects.requireNonNull(Card.class.getResource(imagePath)).toExternalForm());
     }
 
     @Override

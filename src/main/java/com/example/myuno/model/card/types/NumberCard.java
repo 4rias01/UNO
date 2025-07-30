@@ -9,12 +9,13 @@ import java.util.Objects;
 public class NumberCard implements Number, Card {
     private final int number;
     private final Color color;
-    private final Image frontImage;
+    private final String imagePath;
 
     public NumberCard(int number, Color color) {
         this.number = number;
         this.color = color;
-        frontImage = setFrontImage(number, color);
+        this.imagePath = "/com/example/myuno/images/cards/number/"
+                +color.toString()+"/"+number+".png";
     }
 
     public Image setFrontImage(int number, Color color) {
@@ -25,7 +26,8 @@ public class NumberCard implements Number, Card {
 
     @Override
     public Image getFrontImage() {
-        return frontImage;
+        return new Image(Objects.requireNonNull(Card.class.getResource(
+                imagePath)).toExternalForm());
     }
 
     @Override

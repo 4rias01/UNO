@@ -14,13 +14,14 @@ import com.example.myuno.view.SceneManager;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class GameMaster {
+public class GameMaster implements Serializable {
     private final Player playerOne;
     private final Player playerTwo;
     private Player currentPlayer;
-    private ThreadPlayMachine threadPlayMachine;
+    //private transient ThreadPlayMachine threadPlayMachine = null;
     private Card cartOnDesk;
     private final CardFactory cardFactory = new CardFactory();
     private GameContext context;
@@ -37,9 +38,9 @@ public class GameMaster {
     }
 
     public void startMachineThread(HBox deckOfPlayerTwo, ImageView cardOnDeskView) {
-        threadPlayMachine = new ThreadPlayMachine(this, playerTwo, cardOnDeskView, deckOfPlayerTwo);
-        threadPlayMachine.start();
-        threadPlayMachine.isDaemon();
+        ThreadPlayMachine thread = new ThreadPlayMachine(this, playerTwo, cardOnDeskView, deckOfPlayerTwo);
+        thread.start();
+        thread.isDaemon();
     }
 
     public boolean playTurn(Card card) {

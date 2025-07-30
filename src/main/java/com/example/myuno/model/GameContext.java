@@ -2,7 +2,9 @@ package com.example.myuno.model;
 
 import com.example.myuno.model.card.Card;
 
-public class GameContext {
+import java.io.Serializable;
+
+public class GameContext implements Serializable {
     private Card lastCard;
     private Card.Color currentColor;
     public enum Turn{

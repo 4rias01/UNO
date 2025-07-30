@@ -3,6 +3,8 @@ package com.example.myuno.controller;
 import com.example.myuno.model.GameContext.Turn;
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.card.Card;
+import com.example.myuno.model.planeSerializableFiles.ISeriazableFileHandler;
+import com.example.myuno.model.planeSerializableFiles.SerializableFileHandler;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
@@ -26,12 +28,19 @@ public class GameController {
     @FXML
     Button robberButton;
 
-    private final GameMaster game = new GameMaster(true);
+    private GameMaster game = new GameMaster(true);
+    private ISeriazableFileHandler fileHandler = new SerializableFileHandler();
 
     @FXML
     public void initialize() {
         instance = this;
-
+        Object obj = fileHandler.deserialize("uno_game.ser");
+        if(obj instanceof GameMaster){
+            this.game = (GameMaster) obj;
+        }else{
+            this.game = new GameMaster(true);
+            fileHandler.serialize("uno_game.ser",game);
+        }
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
 
@@ -95,12 +104,18 @@ public class GameController {
                 this.renderPlayerTwoDeck();
                 this.renderCardOnDesk();
                 this.robberButton.setDisable(false);
+                saveGame();
 
             } else {
                 System.out.println("¡Carta inválida!");
             }
         }
     }
+
+   public void saveGame(){
+        fileHandler.serialize("uno_game.ser",game);
+   }
+
 
     @FXML
     private void handleRobberButton() {

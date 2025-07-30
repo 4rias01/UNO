@@ -3,9 +3,10 @@ package com.example.myuno.model.card;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public interface Card {
+public interface Card extends Serializable {
     public enum Color{
         RED,
         GREEN,

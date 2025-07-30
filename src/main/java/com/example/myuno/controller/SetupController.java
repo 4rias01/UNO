@@ -1,5 +1,8 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.model.GameMaster;
+import com.example.myuno.model.planeSerializableFiles.ISeriazableFileHandler;
+import com.example.myuno.model.planeSerializableFiles.SerializableFileHandler;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.AnimationsManager;
 import com.example.myuno.view.managers.CursorManager;
@@ -10,7 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 public class SetupController {
 
@@ -24,10 +29,17 @@ public class SetupController {
     @FXML Button yesButton;
     @FXML Button noButton;
 
+    @FXML VBox continueDialog;
+    @FXML Button continueButton;
+    @FXML Button newGameButton;
+
     @FXML
     private void initialize() {
         exitDialog.setVisible(false);
         exitDialog.setDisable(true);
+        /*continueDialog.setVisible(false);
+        continueDialog.setDisable(true);*/
+
         applyAnimations();
         setOnClickBack();
     }
@@ -61,7 +73,46 @@ public class SetupController {
 
     @FXML
     private void handleLocalButton() throws IOException {
-        SceneManager.switchTo("GameScene");
+        ISeriazableFileHandler file = new SerializableFileHandler();
+        Object obj = file.deserialize("uno_game.ser");
+        if( obj instanceof GameMaster){
+            System.out.println("se encontro un archivo serializable");
+            continueDialog.setVisible(true);
+            continueDialog.setVisible(false);
+        }else{
+            SceneManager.switchTo("GameScene");
+            System.out.println("No se encontro ningun fileHandler");
+        }
+    }
+
+    @FXML
+    private void handleContinueButton(){
+        ISeriazableFileHandler file = new SerializableFileHandler();
+        Object obj = file.deserialize("uno_game.ser");
+        if( obj instanceof GameMaster){
+            try{
+                SceneManager.switchTo("GameScene");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }else{
+            System.out.println("No se pudo cargar la partida");
+            continueDialog.setVisible(false);
+            continueDialog.setDisable(true);
+        }
+
+    }
+    @FXML
+    private void handleNewGameButton(){
+        File file = new File("uno_game.ser");
+        if(file.exists()){
+            file.delete();
+        }
+        try{
+            SceneManager.switchTo("GameScene");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     private void setVisibleDialog(Boolean visible) {

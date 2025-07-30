@@ -11,8 +11,6 @@ import com.example.myuno.model.player.Player;
 import com.example.myuno.model.player.factory.HumanPlayerFactory;
 import com.example.myuno.model.player.factory.IAPlayerFactory;
 import com.example.myuno.view.SceneManager;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 
 import java.util.Random;
 
@@ -36,8 +34,8 @@ public class GameMaster {
         currentPlayer = playerOne;
     }
 
-    public void startMachineThread(HBox deckOfPlayerTwo, ImageView cardOnDeskView) {
-        threadPlayMachine = new ThreadPlayMachine(this, playerTwo, cardOnDeskView, deckOfPlayerTwo);
+    public void startMachineThread() {
+        threadPlayMachine = new ThreadPlayMachine(this, playerTwo);
         threadPlayMachine.start();
         threadPlayMachine.isDaemon();
     }

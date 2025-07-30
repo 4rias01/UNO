@@ -26,4 +26,11 @@
     -fx-pref-width: 300;
 }
 
+.uno-button{
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/GameScene/unoButton.png");
+    -fx-pref-height: 250;
+    -fx-pref-width: 250;
+}
+
 

@@ -29,4 +29,8 @@ public abstract class AbstractPlayer implements Player {
     public ArrayList<Card> getDeck(){
         return null;
     }
+
+    public boolean hasOneCard() {
+        return deck.size() == 1;
+    }
 }

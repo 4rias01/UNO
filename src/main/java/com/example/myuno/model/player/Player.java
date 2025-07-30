@@ -10,4 +10,5 @@ public interface Player {
     public void addRandomCards(int size);
     public Card getCard();
     public ArrayList<Card> getDeck();
+    public boolean hasOneCard();
 }

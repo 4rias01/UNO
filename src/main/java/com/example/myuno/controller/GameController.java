@@ -57,9 +57,7 @@ public class GameController {
 
             this.robberButton.setDisable(hasPlayableCard);
         }
-
-        this.game.startMachineThread(this.deckOfPlayerTwo, this.cardOnDeskView);
-
+    }
 
     public void renderPlayerOneDeck() {
         this.deckOfPlayerOne.getChildren().clear();

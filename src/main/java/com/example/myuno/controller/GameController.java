@@ -1,6 +1,7 @@
 package com.example.myuno.controller;
 
 import com.example.myuno.exceptions.InvalidCardImageException;
+import com.example.myuno.exceptions.SceneLoadException;
 import com.example.myuno.model.gamelogic.game.GameContext.Turn;
 import com.example.myuno.model.gamelogic.game.GameFileHandler;
 import com.example.myuno.model.gamelogic.game.GameManager;
@@ -228,7 +229,11 @@ public class GameController {
     private void onAcceptGameOver() throws IOException {
         GameFileHandler.deleteGameFile();
         ProfileFileHandler.deleteProfile(GameManager.getCurrentUser());
-        SceneManager.switchTo("SetupScene");
+        try{
+            SceneManager.switchTo("SetupScene");
+        }catch (SceneLoadException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void showGameOverMessage(String message) {

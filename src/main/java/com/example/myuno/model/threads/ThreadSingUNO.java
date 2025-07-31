@@ -9,6 +9,7 @@ public class ThreadSingUNO extends Thread {
     private final Player playerTwo;
     private boolean playerOneAlreadySingUno = false;
     private boolean playerTwoAlreadySingUno = false;
+    private volatile boolean running = true;
 
     public ThreadSingUNO(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
@@ -17,7 +18,7 @@ public class ThreadSingUNO extends Thread {
 
     @Override
     public void run() {
-        while (true){
+        while (running){
             if (playerOne.getDeck().size()==1 || playerTwo.getDeck().size()==1){
                 try{
                     actualiceHasAlreadySingUno();
@@ -101,5 +102,9 @@ public class ThreadSingUNO extends Thread {
             return true;
         }
         return false;
+    }
+
+    public void stopRunning() {
+        running = false;
     }
 }

@@ -56,4 +56,15 @@
         </HBox>
     </StackPane>
 
+    <VBox fx:id="gameOverDialog"
+          styleClass="game-over-dialog"
+          alignment="CENTER"
+          visible="false" disable="true"
+          layoutX="400" layoutY="200">
+
+        <Label fx:id="lblGameOverMessage" styleClass="game-over-label"/>
+        <Button text="Aceptar" onAction="#onAcceptGameOver" styleClass="accept-button"/>
+    </VBox>
+
+
 </AnchorPane>

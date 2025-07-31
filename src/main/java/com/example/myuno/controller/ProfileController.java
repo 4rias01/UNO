@@ -35,16 +35,19 @@ public class ProfileController {
     @FXML
     private void handleOneButton() {
         selectedPath = getStringPath(profileImageOne);
+        updateSelectButtonState();
     }
 
     @FXML
     private void handleTwoButton() {
         selectedPath = getStringPath(profileImageTwo);
+        updateSelectButtonState();
     }
 
     @FXML
     private void handleThreeButton() {
         selectedPath = getStringPath(profileImageThree);
+        updateSelectButtonState();
     }
 
     @FXML
@@ -62,20 +65,28 @@ public class ProfileController {
 
     private void initTextFieldListener(TextField textField) {
         textField.textProperty().addListener((obs, oldText, newText) -> {
-            String withoutNumbers = newText.replaceAll("[0-9,@]", "");
-            String text = withoutNumbers.trim();
+            String cleaned = newText.replaceAll("[^A-Za-z]", "");
 
-            if (text.length() > 10) {
-                text = text.substring(0, 10);
+            if (cleaned.length() > 10) {
+                cleaned = cleaned.substring(0, 10);
             }
 
-            if (!text.equals(newText)) {
-                userNameTextField.setText(text);
+            if (!cleaned.equals(newText)) {
+                textField.setText(cleaned);
             }
 
-            selectButton.setDisable(text.length() <= 3 && (selectedPath == null || selectedPath.isEmpty()));
+            updateSelectButtonState();
         });
     }
+
+    private void updateSelectButtonState() {
+        String text = userNameTextField.getText().trim();
+        boolean isNameValid = text.length() >= 3;
+        boolean isAvatarSelected = selectedPath != null && !selectedPath.isEmpty();
+
+        selectButton.setDisable(!(isNameValid && isAvatarSelected));
+    }
+
 
     private String getStringPath(Button button) {
         String rutaImagen = null;

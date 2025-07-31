@@ -24,13 +24,19 @@
     -fx-effect: dropshadow(gaussian, #7676f8, 50, 0.9, 0, 0);
 }
 
+.button-profile{
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/SetupScene/profilePic.jpg");
+    -fx-pref-height: 100;
+    -fx-pref-width: 100;
+}
 
 .Button.local{
     -fx-background-image: url("../../images/assets/SetupScene/local.png");
 }
 
-.Button.online{
-    -fx-background-image: url("../../images/assets/SetupScene/online.png");
+.Button.continue{
+    -fx-background-image: url("../../images/assets/SetupScene/continue.png");
 }
 
 

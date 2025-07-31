@@ -13,7 +13,7 @@ public class Main extends Application {
     public void start(Stage mainStage) throws IOException {
 
         SceneManager.setStage(mainStage);
-        SceneManager.switchTo("HomeScene");
+        SceneManager.switchTo("ProfileScene");
 
         mainStage.setTitle("MyUno");
         mainStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(

@@ -23,6 +23,7 @@ public class SetupController {
     @FXML VBox exitDialog;
     @FXML Button yesButton;
     @FXML Button noButton;
+    @FXML Button profileButton;
 
     @FXML
     private void initialize() {
@@ -36,6 +37,7 @@ public class SetupController {
         Manager.applyGenericEvents(hBoxExit);
         Manager.applyGenericEvents(yesButton);
         Manager.applyGenericEvents(noButton);
+        Manager.applyGenericEvents(profileButton);
 
         setOnClickButton(localButton, localLabel);
         setOnClickButton(onlineButton, onlineLabel);
@@ -62,6 +64,11 @@ public class SetupController {
     @FXML
     private void handleLocalButton() throws IOException {
         SceneManager.switchTo("GameScene");
+    }
+
+    @FXML
+    private void handleProfileButton() throws IOException {
+        SceneManager.switchTo("ProfileScene");
     }
 
     private void setVisibleDialog(Boolean visible) {

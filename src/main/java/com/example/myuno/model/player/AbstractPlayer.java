@@ -34,8 +34,7 @@ public abstract class AbstractPlayer implements Player {
      * Constructs a new {@code AbstractPlayer} with a randomly generated initial hand of 5 cards.
      */
     public AbstractPlayer() {
-        //deck = getUnoCards();
-        deck = this.getOnlyTwoCards();
+        deck = factory.getRandomDeck(2);
     }
 
     /**
@@ -96,13 +95,6 @@ public abstract class AbstractPlayer implements Player {
         return hasSingUno;
     }
 
-    public ArrayList<Card> getUnoCards() {
-        return factory.getRandomDeck(3);
-    }
-    public ArrayList<Card> getOnlyTwoCards() {
-        return new ArrayList<>();
-    }
-
     /**
      * Sets the UNO declaration status for the player.
      *
@@ -111,4 +103,10 @@ public abstract class AbstractPlayer implements Player {
     public void singUno(boolean hasSing) {
         this.hasSingUno = hasSing;
     }
+
+    public ArrayList<Card> getOnlyTwoCards() {
+        return new ArrayList<>();
+    }
 }
+
+

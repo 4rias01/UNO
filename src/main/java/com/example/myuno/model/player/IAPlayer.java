@@ -20,8 +20,6 @@ public class IAPlayer extends AbstractPlayer {
      */
     public IAPlayer() {
         super();
-        deck.add(factory.createRandomCard());
-        deck.add(factory.createRandomCard());
     }
 
     /**

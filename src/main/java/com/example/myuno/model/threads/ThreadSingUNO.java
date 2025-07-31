@@ -30,7 +30,7 @@ public class ThreadSingUNO extends Thread {
                 Platform.runLater(()->{
                     actualiceHasAlreadySingUno();
                     if(playerOne.getDeck().size()==1 && playerTwo.getDeck().size()==1){
-                        singUNO(playerOne, playerTwo);
+                        singUNO(playerTwo);
                     } else if (playerOne.getDeck().size()==1) {
                         singUNO(playerOne);
                     } else if (playerTwo.getDeck().size()==1) {

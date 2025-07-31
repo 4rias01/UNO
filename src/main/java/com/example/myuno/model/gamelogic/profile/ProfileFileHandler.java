@@ -41,4 +41,16 @@ public class ProfileFileHandler {
             return user;
         }
     }
+
+    public static void deleteProfile(String userName) {
+        String fileName = "profiles/" + userName + "_profile.csv";
+        File profileFile = new File(fileName);
+        if (profileFile.exists()) {
+            if (profileFile.delete()) {
+                System.out.println("eliminado el perfil de " + userName);
+            }else {
+                System.out.println("No se pudo eliminar el perfil de " + userName);
+            }
+        }
+    }
 }

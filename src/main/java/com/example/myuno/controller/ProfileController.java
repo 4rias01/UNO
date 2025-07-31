@@ -1,29 +1,21 @@
 package com.example.myuno.controller;
 
-import com.example.myuno.model.saves.profile.ProfileManager;
-import com.example.myuno.model.saves.profile.UserProfile;
+import com.example.myuno.model.saves.plane.profile.ProfileManager;
+import com.example.myuno.model.saves.plane.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class ProfileController {
-    @FXML
-    Button profileImageOne;
-    @FXML
-    Button profileImageTwo;
-    @FXML
-    Button profileImageThree;
-    @FXML
-    Button selectButton;
-    @FXML
-    TextField userNameTextField;
+    @FXML Button profileImageOne;
+    @FXML Button profileImageTwo;
+    @FXML Button profileImageThree;
+    @FXML Button selectButton;
+    @FXML TextField userNameTextField;
 
     String selectedPath;
 

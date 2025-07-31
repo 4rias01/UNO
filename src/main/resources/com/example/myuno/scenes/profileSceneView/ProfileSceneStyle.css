@@ -19,22 +19,22 @@
 }
 
 .button-one{
-    -fx-pref-width: 180;
-    -fx-pref-height: 180;
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
     -fx-background-color: transparent;
     -fx-background-image: url("../../images/assets/ProfileScene/image2.png");
 }
 
 .button-two{
-    -fx-pref-width: 180;
-    -fx-pref-height: 180;
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
     -fx-background-color: transparent;
     -fx-background-image: url("../../images/assets/ProfileScene/image3.png");
 }
 
 .button-three{
-    -fx-pref-width: 180;
-    -fx-pref-height: 180;
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
     -fx-background-color: transparent;
     -fx-background-image: url("../../images/assets/ProfileScene/image4.png");
 }

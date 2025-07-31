@@ -1,8 +1,8 @@
 package com.example.myuno.controller;
 
-import com.example.myuno.model.saves.profile.ProfileFileHandler;
-import com.example.myuno.model.saves.profile.ProfileManager;
-import com.example.myuno.model.saves.profile.UserProfile;
+import com.example.myuno.model.saves.plane.profile.ProfileFileHandler;
+import com.example.myuno.model.saves.plane.profile.ProfileManager;
+import com.example.myuno.model.saves.plane.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.AnimationsManager;
 import com.example.myuno.view.managers.CursorManager;

@@ -1,6 +1,6 @@
-package com.example.myuno.model.saves.profile;
+package com.example.myuno.model.saves.plane.profile;
 
-import com.example.myuno.model.saves.planetext.PlaneTextFileHandler;
+import com.example.myuno.model.saves.plane.PlaneTextFileHandler;
 
 import java.io.*;
 

@@ -1,10 +1,4 @@
-package com.example.myuno.model.saves.profile;
-
-import com.example.myuno.model.saves.planetext.PlaneTextFileHandler;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.util.Objects;
+package com.example.myuno.model.saves.plane.profile;
 
 public class ProfileManager{
     private static UserProfile currentProfile = new UserProfile("invitado", path());

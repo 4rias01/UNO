@@ -1,4 +1,4 @@
-package com.example.myuno.model.saves.planetext;
+package com.example.myuno.model.saves.plane;
 
 public interface IPlaneTextFileHandler {
     void writeToFile(String fileName, String content);

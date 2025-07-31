@@ -1,8 +1,8 @@
-package com.example.myuno.model.machine;
+package com.example.myuno.model.threads;
 
 import com.example.myuno.controller.GameController;
-import com.example.myuno.model.GameContext;
-import com.example.myuno.model.GameMaster;
+import com.example.myuno.model.gamelogic.game.GameContext;
+import com.example.myuno.model.gamelogic.game.GameMaster;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
 import javafx.application.Platform;

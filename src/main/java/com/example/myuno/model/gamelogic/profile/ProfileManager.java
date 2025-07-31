@@ -1,4 +1,4 @@
-package com.example.myuno.model.saves.plane.profile;
+package com.example.myuno.model.gamelogic.profile;
 
 public class ProfileManager{
     private static UserProfile currentProfile = new UserProfile("invitado", path());

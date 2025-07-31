@@ -1,4 +1,4 @@
-package com.example.myuno.model.saves.plane.profile;
+package com.example.myuno.model.gamelogic.profile;
 
 import com.example.myuno.model.saves.plane.PlaneTextFileHandler;
 

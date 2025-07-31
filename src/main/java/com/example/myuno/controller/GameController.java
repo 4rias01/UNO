@@ -1,11 +1,13 @@
 package com.example.myuno.controller;
 
-import com.example.myuno.model.GameContext.Turn;
-import com.example.myuno.model.GameMaster;
+import com.example.myuno.model.gamelogic.game.GameContext.Turn;
+import com.example.myuno.model.gamelogic.game.GameFileHandler;
+import com.example.myuno.model.gamelogic.game.GameManager;
+import com.example.myuno.model.gamelogic.game.GameMaster;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
-import com.example.myuno.model.saves.plane.profile.ProfileManager;
-import com.example.myuno.model.saves.plane.profile.UserProfile;
+import com.example.myuno.model.gamelogic.profile.ProfileManager;
+import com.example.myuno.model.gamelogic.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
@@ -34,7 +36,7 @@ public class GameController {
     @FXML Label playerName;
     @FXML ImageView playerImage;
 
-    private final GameMaster game = new GameMaster(true);
+    private final GameMaster game = GameManager.getGameMaster();
 
     @FXML
     public void initialize() {
@@ -88,11 +90,12 @@ public class GameController {
             this.deckOfPlayerTwo.getChildren().add(image);
         }
         this.renderUnoButton(this.playerTwo);
+        GameFileHandler.saveGame();
     }
 
     public void renderCardOnDesk() {
         this.cardOnDesk = this.game.getCardOnDesk();
-        this.cardOnDeskView.setImage(this.cardOnDesk.getFrontImage());
+        this.cardOnDeskView.setImage(this.createImageFromCard(this.cardOnDesk));
         this.cardOnDeskView.setPreserveRatio(true);
         this.cardOnDeskView.setFitHeight(180.0);
     }
@@ -111,7 +114,7 @@ public class GameController {
         button.getStyleClass().add("card-button");
         button.setPrefSize(60.0, 90.0);
 
-        ImageView imageView = new ImageView(card.getFrontImage());
+        ImageView imageView = new ImageView(createImageFromCard(card));
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(180.0);
         button.setGraphic(imageView);
@@ -127,6 +130,7 @@ public class GameController {
          if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             boolean played = this.game.playTurn(card);
             if (played) {
+                GameFileHandler.saveGame();
                 this.renderPlayerOneDeck();
                 this.renderPlayerTwoDeck();
                 this.renderCardOnDesk();
@@ -185,5 +189,10 @@ public class GameController {
     @FXML
     private void handleBackButton() throws IOException {
         SceneManager.switchTo("SetupScene");
+    }
+
+    private Image createImageFromCard(Card card) {
+        Image image = new Image(Objects.requireNonNull(Card.class.getResource(card.getPathImage())).toExternalForm());
+        return image;
     }
 }

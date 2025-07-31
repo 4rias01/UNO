@@ -1,8 +1,11 @@
 package com.example.myuno.controller;
 
-import com.example.myuno.model.saves.plane.profile.ProfileFileHandler;
-import com.example.myuno.model.saves.plane.profile.ProfileManager;
-import com.example.myuno.model.saves.plane.profile.UserProfile;
+import com.example.myuno.model.gamelogic.game.GameFileHandler;
+import com.example.myuno.model.gamelogic.game.GameManager;
+import com.example.myuno.model.gamelogic.game.GameMaster;
+import com.example.myuno.model.gamelogic.profile.ProfileFileHandler;
+import com.example.myuno.model.gamelogic.profile.ProfileManager;
+import com.example.myuno.model.gamelogic.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.AnimationsManager;
 import com.example.myuno.view.managers.CursorManager;
@@ -70,6 +73,7 @@ public class SetupController {
 
     @FXML
     private void handleLocalButton() throws IOException {
+        GameFileHandler.createNewGame();
         ProfileFileHandler.createNewUser(userProfile);
         SceneManager.switchTo("GameScene");
     }
@@ -77,8 +81,10 @@ public class SetupController {
     @FXML
     private void handleContinueButton() throws IOException {
         UserProfile userProfile = ProfileFileHandler.loadUser(this.userProfile.getName());
+        GameMaster gameMaster = GameFileHandler.loadGame(this.userProfile.getName());
         assert userProfile != null;
         ProfileManager.setCurrentProfile(userProfile);
+        GameManager.setCurrentUser(userProfile.getName());
         SceneManager.switchTo("GameScene");
     }
 

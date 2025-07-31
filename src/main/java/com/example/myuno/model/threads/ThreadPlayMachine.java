@@ -61,7 +61,6 @@ public class ThreadPlayMachine extends Thread {
                 game.playTurn(cardToPlay);
                 GameController.instance.renderCardOnDesk();
             } else {
-                Thread.sleep(2000);
                 machinePlayer.addRandomCards(1);
                 GameController.instance.renderUnoButton();
                 game.passTurn();

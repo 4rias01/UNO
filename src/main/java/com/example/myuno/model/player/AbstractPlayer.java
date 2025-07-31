@@ -34,7 +34,7 @@ public abstract class AbstractPlayer implements Player {
      * Constructs a new {@code AbstractPlayer} with a randomly generated initial hand of 5 cards.
      */
     public AbstractPlayer() {
-        deck = factory.getRandomDeck(2);
+        deck = factory.getRandomDeck(5);
     }
 
     /**

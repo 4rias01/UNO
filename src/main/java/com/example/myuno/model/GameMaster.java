@@ -15,6 +15,7 @@ import com.example.myuno.view.SceneManager;
 import java.util.Random;
 
 public class GameMaster {
+
     private final Player playerOne;
     private final Player playerTwo;
     private Card cartOnDesk;

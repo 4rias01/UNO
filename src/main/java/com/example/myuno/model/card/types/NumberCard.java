@@ -9,12 +9,11 @@ import java.util.Objects;
 public class NumberCard implements Number, Card {
     private final int number;
     private final Color color;
-    private final Image frontImage;
+    private Image frontImage;
 
     public NumberCard(int number, Color color) {
         this.number = number;
         this.color = color;
-        frontImage = setFrontImage(number, color);
     }
 
     public Image setFrontImage(int number, Color color) {
@@ -25,6 +24,7 @@ public class NumberCard implements Number, Card {
 
     @Override
     public Image getFrontImage() {
+        frontImage = setFrontImage(number,color);
         return frontImage;
     }
 

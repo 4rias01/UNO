@@ -1,5 +1,6 @@
 package com.example.myuno.view;
 
+import com.example.myuno.exceptions.SceneLoadException;
 import com.example.myuno.view.managers.CursorManager;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -70,7 +71,7 @@ public class SceneManager {
             newRoot = loader.load();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SceneLoadException("No se pudo cargar la escena"+ sceneName, e);
         }
 
         CursorManager.applyGlobalCursor(mainScene);

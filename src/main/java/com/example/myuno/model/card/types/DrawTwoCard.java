@@ -9,12 +9,12 @@ import java.util.Objects;
 public class DrawTwoCard implements Card, Special {
     private final Color color;
     private final SpecialType specialType;
-    private final Image frontImage;
+    private Image frontImage;
 
     public DrawTwoCard(Color color){
         this.color = color;
         this.specialType = SpecialType.DRAWTWO;
-        this.frontImage = setFrontImage(color);
+
     }
 
     private Image setFrontImage(Color color){
@@ -25,6 +25,7 @@ public class DrawTwoCard implements Card, Special {
 
     @Override
     public Image getFrontImage() {
+        frontImage = setFrontImage(color);
         return frontImage;
     }
 

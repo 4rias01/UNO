@@ -14,7 +14,6 @@ public class DrawFourCard implements Card, Special {
     public DrawFourCard() {
         this.color = Color.BLACK;
         this.specialType = SpecialType.DRAWFOUR;
-        this.frontImage = setFrontImage(color);
     }
 
     public Image setFrontImage(Color color){
@@ -25,6 +24,7 @@ public class DrawFourCard implements Card, Special {
 
     @Override
     public Image getFrontImage() {
+        frontImage = setFrontImage(color);
         return frontImage;
     }
 

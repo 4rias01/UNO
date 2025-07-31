@@ -1,9 +1,10 @@
 package com.example.myuno.model.player;
 
-import com.example.myuno.model.GameContext;
+
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.types.DrawFourCard;
 import com.example.myuno.model.card.types.NumberCard;
+import com.example.myuno.model.gamelogic.game.GameContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

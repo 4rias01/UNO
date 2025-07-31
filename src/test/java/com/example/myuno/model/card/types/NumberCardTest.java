@@ -31,8 +31,8 @@ public class NumberCardTest {
     }
 
     @Test
-    public void GetFrontImageNotNull(){
-        assertNotNull(yellowZero.getFrontImage());
+    public void GetPatchImageNotNull(){
+        assertNotNull(yellowZero.getPathImage());
     }
 
     @Test

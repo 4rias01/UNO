@@ -37,7 +37,7 @@ public class GameMaster implements Serializable {
                 new IAPlayerFactory().createPlayer() :
                 new HumanPlayerFactory().createPlayer();
 
-        this.cartOnDesk = new NumberCard(0, Card.Color.RED);
+        this.cartOnDesk = new NumberCard(0, Card.Color.GREEN);
         this.context = new GameContext(cartOnDesk, GameContext.Turn.PLAYER1, playerOne, playerTwo);
         startThreads();
     }

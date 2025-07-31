@@ -1,5 +1,7 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.exceptions.InvalidCardImageException;
+import com.example.myuno.exceptions.SceneLoadException;
 import com.example.myuno.model.gamelogic.game.GameContext.Turn;
 import com.example.myuno.model.gamelogic.game.GameFileHandler;
 import com.example.myuno.model.gamelogic.game.GameManager;
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
 public class GameController {
@@ -202,16 +205,35 @@ public class GameController {
         SceneManager.switchTo("SetupScene");
     }
 
+    /**
+     * Creates an image from the path of a Card.
+     * @param card the card from which the image will be obtained.
+     * @return the image corresponding to the card
+     * @throws InvalidCardImageException if the image can not be loaded or the path is invalid
+     */
     private Image createImageFromCard(Card card) {
-        Image image = new Image(Objects.requireNonNull(Card.class.getResource(card.getPathImage())).toExternalForm());
-        return image;
+        String path = card.getPathImage();
+        try {
+            URL UrlImage = Objects.requireNonNull(Card.class.getResource(path));
+            Image image = new Image(UrlImage.toExternalForm());
+            if (image.isError()){
+                throw new InvalidCardImageException("Error al cargar la imagen desde "+ path);
+            }
+            return image;
+        }catch (NullPointerException e){
+            throw new InvalidCardImageException("Ruta nula o invalida al cargar la imagen desde " + path);
+        }
     }
 
     @FXML
     private void onAcceptGameOver() throws IOException {
         GameFileHandler.deleteGameFile();
         ProfileFileHandler.deleteProfile(GameManager.getCurrentUser());
-        SceneManager.switchTo("SetupScene");
+        try{
+            SceneManager.switchTo("SetupScene");
+        }catch (SceneLoadException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void showGameOverMessage(String message) {

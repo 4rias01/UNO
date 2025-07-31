@@ -1,5 +1,6 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.exceptions.SceneLoadException;
 import com.example.myuno.model.gamelogic.game.GameManager;
 import com.example.myuno.model.gamelogic.profile.ProfileManager;
 import com.example.myuno.model.gamelogic.profile.UserProfile;
@@ -51,7 +52,12 @@ public class ProfileController {
         String playerName = userNameTextField.getText();
         ProfileManager.setCurrentProfile(new UserProfile(playerName, selectedPath));
         GameManager.setCurrentUser(playerName);
-        SceneManager.switchTo("SetupScene");
+        try{
+            SceneManager.switchTo("SetupScene");
+        }catch (SceneLoadException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void initTextFieldListener(TextField textField) {

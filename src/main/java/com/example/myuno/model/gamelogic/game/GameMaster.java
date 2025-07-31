@@ -14,6 +14,7 @@ import com.example.myuno.model.player.factory.IAPlayerFactory;
 import com.example.myuno.model.threads.ThreadSingUNO;
 import com.example.myuno.view.SceneManager;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -38,6 +39,7 @@ public class GameMaster implements Serializable {
         this.context = new GameContext(cartOnDesk, GameContext.Turn.PLAYER1, playerOne, playerTwo);
         startThreads();
     }
+
 
     private void startThreads() {
         if (threadPlayMachine == null || !threadPlayMachine.isAlive()) {

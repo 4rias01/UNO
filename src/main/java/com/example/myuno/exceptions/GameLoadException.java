@@ -6,7 +6,7 @@ package com.example.myuno.exceptions;
 public class GameLoadException extends RuntimeException {
     /**
      * Creates a new exception with the specifies message
-     * @param message
+     * @param message the error message
      */
     public GameLoadException(String message) {
         super(message);

@@ -30,6 +30,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
+/**
+ * Controller class for the main game scene in the MyUno application.
+ * <p>
+ * This class manages the UI components and game logic during the gameplay,
+ * including rendering player decks, handling user input, switching turns,
+ * and managing game over scenarios.
+ * </p>
+ */
 public class GameController {
     public static GameController instance;
     private boolean gameOver = false;
@@ -51,6 +59,10 @@ public class GameController {
 
     private final GameMaster game = GameManager.getGameMaster();
 
+    /**
+     * Initializes the controller after the FXML file has been loaded.
+     * Sets up player decks, profile information, and updates the initial UI state.
+     */
     @FXML
     public void initialize() {
         instance = this;
@@ -67,6 +79,14 @@ public class GameController {
         this.robberButton.setDisable(hasPlayableCard);
     }
 
+    /**
+     * Initializes all FXML elements and sets up the initial game state.
+     * <p>
+     * This method retrieves player data, sets the user's profile image and name,
+     * applies generic button events, disables the UNO button by default,
+     * and renders the initial state of the card on the desk and both players' decks.
+     * </p>
+     */
     private void initFxmlElements() {
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
@@ -84,6 +104,9 @@ public class GameController {
         this.renderPlayerTwoDeck();
     }
 
+    /**
+     * Renders the first player's deck on screen.
+     */
     public void renderPlayerOneDeck() {
         this.deckOfPlayerOne.getChildren().clear();
         for (Card card : this.playerOne.getDeck()) {
@@ -92,6 +115,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Renders the second player's (AI's) deck on screen.
+     * The back of the cards is displayed for secrecy.
+     */
     public void renderPlayerTwoDeck() {
         this.deckOfPlayerTwo.getChildren().clear();
 
@@ -104,6 +131,9 @@ public class GameController {
         GameFileHandler.saveGame();
     }
 
+    /**
+     * Updates the image view to show the current card on the desk.
+     */
     public void renderCardOnDesk() {
         this.cardOnDesk = this.game.getCardOnDesk();
         try{
@@ -115,15 +145,29 @@ public class GameController {
         this.cardOnDeskView.setFitHeight(180.0);
     }
 
+    /**
+     * Updates the UNO button visibility based on player conditions.
+     */
     public void renderUnoButton() {
         setDisableUnoButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
     }
 
+    /**
+     * Enables or disables the UNO button.
+     *
+     * @param disable whether the button should be disabled
+     */
     public void setDisableUnoButton(boolean disable) {
         this.unoButton.setVisible(!disable);
         this.unoButton.setDisable(disable);
     }
 
+    /**
+     * Called when the player clicks a card. If the move is valid,
+     * the game state and UI are updated accordingly.
+     *
+     * @param card the card that was played
+     */
     private Button createCardButton(Card card) {
         Button button = new Button();
         button.getStyleClass().add("card-button");
@@ -144,6 +188,13 @@ public class GameController {
         return button;
     }
 
+    /**
+     * Called when the player clicks a card. If the move is valid,
+     * the game state and UI are updated accordingly.
+     *
+     * @param card the card that was played
+     */
+
     private void handleCardPlayed(Card card) {
         if (gameOver) {return;}
          if (this.game.getContext().getTurn() == Turn.PLAYER1) {
@@ -160,6 +211,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the event when the player clicks the robber button to draw a card.
+     */
     @FXML
     private void handleRobberButton() {
         if (gameOver) {
@@ -175,7 +229,9 @@ public class GameController {
         }
     }
 
-
+    /**
+     * Called when the player's turn starts. Updates UI and checks available moves.
+     */
     public void onPlayerTurnStart() {
         this.renderPlayerOneDeck();
         this.renderPlayerTwoDeck();
@@ -197,17 +253,28 @@ public class GameController {
         this.robberButton.setDisable(hasPlayableCard);
     }
 
+    /**
+     * Called when the machine's turn starts. Updates the UI accordingly.
+     */
     public void onPlayer2TurnStart() {
 
         SceneManager.showTurnText("Turno de la Maquina");
     }
 
+    /**
+     * Handles the event when the player presses the UNO button.
+     */
     @FXML
     private void handleUnoButton() {
         playerOne.singUno(true);
         this.setDisableUnoButton(true);
     }
 
+    /**
+     * Navigates back to the setup scene when the back button is pressed.
+     *
+     * @throws IOException if the setup scene cannot be loaded
+     */
     @FXML
     private void handleBackButton() throws IOException {
         SceneManager.switchTo("SetupScene");
@@ -233,6 +300,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the confirmation of the game over dialog.
+     * Cleans up game data and navigates to the setup scene.
+     *
+     * @throws IOException if the scene cannot be loaded
+     */
     @FXML
     private void onAcceptGameOver() throws IOException {
         GameFileHandler.deleteGameFile();
@@ -244,6 +317,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Displays the game over message and shows a dialog.
+     * Also defines a custom behavior when the window is closed after game over.
+     *
+     * @param message the message to be displayed in the game over dialog
+     */
     public void showGameOverMessage(String message) {
         gameOver = true;
         lblGameOverMessage.setText(message);
@@ -268,9 +347,5 @@ public class GameController {
                 ex.printStackTrace();
             }
         });
-
-
     }
-
-
 }

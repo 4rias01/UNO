@@ -123,6 +123,7 @@ public class ProfileController {
         });
     }
 
+
     /**
      * Resolves the image path associated with a given button based on its style class.
      *
@@ -150,6 +151,7 @@ public class ProfileController {
      * and a profile image is selected.
      * </p>
      */
+
     private void updateSelectButtonState() {
         String text = userNameTextField.getText().replaceAll("[0-9,@]", "").trim();
         boolean isValidText = text.length() >= 3;
@@ -157,4 +159,6 @@ public class ProfileController {
 
         selectButton.setDisable(!(isValidText && isImageSelected));
     }
+
 }
+

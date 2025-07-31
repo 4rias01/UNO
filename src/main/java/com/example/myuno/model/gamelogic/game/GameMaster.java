@@ -7,10 +7,10 @@ import com.example.myuno.model.card.factory.CardFactory;
 import com.example.myuno.model.card.types.DrawFourCard;
 import com.example.myuno.model.card.types.NumberCard;
 import com.example.myuno.model.card.types.WildCard;
-import com.example.myuno.model.threads.ThreadPlayMachine;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.model.player.factory.HumanPlayerFactory;
 import com.example.myuno.model.player.factory.IAPlayerFactory;
+import com.example.myuno.model.threads.ThreadPlayMachine;
 import com.example.myuno.model.threads.ThreadSingUNO;
 import com.example.myuno.view.SceneManager;
 
@@ -36,6 +36,7 @@ public class GameMaster implements Serializable {
         this.playerTwo = playWithIA ?
                 new IAPlayerFactory().createPlayer() :
                 new HumanPlayerFactory().createPlayer();
+
 
         this.cartOnDesk = generateFirstCard();
         this.context = new GameContext(cartOnDesk, GameContext.Turn.PLAYER1, playerOne, playerTwo);

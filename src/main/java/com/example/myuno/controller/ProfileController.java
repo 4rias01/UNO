@@ -12,6 +12,13 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
+/**
+ * Controller class for the profile selection scene.
+ * <p>
+ * Allows the user to input a name, choose an avatar, and confirm profile creation.
+ * The profile is then stored and used throughout the game session.
+ * </p>
+ */
 public class ProfileController {
     @FXML Button profileImageOne;
     @FXML Button profileImageTwo;
@@ -21,6 +28,10 @@ public class ProfileController {
 
     String selectedPath;
 
+    /**
+     * Initializes the scene by applying effects to the buttons and
+     * setting up the text field listener for validation.
+     */
     @FXML
     void initialize() {
         Manager.applyGenericEvents(profileImageOne);
@@ -32,24 +43,39 @@ public class ProfileController {
         initTextFieldListener(userNameTextField);
     }
 
+    /**
+     * Handles the event when the first profile image is selected.
+     */
     @FXML
     private void handleOneButton() {
         selectedPath = getStringPath(profileImageOne);
         updateSelectButtonState();
     }
 
+    /**
+     * Handles the event when the second profile image is selected.
+     */
     @FXML
     private void handleTwoButton() {
         selectedPath = getStringPath(profileImageTwo);
         updateSelectButtonState();
     }
 
+    /**
+     * Handles the event when the third profile image is selected.
+     */
     @FXML
     private void handleThreeButton() {
         selectedPath = getStringPath(profileImageThree);
         updateSelectButtonState();
     }
 
+    /**
+     * Handles the selection confirmation by creating a new user profile
+     * and navigating to the setup scene.
+     *
+     * @throws IOException if the scene cannot be loaded
+     */
     @FXML
     private void handleSelectButton() throws IOException {
         String playerName = userNameTextField.getText();
@@ -63,6 +89,12 @@ public class ProfileController {
 
     }
 
+    /**
+     * Sets a listener on the text field to validate input.
+     * Only allows letters (A-Z, a-z) and limits the name to 10 characters.
+     *
+     * @param textField the text field to apply the listener to
+     */
     private void initTextFieldListener(TextField textField) {
         textField.textProperty().addListener((obs, oldText, newText) -> {
             String cleaned = newText.replaceAll("[^A-Za-z]", "");
@@ -79,6 +111,10 @@ public class ProfileController {
         });
     }
 
+    /**
+     * Enables or disables the "Select" button depending on whether
+     * a valid name and avatar have been selected.
+     */
     private void updateSelectButtonState() {
         String text = userNameTextField.getText().trim();
         boolean isNameValid = text.length() >= 3;
@@ -87,7 +123,12 @@ public class ProfileController {
         selectButton.setDisable(!(isNameValid && isAvatarSelected));
     }
 
-
+    /**
+     * Returns the image path corresponding to the selected avatar button.
+     *
+     * @param button the selected avatar button
+     * @return the corresponding image path as a string
+     */
     private String getStringPath(Button button) {
         String rutaImagen = null;
 

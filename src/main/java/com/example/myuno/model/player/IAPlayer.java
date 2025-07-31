@@ -9,11 +9,9 @@ import java.util.ArrayList;
 public class IAPlayer extends AbstractPlayer {
 
     public IAPlayer() {
-        deck.add(new NumberCard(0, Card.Color.RED));
-        deck.add(new NumberCard(0, Card.Color.RED));
-        deck.add(new NumberCard(0, Card.Color.RED));
-        deck.add(new NumberCard(0, Card.Color.RED));
-        deck.add(new NumberCard(0, Card.Color.RED));
+        deck.add(new NumberCard(0, Card.Color.GREEN));
+        deck.add(new NumberCard(0, Card.Color.GREEN));
+        deck.add(new NumberCard(0, Card.Color.GREEN));
     }
 
     @Override

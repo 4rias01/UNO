@@ -11,7 +11,6 @@ public class HumanPlayer extends AbstractPlayer {
     private Card selectedCard = null;
 
     public HumanPlayer() {
-        deck.add(new DrawFourCard());
         deck.add(new NumberCard(1, Card.Color.RED));
         deck.add(new NumberCard(1, Card.Color.RED));
         deck.add(new NumberCard(1, Card.Color.RED));

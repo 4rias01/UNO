@@ -50,12 +50,12 @@ public class IAPlayerTest {
 
     @Test
     void testPlayCard_WhenPlayableCardIsDrawFourTwo() {
-        Card topCard = new DrawFourCard();
+        Card topCard = new NumberCard(2,Card.Color.RED);
         GameContext context = new GameContext(topCard, GameContext.Turn.PLAYER2,player,iaPlayer);
-        Card matchingCard = new NumberCard(2,Card.Color.RED);
+        Card matchingCard = new DrawFourCard();
         iaPlayer.getDeck().add(matchingCard);
         Card played = iaPlayer.playCard(context);
-        assertTrue(played.canBePlayedOver(matchingCard));
+        assertTrue(played.canBePlayedOver(topCard));
     }
 
 }

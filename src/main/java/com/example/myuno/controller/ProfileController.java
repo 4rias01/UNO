@@ -13,24 +13,32 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 /**
- * Controller class for the profile selection scene.
+ * Controller for the profile selection scene in the UNO application.
  * <p>
- * Allows the user to input a name, choose an avatar, and confirm profile creation.
- * The profile is then stored and used throughout the game session.
+ * This class manages user interaction for selecting a profile image, entering a valid username,
+ * and confirming profile creation. Once complete, the profile is saved and the scene transitions
+ * to the setup phase.
  * </p>
  */
 public class ProfileController {
+
     @FXML Button profileImageOne;
     @FXML Button profileImageTwo;
     @FXML Button profileImageThree;
     @FXML Button selectButton;
     @FXML TextField userNameTextField;
 
+    /**
+     * Stores the path of the currently selected profile image.
+     */
     String selectedPath;
 
     /**
-     * Initializes the scene by applying effects to the buttons and
-     * setting up the text field listener for validation.
+     * Initializes the controller after the FXML components are loaded.
+     * <p>
+     * Applies standard UI effects to buttons and disables the select button by default.
+     * Also attaches a listener to the text field to validate input in real time.
+     * </p>
      */
     @FXML
     void initialize() {
@@ -44,7 +52,7 @@ public class ProfileController {
     }
 
     /**
-     * Handles the event when the first profile image is selected.
+     * Handles the action for selecting the first profile image.
      */
     @FXML
     private void handleOneButton() {
@@ -53,7 +61,7 @@ public class ProfileController {
     }
 
     /**
-     * Handles the event when the second profile image is selected.
+     * Handles the action for selecting the second profile image.
      */
     @FXML
     private void handleTwoButton() {
@@ -62,7 +70,7 @@ public class ProfileController {
     }
 
     /**
-     * Handles the event when the third profile image is selected.
+     * Handles the action for selecting the third profile image.
      */
     @FXML
     private void handleThreeButton() {
@@ -71,40 +79,44 @@ public class ProfileController {
     }
 
     /**
-     * Handles the selection confirmation by creating a new user profile
-     * and navigating to the setup scene.
+     * Handles the final confirmation when the user clicks the select button.
+     * <p>
+     * Creates a new {@link UserProfile}, updates global state, and switches to the setup scene.
+     * </p>
      *
-     * @throws IOException if the scene cannot be loaded
+     * @throws IOException if scene switching encounters an I/O error
      */
     @FXML
     private void handleSelectButton() throws IOException {
         String playerName = userNameTextField.getText();
         ProfileManager.setCurrentProfile(new UserProfile(playerName, selectedPath));
         GameManager.setCurrentUser(playerName);
-        try{
+        try {
             SceneManager.switchTo("SetupScene");
-        }catch (SceneLoadException e) {
+        } catch (SceneLoadException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     /**
-     * Sets a listener on the text field to validate input.
-     * Only allows letters (A-Z, a-z) and limits the name to 10 characters.
+     * Initializes a listener for the username text field to enforce input rules.
+     * <p>
+     * Input is automatically filtered to exclude digits, '@' characters, and limited to 10 characters.
+     * The select button is updated in real time based on input validity.
+     * </p>
      *
-     * @param textField the text field to apply the listener to
+     * @param textField the text field to monitor
      */
     private void initTextFieldListener(TextField textField) {
         textField.textProperty().addListener((obs, oldText, newText) -> {
-            String cleaned = newText.replaceAll("[^A-Za-z]", "");
+            String withoutNumbers = newText.replaceAll("[0-9,@]", "").trim();
 
-            if (cleaned.length() > 10) {
-                cleaned = cleaned.substring(0, 10);
+            if (withoutNumbers.length() > 10) {
+                withoutNumbers = withoutNumbers.substring(0, 10);
             }
 
-            if (!cleaned.equals(newText)) {
-                textField.setText(cleaned);
+            if (!withoutNumbers.equals(newText)) {
+                userNameTextField.setText(withoutNumbers);
             }
 
             updateSelectButtonState();
@@ -112,21 +124,9 @@ public class ProfileController {
     }
 
     /**
-     * Enables or disables the "Select" button depending on whether
-     * a valid name and avatar have been selected.
-     */
-    private void updateSelectButtonState() {
-        String text = userNameTextField.getText().trim();
-        boolean isNameValid = text.length() >= 3;
-        boolean isAvatarSelected = selectedPath != null && !selectedPath.isEmpty();
-
-        selectButton.setDisable(!(isNameValid && isAvatarSelected));
-    }
-
-    /**
-     * Returns the image path corresponding to the selected avatar button.
+     * Resolves the image path associated with a given button based on its style class.
      *
-     * @param button the selected avatar button
+     * @param button the button representing a profile image option
      * @return the corresponding image path as a string
      */
     private String getStringPath(Button button) {
@@ -141,5 +141,20 @@ public class ProfileController {
         }
 
         return rutaImagen;
+    }
+
+    /**
+     * Updates the enablement state of the select button.
+     * <p>
+     * The button is enabled only when a valid username (minimum 3 characters) is entered
+     * and a profile image is selected.
+     * </p>
+     */
+    private void updateSelectButtonState() {
+        String text = userNameTextField.getText().replaceAll("[0-9,@]", "").trim();
+        boolean isValidText = text.length() >= 3;
+        boolean isImageSelected = selectedPath != null && !selectedPath.isEmpty();
+
+        selectButton.setDisable(!(isValidText && isImageSelected));
     }
 }

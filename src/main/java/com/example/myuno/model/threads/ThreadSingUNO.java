@@ -4,6 +4,8 @@ import com.example.myuno.controller.GameController;
 import com.example.myuno.model.player.Player;
 import javafx.application.Platform;
 
+import java.util.Random;
+
 public class ThreadSingUNO extends Thread {
     private final Player playerOne;
     private final Player playerTwo;
@@ -18,12 +20,14 @@ public class ThreadSingUNO extends Thread {
 
     @Override
     public void run() {
+        Random random = new Random();
         while (running){
             if (playerOne.getDeck().size()==1 || playerTwo.getDeck().size()==1){
                 try{
                     actualiceHasAlreadySingUno();
                     GameController.instance.setDisableUnoButton(!canShowUnoButton());
-                    Thread.sleep(2000);
+                    int delay = 2000 + random.nextInt(2001);
+                    Thread.sleep(delay);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

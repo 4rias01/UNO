@@ -65,14 +65,14 @@ public class ProfileController {
 
     private void initTextFieldListener(TextField textField) {
         textField.textProperty().addListener((obs, oldText, newText) -> {
-            String cleaned = newText.replaceAll("[^A-Za-z]", "");
+            String withoutNumbers = newText.replaceAll("[0-9,@]", "").trim();
 
-            if (cleaned.length() > 10) {
-                cleaned = cleaned.substring(0, 10);
+            if (withoutNumbers.length() > 10) {
+                withoutNumbers = withoutNumbers.substring(0, 10);
             }
 
-            if (!cleaned.equals(newText)) {
-                textField.setText(cleaned);
+            if (!withoutNumbers.equals(newText)) {
+                userNameTextField.setText(withoutNumbers);
             }
 
             updateSelectButtonState();
@@ -101,4 +101,13 @@ public class ProfileController {
 
         return rutaImagen;
     }
+
+    private void updateSelectButtonState() {
+        String text = userNameTextField.getText().replaceAll("[0-9,@]", "").trim();
+        boolean isValidText = text.length() >= 3;
+        boolean isImageSelected = selectedPath != null && !selectedPath.isEmpty();
+
+        selectButton.setDisable(!(isValidText && isImageSelected));
+    }
+
 }

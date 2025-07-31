@@ -14,6 +14,9 @@ import com.example.myuno.model.player.factory.IAPlayerFactory;
 import com.example.myuno.model.threads.ThreadSingUNO;
 import com.example.myuno.view.SceneManager;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -32,6 +35,13 @@ public class GameMaster implements Serializable {
 
         this.cartOnDesk = new NumberCard(0, Card.Color.RED);
         this.context = new GameContext(cartOnDesk, GameContext.Turn.PLAYER1, playerOne, playerTwo);
+        startThreads();
+    }
+
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.cardFactory = new CardFactory();
         startThreads();
     }
 

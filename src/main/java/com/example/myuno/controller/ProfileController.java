@@ -52,6 +52,7 @@ public class ProfileController {
         ProfileManager.setCurrentProfile(new UserProfile(playerName, selectedPath));
         GameManager.setCurrentUser(playerName);
         SceneManager.switchTo("SetupScene");
+
     }
 
     private void initTextFieldListener(TextField textField) {

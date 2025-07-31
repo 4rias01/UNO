@@ -106,7 +106,11 @@ public class GameController {
 
     public void renderCardOnDesk() {
         this.cardOnDesk = this.game.getCardOnDesk();
-        this.cardOnDeskView.setImage(this.createImageFromCard(this.cardOnDesk));
+        try{
+            this.cardOnDeskView.setImage(this.createImageFromCard(this.cardOnDesk));
+        }catch (InvalidCardImageException e){
+            System.out.println(e.getMessage());
+        }
         this.cardOnDeskView.setPreserveRatio(true);
         this.cardOnDeskView.setFitHeight(180.0);
     }
@@ -125,10 +129,14 @@ public class GameController {
         button.getStyleClass().add("card-button");
         button.setPrefSize(60.0, 90.0);
 
-        ImageView imageView = new ImageView(createImageFromCard(card));
-        imageView.setPreserveRatio(true);
-        imageView.setFitHeight(180.0);
-        button.setGraphic(imageView);
+        try{
+            ImageView imageView = new ImageView(createImageFromCard(card));
+            imageView.setPreserveRatio(true);
+            imageView.setFitHeight(180.0);
+            button.setGraphic(imageView);
+        }catch (InvalidCardImageException e){
+            System.out.println(e.getMessage());
+        }
 
         Manager.applyCustomEvent(button, -10, -40, 1.1);
 

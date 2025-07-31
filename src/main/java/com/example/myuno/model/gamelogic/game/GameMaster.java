@@ -17,7 +17,9 @@ import com.example.myuno.view.SceneManager;
 import java.io.Serializable;
 import java.util.Random;
 
+
 public class GameMaster implements Serializable {
+
     private final Player playerOne;
     private final Player playerTwo;
     private Card cartOnDesk;

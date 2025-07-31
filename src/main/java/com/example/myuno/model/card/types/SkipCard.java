@@ -11,6 +11,7 @@ public class SkipCard implements Card, Special {
     private final SpecialType specialType;
     private final String pathImage;
 
+
     public SkipCard(Color color){
         this.color = color;
         this.specialType = SpecialType.SKIP;

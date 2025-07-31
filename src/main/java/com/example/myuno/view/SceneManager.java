@@ -1,3 +1,16 @@
+/**
+ * Responsible for loading, switching, and managing application scenes and overlays
+ * within the UNO game. Provides methods to initialize the primary stage,
+ * switch between FXML-based scenes, display modal color selection dialogs,
+ * and present turn indicators as overlays.
+ * <p>
+ * Relies on JavaFX components and custom exceptions to handle scene loading
+ * and user interactions consistently.
+ * </p>
+ *
+ @author Santiago Arias, Thomas Herrrera, Isabela Bermudez, Lady Matabanchoy.
+ * @version 1.0
+ */
 package com.example.myuno.view;
 
 import com.example.myuno.exceptions.SceneLoadException;
@@ -78,10 +91,27 @@ public class SceneManager {
         mainScene.setRoot(newRoot);
     }
 
+    /**
+     * Closes the primary application stage.
+     */
     public static void closeStage() {
         mainStage.close();
     }
 
+    /**
+     * Constructs a color selection rectangle with interactive handlers.
+     * <p>
+     * Creates a {@link Rectangle} of fixed dimensions and styling,
+     * associates a click handler to select the provided card color,
+     * and closes the dialog stage upon selection.
+     * </p>
+     *
+     * @param fxColor       the JavaFX {@link Color} to display
+     * @param cardColor     the corresponding game card color enum
+     * @param stageToClose  the {@link Stage} to close when selected
+     * @param selectedColor a single-element array to store the selected color
+     * @return a configured {@link Rectangle} node for color selection
+     */
     private static Rectangle createColorRect(
             Color fxColor,
             com.example.myuno.model.card.Card.Color cardColor,
@@ -108,7 +138,15 @@ public class SceneManager {
 
         return rect;
     }
-
+    /**
+     * Displays a modal dialog allowing the user to select a card color.
+     * <p>
+     * Presents a transparent stage with color options, waits for user input,
+     * and returns the selected color or a default if none is chosen.
+     * </p>
+     *
+     * @return the selected {@link com.example.myuno.model.card.Card.Color}
+     */
     public static com.example.myuno.model.card.Card.Color showColorSelectionWindow() {
         Stage colorStage = new Stage(StageStyle.TRANSPARENT);
         colorStage.initOwner(mainStage);
@@ -142,7 +180,16 @@ public class SceneManager {
     }
 
     private static StackPane turnOverlay = null;
-
+    /**
+     * Displays or updates an overlay at the top of the main scene
+     * to indicate the current player's turn.
+     * <p>
+     * If the overlay does not exist, it is created with styled text and
+     * added to the root pane. Otherwise, the existing text is updated.
+     * </p>
+     *
+     * @param message the text to display in the turn overlay
+     */
     public static void showTurnText(String message) {
         if (turnOverlay != null) {
             ((Text) turnOverlay.getChildren().get(0)).setText(message);

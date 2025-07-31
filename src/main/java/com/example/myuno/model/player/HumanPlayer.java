@@ -12,9 +12,9 @@ public class HumanPlayer extends AbstractPlayer {
 
     public HumanPlayer() {
         deck.add(new DrawFourCard());
-        deck.add(new DrawFourCard());
-        deck.add(new DrawFourCard());
-        deck.add(new DrawFourCard());
+        deck.add(new NumberCard(1, Card.Color.RED));
+        deck.add(new NumberCard(1, Card.Color.RED));
+        deck.add(new NumberCard(1, Card.Color.RED));
         deck.add(new NumberCard(1, Card.Color.RED));
     }
 

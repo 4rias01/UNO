@@ -12,4 +12,6 @@ public interface Player extends Serializable {
     public Card getCard();
     public ArrayList<Card> getDeck();
     public boolean hasOneCard();
+    public boolean hasSingUno();
+    public void singUno(boolean hasSing);
 }

@@ -5,11 +5,13 @@ import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.Special;
 import com.example.myuno.model.card.factory.CardFactory;
 import com.example.myuno.model.card.types.DrawFourCard;
+import com.example.myuno.model.card.types.NumberCard;
 import com.example.myuno.model.card.types.WildCard;
 import com.example.myuno.model.threads.ThreadPlayMachine;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.model.player.factory.HumanPlayerFactory;
 import com.example.myuno.model.player.factory.IAPlayerFactory;
+import com.example.myuno.model.threads.ThreadSingUNO;
 import com.example.myuno.view.SceneManager;
 
 import java.io.Serializable;
@@ -28,15 +30,19 @@ public class GameMaster implements Serializable {
                 new IAPlayerFactory().createPlayer() :
                 new HumanPlayerFactory().createPlayer();
 
-        this.cartOnDesk = this.generateFirstCard();
+        this.cartOnDesk = new NumberCard(0, Card.Color.RED);
         this.context = new GameContext(cartOnDesk, GameContext.Turn.PLAYER1, playerOne, playerTwo);
-        startMachineThread();
+        startThreads();
     }
 
-    private void startMachineThread() {
+    private void startThreads() {
         ThreadPlayMachine threadPlayMachine = new ThreadPlayMachine(this, playerTwo);
         threadPlayMachine.start();
         threadPlayMachine.isDaemon();
+
+        ThreadSingUNO threadSingUNO = new ThreadSingUNO(playerOne, playerTwo);
+        threadSingUNO.start();
+        threadSingUNO.isDaemon();
     }
 
     public boolean playTurn(Card card) {

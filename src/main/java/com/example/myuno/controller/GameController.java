@@ -64,7 +64,7 @@ public class GameController {
         Manager.applyGenericEvents(this.robberButton);
         Manager.applyGenericEvents(this.unoButton);
         Manager.applyGenericEvents(this.backButton);
-        this.setDisableRenderButton(true);
+        this.setDisableUnoButton(true);
 
         this.renderCardOnDesk();
         this.renderPlayerOneDeck();
@@ -77,7 +77,6 @@ public class GameController {
             Button cardButton = this.createCardButton(card);
             this.deckOfPlayerOne.getChildren().add(cardButton);
         }
-        this.renderUnoButton(this.playerOne);
     }
 
     public void renderPlayerTwoDeck() {
@@ -89,7 +88,6 @@ public class GameController {
             image.setFitHeight(180.0);
             this.deckOfPlayerTwo.getChildren().add(image);
         }
-        this.renderUnoButton(this.playerTwo);
         GameFileHandler.saveGame();
     }
 
@@ -100,11 +98,11 @@ public class GameController {
         this.cardOnDeskView.setFitHeight(180.0);
     }
 
-    public void renderUnoButton(Player player) {
-        setDisableRenderButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
+    public void renderUnoButton() {
+        setDisableUnoButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
     }
 
-    private void setDisableRenderButton(boolean disable) {
+    public void setDisableUnoButton(boolean disable) {
         this.unoButton.setVisible(!disable);
         this.unoButton.setDisable(disable);
     }
@@ -172,8 +170,6 @@ public class GameController {
         }
 
         this.robberButton.setDisable(hasPlayableCard);
-
-
     }
 
     public void onPlayer2TurnStart() {
@@ -183,7 +179,8 @@ public class GameController {
 
     @FXML
     private void handleUnoButton() {
-        this.setDisableRenderButton(true);
+        playerOne.singUno(true);
+        this.setDisableUnoButton(true);
     }
 
     @FXML

@@ -21,7 +21,7 @@ public class ThreadPlayMachine extends Thread {
         while (true) {
             if (game.getContext().getTurn() == GameContext.Turn.PLAYER2) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -54,7 +54,7 @@ public class ThreadPlayMachine extends Thread {
                 GameController.instance.renderCardOnDesk();
             } else {
                 machinePlayer.addRandomCards(1);
-                GameController.instance.renderUnoButton(machinePlayer);
+                GameController.instance.renderUnoButton();
                 game.passTurn();
             }
             GameController.instance.renderPlayerTwoDeck();

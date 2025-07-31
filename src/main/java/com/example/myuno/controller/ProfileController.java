@@ -1,5 +1,6 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.exceptions.SceneLoadException;
 import com.example.myuno.model.gamelogic.game.GameManager;
 import com.example.myuno.model.gamelogic.profile.ProfileManager;
 import com.example.myuno.model.gamelogic.profile.UserProfile;
@@ -34,16 +35,19 @@ public class ProfileController {
     @FXML
     private void handleOneButton() {
         selectedPath = getStringPath(profileImageOne);
+        updateSelectButtonState();
     }
 
     @FXML
     private void handleTwoButton() {
         selectedPath = getStringPath(profileImageTwo);
+        updateSelectButtonState();
     }
 
     @FXML
     private void handleThreeButton() {
         selectedPath = getStringPath(profileImageThree);
+        updateSelectButtonState();
     }
 
     @FXML
@@ -51,23 +55,27 @@ public class ProfileController {
         String playerName = userNameTextField.getText();
         ProfileManager.setCurrentProfile(new UserProfile(playerName, selectedPath));
         GameManager.setCurrentUser(playerName);
-        SceneManager.switchTo("SetupScene");
+        try{
+            SceneManager.switchTo("SetupScene");
+        }catch (SceneLoadException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void initTextFieldListener(TextField textField) {
         textField.textProperty().addListener((obs, oldText, newText) -> {
-            String withoutNumbers = newText.replaceAll("[0-9,@]", "");
-            String text = withoutNumbers.trim();
+            String withoutNumbers = newText.replaceAll("[0-9,@]", "").trim();
 
-            if (text.length() > 10) {
-                text = text.substring(0, 10);
+            if (withoutNumbers.length() > 10) {
+                withoutNumbers = withoutNumbers.substring(0, 10);
             }
 
-            if (!text.equals(newText)) {
-                userNameTextField.setText(text);
+            if (!withoutNumbers.equals(newText)) {
+                userNameTextField.setText(withoutNumbers);
             }
 
-            selectButton.setDisable(text.length() <= 3 && (selectedPath == null || selectedPath.isEmpty()));
+            updateSelectButtonState();
         });
     }
 
@@ -84,4 +92,13 @@ public class ProfileController {
 
         return rutaImagen;
     }
+
+    private void updateSelectButtonState() {
+        String text = userNameTextField.getText().replaceAll("[0-9,@]", "").trim();
+        boolean isValidText = text.length() >= 3;
+        boolean isImageSelected = selectedPath != null && !selectedPath.isEmpty();
+
+        selectButton.setDisable(!(isValidText && isImageSelected));
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.exceptions.GameLoadException;
+import com.example.myuno.exceptions.SceneLoadException;
 import com.example.myuno.model.gamelogic.game.GameFileHandler;
 import com.example.myuno.model.gamelogic.game.GameManager;
 import com.example.myuno.model.gamelogic.game.GameMaster;
@@ -75,22 +77,38 @@ public class SetupController {
     private void handleLocalButton() throws IOException {
         GameFileHandler.createNewGame();
         ProfileFileHandler.createNewUser(userProfile);
-        SceneManager.switchTo("GameScene");
+        try{
+            SceneManager.switchTo("GameScene");
+        }catch (SceneLoadException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML
     private void handleContinueButton() throws IOException {
         UserProfile userProfile = ProfileFileHandler.loadUser(this.userProfile.getName());
+        try{
         GameMaster gameMaster = GameFileHandler.loadGame(this.userProfile.getName());
+        }catch(GameLoadException e){
+            System.out.println(e.getMessage());
+        }
         assert userProfile != null;
         ProfileManager.setCurrentProfile(userProfile);
         GameManager.setCurrentUser(userProfile.getName());
-        SceneManager.switchTo("GameScene");
+        try{
+            SceneManager.switchTo("GameScene");
+        }catch (SceneLoadException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML
     private void handleProfileButton() throws IOException {
-        SceneManager.switchTo("ProfileScene");
+        try{
+            SceneManager.switchTo("ProfileScene");
+        }catch (SceneLoadException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void setVisibleDialog(Boolean visible) {

@@ -1,5 +1,6 @@
 package com.example.myuno.model.gamelogic.game;
 
+import com.example.myuno.exceptions.GameLoadException;
 import com.example.myuno.model.saves.serializable.SerializableFileHandler;
 
 import java.io.File;
@@ -41,10 +42,7 @@ public class GameFileHandler {
             handler.serialize(path, gameMaster);
             return gameMaster;
         } catch ( Exception e ) {
-            System.out.println("mi papacho, trasnoche mas que esto no acaba");
-            gameMaster = new GameMaster(true);
-            GameManager.setGameMaster(gameMaster);
-            return gameMaster;
+            throw new GameLoadException("Error al cargar el juego desde " + path, e);
         }
     }
 

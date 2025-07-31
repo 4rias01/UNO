@@ -1,11 +1,13 @@
 package com.example.myuno.model.threads;
 
 import com.example.myuno.controller.GameController;
+import com.example.myuno.model.card.Card;
 import com.example.myuno.model.gamelogic.game.GameContext;
 import com.example.myuno.model.gamelogic.game.GameMaster;
-import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
 import javafx.application.Platform;
+
+import java.util.Random;
 
 public class ThreadPlayMachine extends Thread {
     private final GameMaster game;
@@ -23,12 +25,16 @@ public class ThreadPlayMachine extends Thread {
         while (running) {
             if (game.getContext().getTurn() == GameContext.Turn.PLAYER2) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 Platform.runLater(() -> {
-                    putCardOnTheTable();
+                    try {
+                        putCardOnTheTable();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
             }
 
@@ -41,7 +47,7 @@ public class ThreadPlayMachine extends Thread {
     }
 
 
-    private void putCardOnTheTable() {
+    private void putCardOnTheTable() throws InterruptedException {
             Card topCard = game.getCardOnDesk();
             Card cardToPlay = null;
             for (Card card : machinePlayer.getDeck()) {
@@ -55,6 +61,9 @@ public class ThreadPlayMachine extends Thread {
                 game.playTurn(cardToPlay);
                 GameController.instance.renderCardOnDesk();
             } else {
+                Random random = new Random();
+                int delay = 2000 + random.nextInt(2001);
+                Thread.sleep(delay);
                 machinePlayer.addRandomCards(1);
                 GameController.instance.renderUnoButton();
                 game.passTurn();

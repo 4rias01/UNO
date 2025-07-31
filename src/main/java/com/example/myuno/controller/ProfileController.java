@@ -79,15 +79,6 @@ public class ProfileController {
         });
     }
 
-    private void updateSelectButtonState() {
-        String text = userNameTextField.getText().trim();
-        boolean isNameValid = text.length() >= 3;
-        boolean isAvatarSelected = selectedPath != null && !selectedPath.isEmpty();
-
-        selectButton.setDisable(!(isNameValid && isAvatarSelected));
-    }
-
-
     private String getStringPath(Button button) {
         String rutaImagen = null;
 

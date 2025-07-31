@@ -1,7 +1,7 @@
 package com.example.myuno.exceptions;
 
 /**
- * Exception thwron when there is an error loading a scene in the graphic interface
+ * Exception thrown when there is an error loading a scene in the graphic interface
  */
 public class SceneLoadException extends RuntimeException {
     /**

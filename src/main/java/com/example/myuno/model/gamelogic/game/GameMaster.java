@@ -7,13 +7,15 @@ import com.example.myuno.model.card.factory.CardFactory;
 import com.example.myuno.model.card.types.DrawFourCard;
 import com.example.myuno.model.card.types.NumberCard;
 import com.example.myuno.model.card.types.WildCard;
-import com.example.myuno.model.threads.ThreadPlayMachine;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.model.player.factory.HumanPlayerFactory;
 import com.example.myuno.model.player.factory.IAPlayerFactory;
+import com.example.myuno.model.threads.ThreadPlayMachine;
 import com.example.myuno.model.threads.ThreadSingUNO;
 import com.example.myuno.view.SceneManager;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Random;
@@ -40,6 +42,12 @@ public class GameMaster implements Serializable {
         startThreads();
     }
 
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.cardFactory = new CardFactory();
+        startThreads();
+    }
 
     private void startThreads() {
         if (threadPlayMachine == null || !threadPlayMachine.isAlive()) {

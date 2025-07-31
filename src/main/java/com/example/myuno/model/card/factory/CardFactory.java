@@ -3,10 +3,11 @@ package com.example.myuno.model.card.factory;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.types.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CardFactory {
+public class CardFactory implements Serializable {
     private final Random random = new Random();
 
     private static final Card.Color[] COLORS = {

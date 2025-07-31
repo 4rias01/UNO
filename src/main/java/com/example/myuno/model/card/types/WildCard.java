@@ -7,25 +7,25 @@ import javafx.scene.image.Image;
 import java.util.Objects;
 
 public class WildCard implements Card, Special {
-    private  Color color;
+    private Color color;
     private final SpecialType specialType;
-    private  Image frontImage;
+    private String pathImage;
 
     public WildCard(){
         this.color = Color.BLACK;
         this.specialType = SpecialType.WILD;
+        this.pathImage = setPathImage(color);
     }
 
-    public Image setFrontImage(Color color){
-        return new Image(Objects.requireNonNull(Card.class.getResource(
-                        "/com/example/myuno/images/cards/special/wildCard/"
-                                +color.toString()+".png")).toExternalForm());
+    public String setPathImage(Color color){
+        String colorString = color.toString().toLowerCase();
+        return "/com/example/myuno/images/cards/special/wildCard/"+
+                colorString+".png";
     }
 
     @Override
-    public Image getFrontImage() {
-        frontImage = setFrontImage(color);
-        return frontImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class WildCard implements Card, Special {
 
     public void changeColor(Color Newcolor){
         this.color = Newcolor;
-        this.frontImage =  setFrontImage(Newcolor);
+        this.pathImage =  setPathImage(Newcolor);
 
     }
 }

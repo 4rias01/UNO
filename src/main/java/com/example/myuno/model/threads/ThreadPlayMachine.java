@@ -1,8 +1,8 @@
-package com.example.myuno.model.machine;
+package com.example.myuno.model.threads;
 
 import com.example.myuno.controller.GameController;
-import com.example.myuno.model.GameContext;
-import com.example.myuno.model.GameMaster;
+import com.example.myuno.model.gamelogic.game.GameContext;
+import com.example.myuno.model.gamelogic.game.GameMaster;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
 import javafx.application.Platform;
@@ -10,6 +10,8 @@ import javafx.application.Platform;
 public class ThreadPlayMachine extends Thread {
     private final GameMaster game;
     private final Player machinePlayer;
+    private volatile boolean running = true;
+
 
     public ThreadPlayMachine(GameMaster game, Player machinePlayer) {
         this.game = game;
@@ -18,10 +20,10 @@ public class ThreadPlayMachine extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             if (game.getContext().getTurn() == GameContext.Turn.PLAYER2) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -54,9 +56,13 @@ public class ThreadPlayMachine extends Thread {
                 GameController.instance.renderCardOnDesk();
             } else {
                 machinePlayer.addRandomCards(1);
-                GameController.instance.renderUnoButton(machinePlayer);
+                GameController.instance.renderUnoButton();
                 game.passTurn();
             }
             GameController.instance.renderPlayerTwoDeck();
+    }
+
+    public void stopRunning() {
+        running = false;
     }
 }

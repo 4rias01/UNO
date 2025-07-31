@@ -1,29 +1,22 @@
 package com.example.myuno.controller;
 
-import com.example.myuno.model.saves.profile.ProfileManager;
-import com.example.myuno.model.saves.profile.UserProfile;
+import com.example.myuno.model.gamelogic.game.GameManager;
+import com.example.myuno.model.gamelogic.profile.ProfileManager;
+import com.example.myuno.model.gamelogic.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class ProfileController {
-    @FXML
-    Button profileImageOne;
-    @FXML
-    Button profileImageTwo;
-    @FXML
-    Button profileImageThree;
-    @FXML
-    Button selectButton;
-    @FXML
-    TextField userNameTextField;
+    @FXML Button profileImageOne;
+    @FXML Button profileImageTwo;
+    @FXML Button profileImageThree;
+    @FXML Button selectButton;
+    @FXML TextField userNameTextField;
 
     String selectedPath;
 
@@ -57,6 +50,7 @@ public class ProfileController {
     private void handleSelectButton() throws IOException {
         String playerName = userNameTextField.getText();
         ProfileManager.setCurrentProfile(new UserProfile(playerName, selectedPath));
+        GameManager.setCurrentUser(playerName);
         SceneManager.switchTo("SetupScene");
     }
 

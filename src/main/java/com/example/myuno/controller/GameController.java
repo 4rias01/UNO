@@ -1,25 +1,35 @@
 package com.example.myuno.controller;
 
-import com.example.myuno.model.GameContext.Turn;
-import com.example.myuno.model.GameMaster;
+import com.example.myuno.model.gamelogic.game.GameContext.Turn;
+import com.example.myuno.model.gamelogic.game.GameFileHandler;
+import com.example.myuno.model.gamelogic.game.GameManager;
+import com.example.myuno.model.gamelogic.game.GameMaster;
 import com.example.myuno.model.card.Card;
+import com.example.myuno.model.gamelogic.profile.ProfileFileHandler;
 import com.example.myuno.model.player.Player;
-import com.example.myuno.model.saves.profile.ProfileManager;
-import com.example.myuno.model.saves.profile.UserProfile;
+import com.example.myuno.model.gamelogic.profile.ProfileManager;
+import com.example.myuno.model.gamelogic.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class GameController {
     public static GameController instance;
+    private boolean gameOver = false;
 
     Player playerOne;
     Player playerTwo;
@@ -33,8 +43,10 @@ public class GameController {
     @FXML Button backButton;
     @FXML Label playerName;
     @FXML ImageView playerImage;
+    @FXML VBox gameOverDialog;
+    @FXML Label lblGameOverMessage;
 
-    private final GameMaster game = new GameMaster(true);
+    private final GameMaster game = GameManager.getGameMaster();
 
     @FXML
     public void initialize() {
@@ -55,13 +67,14 @@ public class GameController {
     private void initFxmlElements() {
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
+
         UserProfile user = ProfileManager.getCurrentProfile();
         playerImage.setImage(new Image(Objects.requireNonNull(ProfileManager.class.getResourceAsStream(user.getImagePath()))));
         playerName.setText(user.getName());
         Manager.applyGenericEvents(this.robberButton);
         Manager.applyGenericEvents(this.unoButton);
         Manager.applyGenericEvents(this.backButton);
-        this.setDisableRenderButton(true);
+        this.setDisableUnoButton(true);
 
         this.renderCardOnDesk();
         this.renderPlayerOneDeck();
@@ -74,7 +87,6 @@ public class GameController {
             Button cardButton = this.createCardButton(card);
             this.deckOfPlayerOne.getChildren().add(cardButton);
         }
-        this.renderUnoButton(this.playerOne);
     }
 
     public void renderPlayerTwoDeck() {
@@ -86,21 +98,21 @@ public class GameController {
             image.setFitHeight(180.0);
             this.deckOfPlayerTwo.getChildren().add(image);
         }
-        this.renderUnoButton(this.playerTwo);
+        GameFileHandler.saveGame();
     }
 
     public void renderCardOnDesk() {
         this.cardOnDesk = this.game.getCardOnDesk();
-        this.cardOnDeskView.setImage(this.cardOnDesk.getFrontImage());
+        this.cardOnDeskView.setImage(this.createImageFromCard(this.cardOnDesk));
         this.cardOnDeskView.setPreserveRatio(true);
         this.cardOnDeskView.setFitHeight(180.0);
     }
 
-    public void renderUnoButton(Player player) {
-        setDisableRenderButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
+    public void renderUnoButton() {
+        setDisableUnoButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
     }
 
-    private void setDisableRenderButton(boolean disable) {
+    public void setDisableUnoButton(boolean disable) {
         this.unoButton.setVisible(!disable);
         this.unoButton.setDisable(disable);
     }
@@ -110,7 +122,7 @@ public class GameController {
         button.getStyleClass().add("card-button");
         button.setPrefSize(60.0, 90.0);
 
-        ImageView imageView = new ImageView(card.getFrontImage());
+        ImageView imageView = new ImageView(createImageFromCard(card));
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(180.0);
         button.setGraphic(imageView);
@@ -122,10 +134,11 @@ public class GameController {
     }
 
     private void handleCardPlayed(Card card) {
-
+        if (gameOver) {return;}
          if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             boolean played = this.game.playTurn(card);
             if (played) {
+                GameFileHandler.saveGame();
                 this.renderPlayerOneDeck();
                 this.renderPlayerTwoDeck();
                 this.renderCardOnDesk();
@@ -138,6 +151,10 @@ public class GameController {
 
     @FXML
     private void handleRobberButton() {
+        if (gameOver) {
+            this.robberButton.setDisable(true);
+            return;
+        }
         if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             this.playerOne.addRandomCards(1);
             this.renderPlayerOneDeck();
@@ -167,8 +184,6 @@ public class GameController {
         }
 
         this.robberButton.setDisable(hasPlayableCard);
-
-
     }
 
     public void onPlayer2TurnStart() {
@@ -178,11 +193,54 @@ public class GameController {
 
     @FXML
     private void handleUnoButton() {
-        this.setDisableRenderButton(true);
+        playerOne.singUno(true);
+        this.setDisableUnoButton(true);
     }
 
     @FXML
     private void handleBackButton() throws IOException {
         SceneManager.switchTo("SetupScene");
     }
+
+    private Image createImageFromCard(Card card) {
+        Image image = new Image(Objects.requireNonNull(Card.class.getResource(card.getPathImage())).toExternalForm());
+        return image;
+    }
+
+    @FXML
+    private void onAcceptGameOver() throws IOException {
+        GameFileHandler.deleteGameFile();
+        ProfileFileHandler.deleteProfile(GameManager.getCurrentUser());
+        SceneManager.switchTo("SetupScene");
+    }
+
+    public void showGameOverMessage(String message) {
+        gameOver = true;
+        lblGameOverMessage.setText(message);
+        gameOverDialog.setVisible(true);
+        gameOverDialog.setDisable(false);
+
+        FadeTransition ft = new FadeTransition(Duration.millis(400), gameOverDialog);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.play();
+
+        Stage stage = (Stage) gameOverDialog.getScene().getWindow();
+        stage.setOnCloseRequest(e -> {
+            e.consume();
+            GameFileHandler.deleteGameFile();
+            ProfileFileHandler.deleteProfile(GameManager.getCurrentUser());
+            GameManager.getGameMaster().stopAllThreads();
+            System.out.println("Ventana cerrada después del game over.");
+            try {
+                SceneManager.switchTo("SetupScene");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+
+    }
+
+
 }

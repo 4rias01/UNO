@@ -2,30 +2,27 @@ package com.example.myuno.model.card.types;
 
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.Special;
-import javafx.scene.image.Image;
-
-import java.util.Objects;
 
 public class DrawFourCard implements Card, Special {
     private  Color color;
     private final SpecialType specialType;
-    private Image frontImage;
+    private String pathImage;
 
     public DrawFourCard() {
         this.color = Color.BLACK;
         this.specialType = SpecialType.DRAWFOUR;
+        this.pathImage = setPathImage(color);
     }
 
-    public Image setFrontImage(Color color){
-        return new Image(Objects.requireNonNull(Card.class.getResource(
-                        "/com/example/myuno/images/cards/special/drawFour/"
-                                +color.toString()+".png")).toExternalForm());
+    public String setPathImage(Color color){
+        String colorString = color.toString().toLowerCase();
+        return "/com/example/myuno/images/cards/special/drawFour/"+
+                colorString+".png";
     }
 
     @Override
-    public Image getFrontImage() {
-        frontImage = setFrontImage(color);
-        return frontImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
     @Override
@@ -45,6 +42,6 @@ public class DrawFourCard implements Card, Special {
 
     public void changeColor(Color Newcolor){
         this.color = Newcolor;
-        this.frontImage = setFrontImage(Newcolor);
+        this.pathImage = setPathImage(Newcolor);
     }
 }

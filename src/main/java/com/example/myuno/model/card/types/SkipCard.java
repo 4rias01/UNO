@@ -9,23 +9,24 @@ import java.util.Objects;
 public class SkipCard implements Card, Special {
     private final Color color;
     private final SpecialType specialType;
-    private Image frontImage;
+    private final String pathImage;
+
 
     public SkipCard(Color color){
         this.color = color;
         this.specialType = SpecialType.SKIP;
+        this.pathImage = setPathImage(color);
     }
 
-    private Image setFrontImage(Color color){
-        return new Image(Objects.requireNonNull(Card.class.getResource(
-                        "/com/example/myuno/images/cards/special/skip/"
-                                +color.toString()+".png")).toExternalForm());
+    private String setPathImage(Color color){
+        String colorString = color.toString().toLowerCase();
+        return "/com/example/myuno/images/cards/special/skip/"+
+                colorString+".png";
     }
 
     @Override
-    public Image getFrontImage() {
-        frontImage = setFrontImage(color);
-        return frontImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
     @Override

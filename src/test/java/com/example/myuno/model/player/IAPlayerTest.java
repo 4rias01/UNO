@@ -44,8 +44,8 @@ public class IAPlayerTest {
         Card played = iaPlayer.playCard(context);
 
         // Verificaciones
-        assertNull(played); // No se jugó carta
-        assertTrue(iaPlayer.getDeck().size() > before); // Debe haber robado una carta
+        assertNull(played); 
+        assertTrue(iaPlayer.getDeck().size() > before); 
     }
 
     @Test

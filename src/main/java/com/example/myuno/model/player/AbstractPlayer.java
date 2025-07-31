@@ -1,6 +1,6 @@
 package com.example.myuno.model.player;
 
-import com.example.myuno.model.GameContext;
+import com.example.myuno.model.gamelogic.game.GameContext;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.factory.CardFactory;
 
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public abstract class AbstractPlayer implements Player {
     protected ArrayList<Card> deck;
     protected CardFactory factory = new CardFactory();
+    protected boolean hasSingUno = false;
 
     public AbstractPlayer() {
         deck = new ArrayList<>();
@@ -33,5 +34,13 @@ public abstract class AbstractPlayer implements Player {
 
     public boolean hasOneCard() {
         return deck.size() == 1;
+    }
+
+    public boolean hasSingUno() {
+        return hasSingUno;
+    }
+
+    public void singUno(boolean hasSing) {
+        this.hasSingUno = hasSing;
     }
 }

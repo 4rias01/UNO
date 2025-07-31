@@ -1,4 +1,4 @@
-package com.example.myuno.model.saves.profile;
+package com.example.myuno.model.gamelogic.profile;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -9,23 +9,23 @@ import java.util.Objects;
 public class NumberCard implements Number, Card {
     private final int number;
     private final Color color;
-    private final Image frontImage;
+    private final String pathImage;
 
     public NumberCard(int number, Color color) {
         this.number = number;
         this.color = color;
-        frontImage = setFrontImage(number, color);
+        pathImage = setPathImage(number, color);
     }
 
-    public Image setFrontImage(int number, Color color) {
-        return new Image(Objects.requireNonNull(Card.class.getResource(
-                        "/com/example/myuno/images/cards/number/"
-                                +color.toString()+"/"+number+".png")).toExternalForm());
+    public String setPathImage(int number, Color color) {
+        String colorString = color.toString().toLowerCase();
+        return "/com/example/myuno/images/cards/number/"
+                +colorString +"/"+number+".png";
     }
 
     @Override
-    public Image getFrontImage() {
-        return frontImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
     @Override

@@ -24,13 +24,18 @@
     -fx-effect: dropshadow(gaussian, #7676f8, 50, 0.9, 0, 0);
 }
 
+.button-profile{
+    -fx-background-color: transparent;
+    -fx-pref-height: 90;
+    -fx-pref-width: 90;
+}
 
 .Button.local{
     -fx-background-image: url("../../images/assets/SetupScene/local.png");
 }
 
-.Button.online{
-    -fx-background-image: url("../../images/assets/SetupScene/online.png");
+.Button.continue{
+    -fx-background-image: url("../../images/assets/SetupScene/continue.png");
 }
 
 

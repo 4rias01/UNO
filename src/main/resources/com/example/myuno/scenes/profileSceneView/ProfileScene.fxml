@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@ProfileSceneStyle.css"
+            styleClass="anchorPane"
+            fx:controller="com.example.myuno.controller.ProfileController"
+            prefHeight="400.0" prefWidth="600.0">
+    <StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+               AnchorPane.rightAnchor="400" AnchorPane.leftAnchor="400">
+        <VBox alignment="CENTER" spacing="20">
+            <Label text="Selecciona tu nombre:"/>
+            <TextField fx:id="userNameTextField"
+                       promptText="Digite el nombre de usuario"
+                       layoutX="868" layoutY="450"
+                       alignment="CENTER"
+                       minWidth="300" minHeight="30" styleClass="textField">
+            </TextField>
+            <HBox alignment="CENTER" spacing="20">
+                <Button fx:id="profileImageOne" styleClass="button-one" onAction="#handleOneButton"/>
+                <Button fx:id="profileImageTwo" styleClass="button-two" onAction="#handleTwoButton"/>
+                <Button fx:id="profileImageThree" styleClass="button-three" onAction="#handleThreeButton"/>
+            </HBox>
+            <Button styleClass="select-button"
+                    text="LISTO"
+                    fx:id="selectButton" onAction="#handleSelectButton">
+            </Button>
+        </VBox>
+    </StackPane>
+</AnchorPane>

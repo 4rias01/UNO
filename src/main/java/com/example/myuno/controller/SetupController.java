@@ -1,5 +1,11 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.model.gamelogic.game.GameFileHandler;
+import com.example.myuno.model.gamelogic.game.GameManager;
+import com.example.myuno.model.gamelogic.game.GameMaster;
+import com.example.myuno.model.gamelogic.profile.ProfileFileHandler;
+import com.example.myuno.model.gamelogic.profile.ProfileManager;
+import com.example.myuno.model.gamelogic.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.AnimationsManager;
 import com.example.myuno.view.managers.CursorManager;
@@ -17,17 +23,24 @@ public class SetupController {
     @FXML HBox hBoxExit;
     @FXML Button localButton;
     @FXML Label localLabel;
-    @FXML Button onlineButton;
-    @FXML Label onlineLabel;
+    @FXML Button continueButton;
+    @FXML Label continueLabel;
 
     @FXML VBox exitDialog;
     @FXML Button yesButton;
     @FXML Button noButton;
+    @FXML Button profileButton;
+    @FXML Label profileLabel;
+
+    UserProfile userProfile;
 
     @FXML
     private void initialize() {
+        userProfile = ProfileManager.getCurrentProfile();
         exitDialog.setVisible(false);
         exitDialog.setDisable(true);
+        profileButton.setGraphic(userProfile.getUserImage());
+        profileLabel.setText(userProfile.getName());
         applyAnimations();
         setOnClickBack();
     }
@@ -36,9 +49,10 @@ public class SetupController {
         Manager.applyGenericEvents(hBoxExit);
         Manager.applyGenericEvents(yesButton);
         Manager.applyGenericEvents(noButton);
+        Manager.applyGenericEvents(profileButton);
 
         setOnClickButton(localButton, localLabel);
-        setOnClickButton(onlineButton, onlineLabel);
+        setOnClickButton(continueButton, continueLabel);
     }
 
     private void setOnClickBack() {
@@ -46,8 +60,6 @@ public class SetupController {
             setVisibleDialog(true);
         });
     }
-
-
 
     @FXML
     private void setOnActionYesButton() {
@@ -61,14 +73,31 @@ public class SetupController {
 
     @FXML
     private void handleLocalButton() throws IOException {
+        GameFileHandler.createNewGame();
+        ProfileFileHandler.createNewUser(userProfile);
         SceneManager.switchTo("GameScene");
+    }
+
+    @FXML
+    private void handleContinueButton() throws IOException {
+        UserProfile userProfile = ProfileFileHandler.loadUser(this.userProfile.getName());
+        GameMaster gameMaster = GameFileHandler.loadGame(this.userProfile.getName());
+        assert userProfile != null;
+        ProfileManager.setCurrentProfile(userProfile);
+        GameManager.setCurrentUser(userProfile.getName());
+        SceneManager.switchTo("GameScene");
+    }
+
+    @FXML
+    private void handleProfileButton() throws IOException {
+        SceneManager.switchTo("ProfileScene");
     }
 
     private void setVisibleDialog(Boolean visible) {
         exitDialog.setVisible(visible);
         exitDialog.setDisable(!visible);
         localButton.setDisable(visible);
-        onlineButton.setDisable(visible);
+        continueButton.setDisable(visible);
         hBoxExit.setDisable(visible);
     }
 

@@ -1,10 +1,12 @@
-package com.example.myuno.model;
+package com.example.myuno.model.gamelogic.game;
 
 import com.example.myuno.controller.GameController;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
 
-public class GameContext {
+import java.io.Serializable;
+
+public class GameContext implements Serializable {
     private Card lastCard;
     private Player currentPlayer;
     private Player nextPlayer;
@@ -23,6 +25,7 @@ public class GameContext {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         setCurrentPlayer(turn);
+        setNextPlayer(turn);
     }
 
     public Card getLastCard() {

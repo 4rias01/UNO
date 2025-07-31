@@ -1,0 +1,55 @@
+.anchorPane{
+    -fx-background-image: url("../../images/backgrounds/profileBackground.jpg");
+    -fx-background-size: cover; /* o contain, según prefieras */
+    -fx-background-position: center center;
+    -fx-pref-width: 1366;
+    -fx-pref-height: 690;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 30;
+    -fx-effect: dropshadow(gaussian, black, 3, 0.5, 1, 1);
+}
+
+.textField{
+    -fx-font-size: 18;
+    -fx-background-radius: 5px;
+}
+
+.button-one{
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/ProfileScene/image2.png");
+}
+
+.button-two{
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/ProfileScene/image3.png");
+}
+
+.button-three{
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/ProfileScene/image4.png");
+}
+
+.select-button {
+    -fx-font-family: "Open Sans Regular";
+    -fx-text-fill: white;
+    -fx-background-color: #911212;
+    -fx-text-alignment: center;
+    -fx-font-size: 18px;
+
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-background-insets: 0;
+
+    -fx-pref-width: 240;
+    -fx-pref-height: 80;
+}

@@ -176,8 +176,5 @@ public class SceneManager {
             turnOverlay.prefHeightProperty().bind(pane.heightProperty());
         }
     }
-
-
-
 }
 

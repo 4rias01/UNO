@@ -33,4 +33,23 @@
     -fx-pref-width: 250;
 }
 
+.back-button{
+    -fx-pref-width: 60;
+    -fx-pref-height: 60;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../images/assets/GameScene/backImage.png");
+}
+
+.ia-image{
+    -fx-pref-width: 100;
+    -fx-pref-height: 100;
+    -fx-background-image: url("../../images/assets/ProfileScene/image.png");
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 20;
+    -fx-effect: dropshadow(gaussian, black, 3, 0.5, 1, 1);
+}
 

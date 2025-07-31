@@ -52,7 +52,7 @@ public class ThreadSingUNO extends Thread {
         if(player == playerOne && !playerOneAlreadySingUno){
             if (!playerOne.hasSingUno()) {
                 System.out.println("PlayerOne no canto uno, come cartas");
-                playerOne.addRandomCards(2);
+                playerOne.addRandomCards(1);
                 GameController.instance.renderUnoButton();
                 GameController.instance.renderPlayerOneDeck();
             } else {
@@ -67,7 +67,7 @@ public class ThreadSingUNO extends Thread {
             }
             else{
                 playerOne.singUno(false);
-                playerTwo.addRandomCards(2);
+                playerTwo.addRandomCards(1);
                 GameController.instance.renderUnoButton();
                 GameController.instance.renderPlayerTwoDeck();
                 System.out.println("player canto a tiempo, IA come");

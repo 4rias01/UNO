@@ -58,8 +58,6 @@ public class SetupController {
         });
     }
 
-
-
     @FXML
     private void setOnActionYesButton() {
         SceneManager.closeStage();

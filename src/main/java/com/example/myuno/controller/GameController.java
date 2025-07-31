@@ -55,6 +55,7 @@ public class GameController {
     private void initFxmlElements() {
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
+
         UserProfile user = ProfileManager.getCurrentProfile();
         playerImage.setImage(new Image(Objects.requireNonNull(ProfileManager.class.getResourceAsStream(user.getImagePath()))));
         playerName.setText(user.getName());

@@ -19,7 +19,7 @@ public class ProfileManager{
             System.out.println("parce, no se puede asignar un perfil nulo");
         }
     }
-    private static String path(){
+    public static String path(){
         return "/com/example/myuno/images/assets/ProfileScene/profilePic.jpg";
     }
 

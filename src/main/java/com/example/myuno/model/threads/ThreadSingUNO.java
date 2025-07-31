@@ -23,7 +23,7 @@ public class ThreadSingUNO extends Thread {
                 try{
                     actualiceHasAlreadySingUno();
                     GameController.instance.setDisableUnoButton(!canShowUnoButton());
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

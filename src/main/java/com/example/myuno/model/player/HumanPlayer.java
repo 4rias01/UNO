@@ -1,5 +1,6 @@
 package com.example.myuno.model.player;
 
+import com.example.myuno.model.card.types.WildCard;
 import com.example.myuno.model.gamelogic.game.GameContext;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.card.types.DrawFourCard;
@@ -26,6 +27,8 @@ public class HumanPlayer extends AbstractPlayer {
      */
     public HumanPlayer() {
         super();
+        deck.add(new DrawFourCard());
+        deck.add(new NumberCard(7, Card.Color.BLUE));
     }
 
     /**

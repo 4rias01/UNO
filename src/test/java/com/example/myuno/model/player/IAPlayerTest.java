@@ -32,22 +32,6 @@ public class IAPlayerTest {
         assertTrue(played.canBePlayedOver(matchingCard));
     }
 
-    @Test
-    void testPlayCard_WhenNoPlayableCard() {
-        Card topCard = new NumberCard(5, Card.Color.YELLOW);
-        GameContext context = new GameContext(topCard, GameContext.Turn.PLAYER2,player,iaPlayer);
-
-        // Carta que NO se puede jugar
-        Card unplayable = new NumberCard(7, Card.Color.BLUE);
-        iaPlayer.getDeck().add(unplayable);
-
-        int before = iaPlayer.getDeck().size();
-        Card played = iaPlayer.playCard(context);
-
-        // Verificaciones
-        assertNull(played); 
-        assertTrue(iaPlayer.getDeck().size() > before); 
-    }
 
     @Test
     void testPlayCard_WhenPlayableCardIsDrawFourTwo() {

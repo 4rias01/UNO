@@ -1,3 +1,16 @@
+/**
+ * Executes the AI player's turn logic in a dedicated thread, automatically
+ * playing a valid card or drawing when necessary. Integrates with the game
+ * model and updates the JavaFX UI via {@link Platform#runLater(Runnable)}.
+ * <p>
+ * This class continually monitors the game context for the AI player's turn
+ * and performs the appropriate action after a brief delay to simulate thinking.
+ * </p>
+ *
+ * @author Santiago Arias, Thomas Herrera, Isabela Bermudez, Lady Matabanchoy
+ * @version 1.0
+ */
+
 package com.example.myuno.model.threads;
 
 import com.example.myuno.controller.GameController;
@@ -14,12 +27,23 @@ public class ThreadPlayMachine extends Thread {
     private final Player machinePlayer;
     private volatile boolean running = true;
 
-
+    /**
+     * Constructs the machine-play thread with the given game context and player.
+     *
+     * @param game          the {@link GameMaster} managing game state and rules
+     * @param machinePlayer the AI-controlled {@link Player} whose turn is automated
+     */
     public ThreadPlayMachine(GameMaster game, Player machinePlayer) {
         this.game = game;
         this.machinePlayer = machinePlayer;
     }
-
+    /**
+     * Main loop that checks for the AI player's turn and triggers the play logic.
+     * <p>
+     * Sleeps briefly between checks to avoid busy-waiting. Upon detecting the AI
+     * turn, schedules {@link #putCardOnTheTable()} to run on the JavaFX thread.
+     * </p>
+     */
     @Override
     public void run() {
         while (running) {
@@ -46,7 +70,13 @@ public class ThreadPlayMachine extends Thread {
         }
     }
 
-
+    /**
+     * Selects and plays a valid card if available; otherwise, draws a card after
+     * a random delay and passes the turn. Updates the UI to reflect changes.
+     *
+     * @throws InterruptedException if the thread sleep is interrupted during draw delay
+     * @version 1.0
+     */
     private void putCardOnTheTable() throws InterruptedException {
             Card topCard = game.getCardOnDesk();
             Card cardToPlay = null;

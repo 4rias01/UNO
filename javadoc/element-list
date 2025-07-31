@@ -1,0 +1,16 @@
+module:com.example.myuno
+com.example.myuno
+com.example.myuno.controller
+com.example.myuno.exceptions
+com.example.myuno.model.card
+com.example.myuno.model.card.factory
+com.example.myuno.model.card.types
+com.example.myuno.model.gamelogic.game
+com.example.myuno.model.gamelogic.profile
+com.example.myuno.model.player
+com.example.myuno.model.player.factory
+com.example.myuno.model.saves.plane
+com.example.myuno.model.saves.serializable
+com.example.myuno.model.threads
+com.example.myuno.view
+com.example.myuno.view.managers

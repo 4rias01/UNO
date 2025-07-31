@@ -51,8 +51,8 @@
             </VBox>
 
             <VBox alignment="CENTER" styleClass="VBoxTwo">
-                <Label text="continuar" styleClass="subtitleLabel" fx:id="onlineLabel"/>
-                <Button fx:id="onlineButton">
+                <Label text="continuar" styleClass="subtitleLabel" fx:id="continueLabel"/>
+                <Button fx:id="continueButton" onAction="#handleContinueButton">
                     <styleClass>
                         <String fx:value="Button" />
                         <String fx:value="continue" />
@@ -81,8 +81,11 @@
 
     <StackPane AnchorPane.topAnchor="50" AnchorPane.rightAnchor="50"
                alignment="BOTTOM_RIGHT">
-        <Button fx:id="profileButton" styleClass="button-profile"
-                onAction="#handleProfileButton"/>
+        <VBox alignment="CENTER" spacing="10">
+            <Button fx:id="profileButton" styleClass="button-profile"
+                    onAction="#handleProfileButton"/>
+            <Label fx:id="profileLabel"/>
+        </VBox>
     </StackPane>
 
 </AnchorPane>

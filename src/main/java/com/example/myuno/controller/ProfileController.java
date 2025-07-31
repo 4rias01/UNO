@@ -25,7 +25,7 @@ public class ProfileController {
     @FXML
     TextField userNameTextField;
 
-    ImageView selectedImage;
+    String selectedPath;
 
     @FXML
     void initialize() {
@@ -40,23 +40,23 @@ public class ProfileController {
 
     @FXML
     private void handleOneButton() {
-        selectedImage = getBackground(profileImageOne);
+        selectedPath = getStringPath(profileImageOne);
     }
 
     @FXML
     private void handleTwoButton() {
-        selectedImage = getBackground(profileImageTwo);
+        selectedPath = getStringPath(profileImageTwo);
     }
 
     @FXML
     private void handleThreeButton() {
-        selectedImage = getBackground(profileImageThree);
+        selectedPath = getStringPath(profileImageThree);
     }
 
     @FXML
     private void handleSelectButton() throws IOException {
         String playerName = userNameTextField.getText();
-        ProfileManager.setCurrentProfile(new UserProfile(playerName));
+        ProfileManager.setCurrentProfile(new UserProfile(playerName, selectedPath));
         SceneManager.switchTo("SetupScene");
     }
 
@@ -73,11 +73,11 @@ public class ProfileController {
                 userNameTextField.setText(text);
             }
 
-            selectButton.setDisable(text.length() <= 3);
+            selectButton.setDisable(text.length() <= 3 && (selectedPath == null || selectedPath.isEmpty()));
         });
     }
 
-    private ImageView getBackground(Button button) {
+    private String getStringPath(Button button) {
         String rutaImagen = null;
 
         if (button.getStyleClass().contains("button-one")) {
@@ -88,14 +88,6 @@ public class ProfileController {
             rutaImagen = "/com/example/myuno/images/assets/ProfileScene/image4.png";
         }
 
-        if (rutaImagen != null) {
-            Image imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(rutaImagen)));
-            ImageView imageView = new ImageView(imagen);
-            imageView.setFitWidth(180);
-            imageView.setFitHeight(180);
-            return imageView;
-        }
-
-        return null;
+        return rutaImagen;
     }
 }

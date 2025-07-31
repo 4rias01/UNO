@@ -1,5 +1,8 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.model.saves.profile.ProfileFileHandler;
+import com.example.myuno.model.saves.profile.ProfileManager;
+import com.example.myuno.model.saves.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.AnimationsManager;
 import com.example.myuno.view.managers.CursorManager;
@@ -17,18 +20,24 @@ public class SetupController {
     @FXML HBox hBoxExit;
     @FXML Button localButton;
     @FXML Label localLabel;
-    @FXML Button onlineButton;
-    @FXML Label onlineLabel;
+    @FXML Button continueButton;
+    @FXML Label continueLabel;
 
     @FXML VBox exitDialog;
     @FXML Button yesButton;
     @FXML Button noButton;
     @FXML Button profileButton;
+    @FXML Label profileLabel;
+
+    UserProfile userProfile;
 
     @FXML
     private void initialize() {
+        userProfile = ProfileManager.getCurrentProfile();
         exitDialog.setVisible(false);
         exitDialog.setDisable(true);
+        profileButton.setGraphic(userProfile.getUserImage());
+        profileLabel.setText(userProfile.getName());
         applyAnimations();
         setOnClickBack();
     }
@@ -40,7 +49,7 @@ public class SetupController {
         Manager.applyGenericEvents(profileButton);
 
         setOnClickButton(localButton, localLabel);
-        setOnClickButton(onlineButton, onlineLabel);
+        setOnClickButton(continueButton, continueLabel);
     }
 
     private void setOnClickBack() {
@@ -63,6 +72,15 @@ public class SetupController {
 
     @FXML
     private void handleLocalButton() throws IOException {
+        ProfileFileHandler.createNewUser(userProfile);
+        SceneManager.switchTo("GameScene");
+    }
+
+    @FXML
+    private void handleContinueButton() throws IOException {
+        UserProfile userProfile = ProfileFileHandler.loadUser(this.userProfile.getName());
+        assert userProfile != null;
+        ProfileManager.setCurrentProfile(userProfile);
         SceneManager.switchTo("GameScene");
     }
 
@@ -75,7 +93,7 @@ public class SetupController {
         exitDialog.setVisible(visible);
         exitDialog.setDisable(!visible);
         localButton.setDisable(visible);
-        onlineButton.setDisable(visible);
+        continueButton.setDisable(visible);
         hBoxExit.setDisable(visible);
     }
 

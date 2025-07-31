@@ -27,6 +27,6 @@ public class PlaneTextFileHandler implements IPlaneTextFileHandler{
             System.out.println("socio, la cago leyendo el archivo plano");
             e.printStackTrace();
         }
-        return new String[0];
+        return content.toString().split(",");
     }
 }

@@ -4,14 +4,19 @@ import com.example.myuno.model.GameContext.Turn;
 import com.example.myuno.model.GameMaster;
 import com.example.myuno.model.card.Card;
 import com.example.myuno.model.player.Player;
+import com.example.myuno.model.saves.profile.ProfileManager;
+import com.example.myuno.model.saves.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class GameController {
     public static GameController instance;
@@ -20,18 +25,14 @@ public class GameController {
     Player playerTwo;
     Card cardOnDesk;
 
-    @FXML
-    ImageView cardOnDeskView;
-    @FXML
-    HBox deckOfPlayerOne;
-    @FXML
-    HBox deckOfPlayerTwo;
-    @FXML
-    Button robberButton;
-    @FXML
-    Button unoButton;
-    @FXML
-    Button backButton;
+    @FXML ImageView cardOnDeskView;
+    @FXML HBox deckOfPlayerOne;
+    @FXML HBox deckOfPlayerTwo;
+    @FXML Button robberButton;
+    @FXML Button unoButton;
+    @FXML Button backButton;
+    @FXML Label playerName;
+    @FXML ImageView playerImage;
 
     private final GameMaster game = new GameMaster(true);
 
@@ -54,6 +55,9 @@ public class GameController {
     private void initFxmlElements() {
         this.playerOne = this.game.getPlayerOne();
         this.playerTwo = this.game.getPlayerTwo();
+        UserProfile user = ProfileManager.getCurrentProfile();
+        playerImage.setImage(new Image(Objects.requireNonNull(ProfileManager.class.getResourceAsStream(user.getImagePath()))));
+        playerName.setText(user.getName());
         Manager.applyGenericEvents(this.robberButton);
         Manager.applyGenericEvents(this.unoButton);
         Manager.applyGenericEvents(this.backButton);

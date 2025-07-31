@@ -1,14 +1,27 @@
 package com.example.myuno.model.saves.profile;
 
-import java.io.Serializable;
+import com.example.myuno.model.saves.planetext.PlaneTextFileHandler;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.util.Objects;
 
 public class ProfileManager{
-    private static UserProfile currentProfile = new UserProfile("invitado");
+    private static UserProfile currentProfile = new UserProfile("invitado", path());
 
     public static UserProfile getCurrentProfile(){
         return currentProfile;
     }
     public static void setCurrentProfile(UserProfile profile){
-        currentProfile = profile;
+        if (profile != null) {
+            currentProfile = profile;
+        } else {
+            System.out.println("parce, no se puede asignar un perfil nulo");
+        }
     }
+    private static String path(){
+        return "/com/example/myuno/images/assets/ProfileScene/profilePic.jpg";
+    }
+
+
 }

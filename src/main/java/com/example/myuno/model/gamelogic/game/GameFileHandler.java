@@ -3,6 +3,9 @@ package com.example.myuno.model.gamelogic.game;
 import com.example.myuno.model.saves.serializable.SerializableFileHandler;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class GameFileHandler {
     private static final SerializableFileHandler handler = new SerializableFileHandler();
@@ -58,4 +61,20 @@ public class GameFileHandler {
             System.out.println("Mi loco, que pedo con su programa");
         }
     }
+
+    public static void deleteGameFile() {
+        String userName = GameManager.getCurrentUser();
+        if (userName == null || userName.trim().isEmpty()) {
+            userName = "invitado";
+        }
+        String path = GAMES_DIR + userName + "_game.ser";
+        try {
+            Files.deleteIfExists(Paths.get(path));
+            System.out.println("Archivo eliminado: " + path);
+        } catch (IOException e) {
+            System.out.println("No se pudo eliminar el archivo de guardado");
+            e.printStackTrace();
+        }
+    }
+
 }

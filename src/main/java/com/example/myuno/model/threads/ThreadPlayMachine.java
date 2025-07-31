@@ -10,6 +10,8 @@ import javafx.application.Platform;
 public class ThreadPlayMachine extends Thread {
     private final GameMaster game;
     private final Player machinePlayer;
+    private volatile boolean running = true;
+
 
     public ThreadPlayMachine(GameMaster game, Player machinePlayer) {
         this.game = game;
@@ -18,7 +20,7 @@ public class ThreadPlayMachine extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             if (game.getContext().getTurn() == GameContext.Turn.PLAYER2) {
                 try {
                     Thread.sleep(2000);
@@ -58,5 +60,9 @@ public class ThreadPlayMachine extends Thread {
                 game.passTurn();
             }
             GameController.instance.renderPlayerTwoDeck();
+    }
+
+    public void stopRunning() {
+        running = false;
     }
 }

@@ -23,6 +23,8 @@ public class GameMaster implements Serializable {
     private Card cartOnDesk;
     private transient CardFactory cardFactory = new CardFactory();
     private final GameContext context;
+    private transient ThreadPlayMachine threadPlayMachine;
+    private transient ThreadSingUNO threadSingUNO;
 
     public GameMaster(Boolean playWithIA) {
         this.playerOne = new HumanPlayerFactory().createPlayer();
@@ -36,14 +38,18 @@ public class GameMaster implements Serializable {
     }
 
     private void startThreads() {
-        ThreadPlayMachine threadPlayMachine = new ThreadPlayMachine(this, playerTwo);
-        threadPlayMachine.start();
-        threadPlayMachine.isDaemon();
-
-        ThreadSingUNO threadSingUNO = new ThreadSingUNO(playerOne, playerTwo);
-        threadSingUNO.start();
-        threadSingUNO.isDaemon();
+        if (threadPlayMachine == null || !threadPlayMachine.isAlive()) {
+            threadPlayMachine = new ThreadPlayMachine(this, playerTwo);
+            threadPlayMachine.isDaemon();
+            threadPlayMachine.start();
+        }
+        if (threadSingUNO == null || !threadSingUNO.isAlive()) {
+            threadSingUNO = new ThreadSingUNO(playerOne, playerTwo);
+            threadPlayMachine.isDaemon();
+            threadSingUNO.start();
+        }
     }
+
 
     public boolean playTurn(Card card) {
         Player current = context.getCurrentPlayer();
@@ -64,8 +70,24 @@ public class GameMaster implements Serializable {
             GameController.instance.renderPlayerOneDeck();
             GameController.instance.renderPlayerTwoDeck();
         }
+        checkWinner();
         this.context.nextTurn();
         return true;
+    }
+
+    public void stopAllThreads() {
+        if (threadPlayMachine != null) threadPlayMachine.stopRunning();
+        if (threadSingUNO != null) threadSingUNO.stopRunning();
+    }
+
+    public void checkWinner() {
+        if (playerOne.getDeck().isEmpty()) {
+            stopAllThreads();
+            GameController.instance.showGameOverMessage("¡Ganaste la partida!");
+        } else if (playerTwo.getDeck().isEmpty()) {
+            stopAllThreads();
+            GameController.instance.showGameOverMessage("¡Perdiste la partida!");
+        }
     }
 
     private Card generateFirstCard() {

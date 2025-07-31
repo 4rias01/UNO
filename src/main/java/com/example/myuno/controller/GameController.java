@@ -5,23 +5,31 @@ import com.example.myuno.model.gamelogic.game.GameFileHandler;
 import com.example.myuno.model.gamelogic.game.GameManager;
 import com.example.myuno.model.gamelogic.game.GameMaster;
 import com.example.myuno.model.card.Card;
+import com.example.myuno.model.gamelogic.profile.ProfileFileHandler;
 import com.example.myuno.model.player.Player;
 import com.example.myuno.model.gamelogic.profile.ProfileManager;
 import com.example.myuno.model.gamelogic.profile.UserProfile;
 import com.example.myuno.view.SceneManager;
 import com.example.myuno.view.managers.Manager;
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class GameController {
     public static GameController instance;
+    private boolean gameOver = false;
 
     Player playerOne;
     Player playerTwo;
@@ -35,6 +43,8 @@ public class GameController {
     @FXML Button backButton;
     @FXML Label playerName;
     @FXML ImageView playerImage;
+    @FXML VBox gameOverDialog;
+    @FXML Label lblGameOverMessage;
 
     private final GameMaster game = GameManager.getGameMaster();
 
@@ -124,7 +134,7 @@ public class GameController {
     }
 
     private void handleCardPlayed(Card card) {
-
+        if (gameOver) {return;}
          if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             boolean played = this.game.playTurn(card);
             if (played) {
@@ -141,6 +151,10 @@ public class GameController {
 
     @FXML
     private void handleRobberButton() {
+        if (gameOver) {
+            this.robberButton.setDisable(true);
+            return;
+        }
         if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             this.playerOne.addRandomCards(1);
             this.renderPlayerOneDeck();
@@ -192,4 +206,41 @@ public class GameController {
         Image image = new Image(Objects.requireNonNull(Card.class.getResource(card.getPathImage())).toExternalForm());
         return image;
     }
+
+    @FXML
+    private void onAcceptGameOver() throws IOException {
+        GameFileHandler.deleteGameFile();
+        ProfileFileHandler.deleteProfile(GameManager.getCurrentUser());
+        SceneManager.switchTo("SetupScene");
+    }
+
+    public void showGameOverMessage(String message) {
+        gameOver = true;
+        lblGameOverMessage.setText(message);
+        gameOverDialog.setVisible(true);
+        gameOverDialog.setDisable(false);
+
+        FadeTransition ft = new FadeTransition(Duration.millis(400), gameOverDialog);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.play();
+
+        Stage stage = (Stage) gameOverDialog.getScene().getWindow();
+        stage.setOnCloseRequest(e -> {
+            e.consume();
+            GameFileHandler.deleteGameFile();
+            ProfileFileHandler.deleteProfile(GameManager.getCurrentUser());
+            GameManager.getGameMaster().stopAllThreads();
+            System.out.println("Ventana cerrada después del game over.");
+            try {
+                SceneManager.switchTo("SetupScene");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+
+    }
+
+
 }

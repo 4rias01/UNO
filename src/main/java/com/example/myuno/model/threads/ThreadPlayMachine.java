@@ -25,7 +25,7 @@ public class ThreadPlayMachine extends Thread {
         while (running) {
             if (game.getContext().getTurn() == GameContext.Turn.PLAYER2) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -39,7 +39,7 @@ public class ThreadPlayMachine extends Thread {
             }
 
             try {
-                Thread.sleep(300);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -68,6 +68,14 @@ public class CardFactory implements Serializable {
         return deck;
     }
 
+    public ArrayList<Card> getDefinedDeckOne(){
+        ArrayList<Card> deck = new ArrayList<>();
+        deck.add(new NumberCard(1, COLORS[1]));
+        deck.add(new NumberCard(1, COLORS[1]));
+
+        return deck;
+    }
+
     /**
      * Selects a random color from the standard UNO colors.
      *

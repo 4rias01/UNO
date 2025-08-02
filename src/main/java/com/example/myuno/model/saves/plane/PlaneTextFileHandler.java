@@ -34,7 +34,6 @@ public class PlaneTextFileHandler implements IPlaneTextFileHandler{
             writer.write(content);
             writer.flush();
         } catch (IOException e) {
-            System.out.println("socio, la cago escribiendo el archivo plano");
             throw new RuntimeException(e);
         }
     }
@@ -61,7 +60,6 @@ public class PlaneTextFileHandler implements IPlaneTextFileHandler{
                 content.append(line.trim()).append(",");
             }
         } catch (IOException e){
-            System.out.println("socio, la cago leyendo el archivo plano");
             e.printStackTrace();
         }
         return content.toString().split(",");

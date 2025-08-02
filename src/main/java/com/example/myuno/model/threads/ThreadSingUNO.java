@@ -1,6 +1,8 @@
 package com.example.myuno.model.threads;
 
 import com.example.myuno.controller.GameController;
+import com.example.myuno.model.gamelogic.game.GameContext;
+import com.example.myuno.model.gamelogic.game.GameMaster;
 import com.example.myuno.model.player.Player;
 import javafx.application.Platform;
 
@@ -19,26 +21,25 @@ public class ThreadSingUNO extends Thread {
     @Override
     public void run() {
         while (running){
-            if (playerOne.getDeck().size()==1 || playerTwo.getDeck().size()==1){
+            Boolean canSing = canSingUnoButton();
+            if (canSing != null) {
                 try{
-                    actualiceHasAlreadySingUno();
-                    GameController.instance.setDisableUnoButton(!canShowUnoButton());
-                    Thread.sleep(3000);
+                    actualizeHasAlreadySingUno();
+                    GameController.instance.setDisableUnoButton(false);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 Platform.runLater(()->{
-                    actualiceHasAlreadySingUno();
-                    if(playerOne.getDeck().size()==1 && playerTwo.getDeck().size()==1){
-                        singUNO(playerTwo);
-                    } else if (playerOne.getDeck().size()==1) {
+                    if (canSing) {
                         singUNO(playerOne);
-                    } else if (playerTwo.getDeck().size()==1) {
+                    } if (!canSing) {
                         singUNO(playerTwo);
                     }
+                    actualizeHasAlreadySingUno();
                 });
             } else{
-                actualiceHasAlreadySingUno();
+                actualizeHasAlreadySingUno();
             }
             try {
                 Thread.sleep(300);
@@ -49,44 +50,30 @@ public class ThreadSingUNO extends Thread {
     }
 
     private void singUNO(Player player) {
-        if(player == playerOne && !playerOneAlreadySingUno){
+        if(player == playerOne){
             if (!playerOne.hasSingUno()) {
-                System.out.println("PlayerOne no canto uno, come cartas");
                 playerOne.addRandomCards(1);
-                GameController.instance.renderUnoButton();
+                GameController.instance.setDisableUnoButton(true);
                 GameController.instance.renderPlayerOneDeck();
             } else {
                 playerOne.singUno(false);
                 playerOneAlreadySingUno = true;
-                System.out.println("playerOne cantó UNO a tiempo, one no come cartas.");
             }
-        } else if (player == playerTwo && !playerTwoAlreadySingUno) {
+        } else if (player == playerTwo) {
             if (!playerOne.hasSingUno()) {
                 playerTwoAlreadySingUno = true;
-                System.out.println("playerOne cantó UNO a destiempo, IA no come");
+                GameController.instance.setDisableUnoButton(true);
             }
             else{
                 playerOne.singUno(false);
                 playerTwo.addRandomCards(1);
-                GameController.instance.renderUnoButton();
+                GameController.instance.setDisableUnoButton(true);
                 GameController.instance.renderPlayerTwoDeck();
-                System.out.println("player canto a tiempo, IA come");
             }
         }
     }
 
-
-    private void singUNO(Player playerOne, Player playerTwo) {
-        System.out.println("entraste a esta chota");
-        if (playerOneAlreadySingUno && !playerTwoAlreadySingUno) {
-            singUNO(playerTwo);
-        }
-        else if (playerTwoAlreadySingUno && !playerOneAlreadySingUno) {
-            singUNO(playerOne);
-        }
-    }
-
-    private void actualiceHasAlreadySingUno() {
+    private void actualizeHasAlreadySingUno() {
         if (playerOne.getDeck().size() != 1){
             playerOneAlreadySingUno = false;
         }
@@ -95,13 +82,13 @@ public class ThreadSingUNO extends Thread {
         }
     }
 
-    private boolean canShowUnoButton(){
+    private Boolean canSingUnoButton(){
         if(playerOne.getDeck().size()==1 && !playerOneAlreadySingUno){
             return true;
-        } else if (playerTwo.getDeck().size()==1 && !playerTwoAlreadySingUno) {
-            return true;
+        } if (playerTwo.getDeck().size()==1 && !playerTwoAlreadySingUno) {
+            return false;
         }
-        return false;
+        return null;
     }
 
     public void stopRunning() {

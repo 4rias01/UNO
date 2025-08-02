@@ -28,7 +28,6 @@ public class GameFileHandler {
     public static void createNewGame() {
         GameMaster gameMaster = new GameMaster(true);
         GameManager.setGameMaster(gameMaster);
-        System.out.println("creando el game");
         String userName = GameManager.getCurrentUser();
         String name = GAMES_DIR + userName + "_game.ser";
         handler.serialize(name, gameMaster);

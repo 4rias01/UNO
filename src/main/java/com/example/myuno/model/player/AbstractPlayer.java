@@ -34,7 +34,7 @@ public abstract class AbstractPlayer implements Player {
      * Constructs a new {@code AbstractPlayer} with a randomly generated initial hand of 5 cards.
      */
     public AbstractPlayer() {
-        deck = factory.getRandomDeck(5);
+        deck = factory.getDefinedDeckOne();
     }
 
     /**
@@ -102,10 +102,6 @@ public abstract class AbstractPlayer implements Player {
      */
     public void singUno(boolean hasSing) {
         this.hasSingUno = hasSing;
-    }
-
-    public ArrayList<Card> getOnlyTwoCards() {
-        return new ArrayList<>();
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.myuno.controller;
 
+import com.example.myuno.exceptions.GameLoadException;
 import com.example.myuno.exceptions.InvalidCardImageException;
 import com.example.myuno.exceptions.SceneLoadException;
 import com.example.myuno.model.gamelogic.game.GameContext.Turn;
@@ -277,6 +278,7 @@ public class GameController {
      */
     @FXML
     private void handleBackButton() throws IOException {
+        GameManager.getGameMaster().stopAllThreads();
         SceneManager.switchTo("SetupScene");
     }
 

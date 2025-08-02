@@ -16,8 +16,6 @@
 package com.example.myuno.model.threads;
 
 import com.example.myuno.controller.GameController;
-import com.example.myuno.model.gamelogic.game.GameContext;
-import com.example.myuno.model.gamelogic.game.GameMaster;
 import com.example.myuno.model.player.Player;
 import javafx.application.Platform;
 
@@ -102,31 +100,11 @@ public class ThreadSingUNO extends Thread {
         }
     }
 
-<<<<<<< HEAD
-    private void actualizeHasAlreadySingUno() {
-=======
-    /**
-     * Handles the UNO event when both players have one card remaining.
-     * Determines which player to process based on previous UNO triggers.
-     *
-     * @param playerOne the first player
-     * @param playerTwo the second player
-     */
-    private void singUNO(Player playerOne, Player playerTwo) {
-        System.out.println("entraste a esta chota");
-        if (playerOneAlreadySingUno && !playerTwoAlreadySingUno) {
-            singUNO(playerTwo);
-        }
-        else if (playerTwoAlreadySingUno && !playerOneAlreadySingUno) {
-            singUNO(playerOne);
-        }
-    }
     /**
      * Resets the UNO trigger flags when a player's deck size changes
      * away from one card.
      */
-    private void actualiceHasAlreadySingUno() {
->>>>>>> 0495a4b472f5abcde5f182964ca5f89ebbbe8b6b
+    private void actualizeHasAlreadySingUno() {
         if (playerOne.getDeck().size() != 1){
             playerOneAlreadySingUno = false;
         }
@@ -134,18 +112,14 @@ public class ThreadSingUNO extends Thread {
             playerTwoAlreadySingUno = false;
         }
     }
-<<<<<<< HEAD
 
-    private Boolean canSingUnoButton(){
-=======
     /**
      * Determines if the UNO button should be enabled based on whether
      * a player with one card has not yet been processed.
      *
      * @return {@code true} if the UNO button may be shown; {@code false} otherwise
      */
-    private boolean canShowUnoButton(){
->>>>>>> 0495a4b472f5abcde5f182964ca5f89ebbbe8b6b
+    private Boolean canSingUnoButton(){
         if(playerOne.getDeck().size()==1 && !playerOneAlreadySingUno){
             return true;
         } if (playerTwo.getDeck().size()==1 && !playerTwoAlreadySingUno) {

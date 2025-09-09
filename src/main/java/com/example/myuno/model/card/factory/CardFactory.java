@@ -36,22 +36,25 @@ public class CardFactory implements Serializable {
      * @return a randomly generated Card
      */
     public Card createRandomCard(){
-        Card card = null;
-        int number = random.nextInt(14);
+        Card card;
+        int number = random.nextInt(20);
 
-        if(number < 10){
-            card = new NumberCard(number, randomColor());
-        }
-        else{
-            card = switch (number) {
-                case 10 -> new SkipCard(randomColor());
-                case 11 -> new DrawTwoCard(randomColor());
-                case 12 -> new WildCard();
-                case 13 -> new DrawFourCard();
-                default -> throw new IllegalStateException("Unexpected value: " + number);
-            };
-        }
+        card = switch (number) {
+            case 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 -> createRandomNumberCard();
+            case 16 -> new DrawTwoCard(randomColor());
+            case 17 -> new WildCard();
+            case 18 -> new DrawFourCard();
+            case 19 -> new SkipCard(randomColor());
+            default -> throw new IllegalStateException("Unexpected value: " + number);
+        };
+
         return card;
+    }
+
+    private Card createRandomNumberCard(){
+        Card card;
+        int number = random.nextInt(10);
+        return new NumberCard(number, randomColor());
     }
 
     /**
@@ -72,7 +75,17 @@ public class CardFactory implements Serializable {
         ArrayList<Card> deck = new ArrayList<>();
         deck.add(new NumberCard(1, COLORS[1]));
         deck.add(new NumberCard(1, COLORS[1]));
+        deck.add(new NumberCard(1, COLORS[1]));
 
+        return deck;
+    }
+
+    public ArrayList<Card> getDefinedDeckTwo(){
+        ArrayList<Card> deck = new ArrayList<>();
+        deck.add(new NumberCard(3, COLORS[2]));
+        deck.add(new NumberCard(3, COLORS[2]));
+        deck.add(new NumberCard(3, COLORS[2]));
+        deck.add(new NumberCard(3, COLORS[2]));
         return deck;
     }
 

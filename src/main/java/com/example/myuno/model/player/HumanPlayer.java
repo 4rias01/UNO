@@ -25,7 +25,7 @@ public class HumanPlayer extends AbstractPlayer {
      * Constructs a new {@code HumanPlayer} with an initial hand of 5 random cards.
      */
     public HumanPlayer() {
-        super();
+        //deck = factory.getDefinedDeckTwo();
     }
 
     /**

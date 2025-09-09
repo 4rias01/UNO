@@ -1,5 +1,6 @@
 package com.example.myuno.model.player;
 
+import com.example.myuno.model.card.factory.CardFactory;
 import com.example.myuno.model.card.types.WildCard;
 import com.example.myuno.model.gamelogic.game.GameContext;
 import com.example.myuno.model.card.Card;
@@ -20,7 +21,7 @@ public class IAPlayer extends AbstractPlayer {
      * Constructs a new {@code IAPlayer} with an initial hand of 5 random cards.
      */
     public IAPlayer() {
-        super();
+        //deck = factory.getDefinedDeckOne();
     }
 
     /**

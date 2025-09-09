@@ -1,3 +1,13 @@
+
+package com.example.myuno.model.threads;
+
+import com.example.myuno.controller.GameController;
+import com.example.myuno.model.card.Card;
+import com.example.myuno.model.gamelogic.game.GameContext;
+import com.example.myuno.model.gamelogic.game.GameMaster;
+import com.example.myuno.model.player.Player;
+import javafx.application.Platform;
+
 /**
  * Executes the AI player's turn logic in a dedicated thread, automatically
  * playing a valid card or drawing when necessary. Integrates with the game
@@ -10,18 +20,6 @@
  * @author Santiago Arias, Thomas Herrera, Isabela Bermudez, Lady Matabanchoy
  * @version 1.0
  */
-
-package com.example.myuno.model.threads;
-
-import com.example.myuno.controller.GameController;
-import com.example.myuno.model.card.Card;
-import com.example.myuno.model.gamelogic.game.GameContext;
-import com.example.myuno.model.gamelogic.game.GameMaster;
-import com.example.myuno.model.player.Player;
-import javafx.application.Platform;
-
-import java.util.Random;
-
 public class ThreadPlayMachine extends Thread {
     private final GameMaster game;
     private final Player machinePlayer;
@@ -92,7 +90,6 @@ public class ThreadPlayMachine extends Thread {
                 GameController.instance.renderCardOnDesk();
             } else {
                 machinePlayer.addRandomCards(1);
-                GameController.instance.renderUnoButton();
                 game.passTurn();
             }
             GameController.instance.renderPlayerTwoDeck();

@@ -1,4 +1,5 @@
-.AnchorPane{
+
+j.AnchorPane{
     -fx-background-image: url("../../images/backgrounds/gameBackground.png");
     -fx-background-size: cover; /* o contain, según prefieras */
     -fx-background-position: center center;

@@ -1,3 +1,10 @@
+
+package com.example.myuno.model.threads;
+
+import com.example.myuno.controller.GameController;
+import com.example.myuno.model.player.Player;
+import javafx.application.Platform;
+
 /**
  * Monitors players' deck sizes to enforce the UNO rule and trigger
  * appropriate actions when a player reaches one card. Continuously checks
@@ -12,13 +19,6 @@
  * @author Santiago Arias, Thomas Herrera, Isabela Bermudez, Lady Matabanchoy
  * @version 1.0
  */
-
-package com.example.myuno.model.threads;
-
-import com.example.myuno.controller.GameController;
-import com.example.myuno.model.player.Player;
-import javafx.application.Platform;
-
 public class ThreadSingUNO extends Thread {
     private final Player playerOne;
     private final Player playerTwo;
@@ -46,6 +46,7 @@ public class ThreadSingUNO extends Thread {
             Boolean canSing = canSingUnoButton();
             if (canSing != null) {
                 try{
+                    System.out.println("Entraste con cansing: " + canSing);
                     actualizeHasAlreadySingUno();
                     GameController.instance.setDisableUnoButton(false);
                     Thread.sleep(2000);
@@ -64,7 +65,7 @@ public class ThreadSingUNO extends Thread {
                 actualizeHasAlreadySingUno();
             }
             try {
-                Thread.sleep(300);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -121,8 +122,10 @@ public class ThreadSingUNO extends Thread {
      */
     private Boolean canSingUnoButton(){
         if(playerOne.getDeck().size()==1 && !playerOneAlreadySingUno){
+            System.out.println("JUGADOR UNO TIENE QUE CANTAR");
             return true;
         } if (playerTwo.getDeck().size()==1 && !playerTwoAlreadySingUno) {
+            System.out.println("JUGADOR DOS TIENE QUE CANTAR");
             return false;
         }
         return null;

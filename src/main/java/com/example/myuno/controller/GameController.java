@@ -150,6 +150,7 @@ public class GameController {
      * Updates the UNO button visibility based on player conditions.
      */
     public void renderUnoButton() {
+
         setDisableUnoButton(!playerOne.hasOneCard() && !playerTwo.hasOneCard());
     }
 
@@ -198,7 +199,7 @@ public class GameController {
 
     private void handleCardPlayed(Card card) {
         if (gameOver) {return;}
-         if (this.game.getContext().getTurn() == Turn.PLAYER1) {
+        if (this.game.getContext().getTurn() == Turn.PLAYER1) {
             boolean played = this.game.playTurn(card);
             if (played) {
                 GameFileHandler.saveGame();
